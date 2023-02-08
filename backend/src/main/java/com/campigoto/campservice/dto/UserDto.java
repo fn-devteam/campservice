@@ -1,11 +1,11 @@
-package com.campigoto.campservice.DTO;
+package com.campigoto.campservice.dto;
 
 
 import com.campigoto.campservice.entities.User;
 
 import java.io.Serial;
 import java.io.Serializable;
-public class UserDTO implements Serializable {
+public class UserDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -14,17 +14,17 @@ public class UserDTO implements Serializable {
     private String lastName;
     private String email;
 
-    public UserDTO() {
+    public UserDto() {
     }
 
-    public UserDTO(Long id, String firstName,String lastName, String email) {
+    public UserDto(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
     }
 
-    public UserDTO( User entity) {
+    public UserDto(User entity) {
         id = entity.getId();
         firstName = entity.getFirstName();
         lastName = entity.getLastName();
