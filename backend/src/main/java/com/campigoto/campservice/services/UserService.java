@@ -6,6 +6,8 @@ import com.campigoto.campservice.dto.UserInsertDTO;
 import com.campigoto.campservice.dto.UserUpdateDTO;
 import com.campigoto.campservice.entities.User;
 import com.campigoto.campservice.repositories.UserRepository;
+import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
+import com.campigoto.campservice.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class UserService {
     @Transactional( )
     public UserDto findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        User entity = obj.orElseThrow(() -> new src.main.java.com.campigoto.campservice.services.exceptions.ResourceNotFoundException("Entity not found"));
+        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new UserDto(entity);
     }
 
@@ -60,7 +62,7 @@ public class UserService {
             return new UserDto(entity);
         }
         catch (EntityNotFoundException e) {
-            throw new src.main.java.com.campigoto.campservice.services.exceptions.ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Id not found " + id);
         }
     }
 
@@ -69,10 +71,10 @@ public class UserService {
             repository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new src.main.java.com.campigoto.campservice.services.exceptions.ResourceNotFoundException("Id not found " + id);
+            throw new ResourceNotFoundException("Id not found " + id);
         }
         catch (DataIntegrityViolationException e) {
-            throw new src.main.java.com.campigoto.campservice.services.exceptions.DatabaseException("Integrity violation");
+            throw new DatabaseException("Integrity violation");
         }
     }
 

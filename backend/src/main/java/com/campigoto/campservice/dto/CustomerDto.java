@@ -1,6 +1,7 @@
 package com.campigoto.campservice.dto;
 
 
+import com.campigoto.campservice.entities.Customer;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
@@ -23,7 +24,7 @@ public class CustomerDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private Long id;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @Size(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 100 caracteres")
@@ -32,9 +33,11 @@ public class CustomerDto implements Serializable {
     @Size(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 100 caracteres")
     private String fantasyName;
 
+    private boolean active;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email inválido")
-    private String getEmailAddress;
+    private String emailAddress;
     private String cpfCnpj;
 
 
@@ -54,46 +57,18 @@ public class CustomerDto implements Serializable {
     private String obs;
 
     private Profile profile;
-
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant registrationDate;
 
-    public CustomerDto() {
+
+    public CustomerDto( ) {
     }
 
-    public CustomerDto(Integer id, String name, String fantasyName,
-                       String getEmailAddress, String cpfCnpj,
-                       Set<PersonType> personTypes, String stateRegistration,
-                       String zipCode, String address, String district,
-                       String city, String state, String phoneNumber,
-                       String cellNumber, String contactPerson,
-                       String obs, Profile profile,
-                       Instant registrationDate) {
-        this.id = id;
-        this.name = name;
-        this.fantasyName = fantasyName;
-        this.getEmailAddress = getEmailAddress;
-        this.cpfCnpj = cpfCnpj;
-        this.personTypes = personTypes;
-        this.stateRegistration = stateRegistration;
-        this.zipCode = zipCode;
-        this.address = address;
-        this.district = district;
-        this.city = city;
-        this.state = state;
-        this.phoneNumber = phoneNumber;
-        this.cellNumber = cellNumber;
-        this.contactPerson = contactPerson;
-        this.obs = obs;
-        this.profile = profile;
-        this.registrationDate = registrationDate;
-    }
-
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -113,12 +88,20 @@ public class CustomerDto implements Serializable {
         this.fantasyName = fantasyName;
     }
 
-    public String getGetEmailAddress() {
-        return getEmailAddress;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setGetEmailAddress(String getEmailAddress) {
-        this.getEmailAddress = getEmailAddress;
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 
     public String getCpfCnpj() {
@@ -130,12 +113,10 @@ public class CustomerDto implements Serializable {
     }
 
     public Set<PersonType> getPersonTypes() {
-
         return personTypes;
     }
 
     public void setPersonTypes(Set<PersonType> personTypes) {
-
         this.personTypes = personTypes;
     }
 
@@ -200,7 +181,6 @@ public class CustomerDto implements Serializable {
     }
 
     public void setCellNumber(String cellNumber) {
-
         this.cellNumber = cellNumber;
     }
 
@@ -225,7 +205,6 @@ public class CustomerDto implements Serializable {
     }
 
     public void setProfile(Profile profile) {
-
         this.profile = profile;
     }
 
@@ -235,6 +214,5 @@ public class CustomerDto implements Serializable {
 
     public void setRegistrationDate(Instant registrationDate) {
         this.registrationDate = registrationDate;
-
     }
 }

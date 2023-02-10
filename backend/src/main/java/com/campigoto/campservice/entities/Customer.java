@@ -10,11 +10,8 @@ import java.time.Instant;
 import java.util.Objects;
 
 @Entity
-
 @Table(name = "customer")
 public class Customer implements Serializable {
-
-    public Customer() { }
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,7 +21,7 @@ public class Customer implements Serializable {
     private Long id;
     private String name;
     private String fantasyName;
-    private int active;
+    private boolean active;
     private int personType;
     private String cpfCnpj;
     private String stateRegistration;
@@ -38,34 +35,11 @@ public class Customer implements Serializable {
     private String emailAddress;
     private String contactPerson;
     private String obs;
-    private int profile;
+    private Integer profile;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant registrationDate;
 
-    public Customer(Long id, String name, String fantasyName, int active,
-                    int personType, String cpfCnpj, String stateRegistration,
-                    String zipCode, String address, String district, String city,
-                    String state, String phoneNumber, String cellNumber, String emailAddress,
-                    String contactPerson, String obs, int profile, Instant registrationDate) {
-        this.id = id;
-        this.name = name;
-        this.fantasyName = fantasyName;
-        this.active = active;
-        this.personType = personType;
-        this.cpfCnpj = cpfCnpj;
-        this.stateRegistration = stateRegistration;
-        this.zipCode = zipCode;
-        this.address = address;
-        this.district = district;
-        this.city = city;
-        this.state = state;
-        this.phoneNumber = phoneNumber;
-        this.cellNumber = cellNumber;
-        this.emailAddress = emailAddress;
-        this.contactPerson = contactPerson;
-        this.obs = obs;
-        this.profile = profile;
-        this.registrationDate = registrationDate;
+    public Customer() {
     }
 
     public Long getId() {
@@ -92,11 +66,11 @@ public class Customer implements Serializable {
         this.fantasyName = fantasyName;
     }
 
-    public int getActive() {
+    public boolean getActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 
@@ -197,10 +171,13 @@ public class Customer implements Serializable {
     }
 
     public Profile getProfile() {
-        return Profile.toEnum(this.profile); }
+        if (this.profile == null)
+            this.profile = 1; // Ve se depois se precisa de um valor default, no banco ta tudo null
+
+        return Profile.toEnum(this.profile);
+    }
 
     public void setProfile(Profile customer) {
-
         this.profile = customer.getCod();
     }
 

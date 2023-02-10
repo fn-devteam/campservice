@@ -6,17 +6,21 @@ import com.campigoto.campservice.mappers.CustomerMapper;
 import com.campigoto.campservice.repositories.CustumerRepository;
 import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
-import jakarta.transaction.Transactional;
+import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -47,20 +51,29 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer insert(Customer obj) {
-        obj.setId(null);
-        obj = repo.save(obj);
-        return obj;
+    public CustomerDto insert(CustomerDto dto) {
+
+        Customer entity =  customerMapper.fromDTO(dto);
+        repo.save(entity);
+        return customerMapper.toDTO(entity);
+
+
     }
 
-    public Customer update(Customer obj) {
-        Customer newObj = repo.findById(obj.getId()).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Customer.class.getName()));
+    @Transactional
+    public @Valid CustomerDto update(Long id, @Valid CustomerDto dto) {
+        try {
+            Customer entity = repo.getReferenceById(id);
+            customerMapper.fromDTO(dto);
+           // copyDtoToEntity(dto, entity);
+            entity = repo.save(entity);
+            return new CustomerDto();
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
 
-        updateData(newObj, obj);
-        return repo.save(newObj);
+        }
     }
-
 
     public void delete(Long id) {
         find(id);
@@ -71,25 +84,27 @@ public class CustomerService {
         }
     }
 
-
     public List<CustomerDto> findAll() {
-        return this.customerMapper.toDTO(repo.findAll());
+        List<Customer> list = repo.findAll(Sort.by("name"));
+        return list.stream().map(x -> customerMapper.toDTO(x)).collect(Collectors.toList());
     }
 
-    public CustomerDto findByEmail(String email) {
-        Customer obj = repo.findByEmail(email);
+    public CustomerDto findByEmailAddress(String email) {
+        Customer obj = repo.findByEmailAddress(email);
         if (obj == null) {
             throw new ObjectNotFoundException(
-                    "Objeto não encontrado! Id: " + obj.getId() + ", Tipo: " + Customer.class.getName());
+                    "Objeto não encontrado! Id: " + obj.getEmailAddress() + ", Tipo: " + Customer.class.getName());
         }
         return customerMapper.toDTO(obj);
 
         //return obj;
     }
 
-    public Page<Customer> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-        return repo.findAll(pageRequest);
+
+    @Transactional
+    public Page<CustomerDto> findAllPaged(PageRequest pageRequest) {
+        Page<Customer> customers = repo.findAll(pageRequest);
+        return customers.map(customer -> customerMapper.toDTO(customer));
     }
 
     public Customer fromDTO(CustomerDto objDto) {
@@ -97,10 +112,13 @@ public class CustomerService {
 
     }
 
-    private void updateData(Customer newObj, Customer obj) {
+    private void updateData(Customer newObj, CustomerDto obj) {
         newObj.setName(obj.getName());
         newObj.setEmailAddress(obj.getEmailAddress());
     }
+
+
+
 
 
 }
