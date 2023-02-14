@@ -4,7 +4,9 @@ package com.campigoto.campservice.dto;
 import com.campigoto.campservice.entities.Customer;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
+import com.campigoto.campservice.services.validation.CustomerInsert;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
+import com.campigoto.campservice.services.validation.UserInsertValid;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -19,7 +21,9 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+
 @CustomerUpdate
+@CustomerInsert
 public class CustomerDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -41,10 +45,7 @@ public class CustomerDto implements Serializable {
     private String cpfCnpj;
 
 
-    @ElementCollection(fetch= FetchType.EAGER)
-    @CollectionTable(name="PERSONTYPES")
-    private Set<PersonType> personTypes = new HashSet<>();
-
+    private PersonType personType;
     private String stateRegistration;
     private String zipCode;
     private String address;
@@ -73,6 +74,7 @@ public class CustomerDto implements Serializable {
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -112,12 +114,12 @@ public class CustomerDto implements Serializable {
         this.cpfCnpj = cpfCnpj;
     }
 
-    public Set<PersonType> getPersonTypes() {
-        return personTypes;
+    public PersonType getPersonType() {
+        return personType;
     }
 
-    public void setPersonTypes(Set<PersonType> personTypes) {
-        this.personTypes = personTypes;
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
     }
 
     public String getStateRegistration() {

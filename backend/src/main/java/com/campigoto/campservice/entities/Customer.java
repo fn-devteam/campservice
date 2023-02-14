@@ -22,7 +22,8 @@ public class Customer implements Serializable {
     private String name;
     private String fantasyName;
     private boolean active;
-    private int personType;
+    @Enumerated(EnumType.STRING)
+    private PersonType personType;
     private String cpfCnpj;
     private String stateRegistration;
     private String zipCode;
@@ -172,7 +173,7 @@ public class Customer implements Serializable {
 
     public Profile getProfile() {
         if (this.profile == null)
-            this.profile = 1; // Ve se depois se precisa de um valor default, no banco ta tudo null
+            this.profile = null;
 
         return Profile.toEnum(this.profile);
     }
@@ -181,14 +182,14 @@ public class Customer implements Serializable {
         this.profile = customer.getCod();
     }
 
-    public void setPersonType(PersonType personType) {
+    public  void setPersonType(PersonType personType) {
 
-        this.personType = personType.getCod();
+        this.personType = personType;
     }
 
     public PersonType getPersonType() {
 
-        return PersonType.toEnum(this.personType);
+        return personType;
     }
 
     public Instant getRegistrationDate() {

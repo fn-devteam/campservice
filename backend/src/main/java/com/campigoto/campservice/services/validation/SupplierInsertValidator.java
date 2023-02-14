@@ -1,9 +1,11 @@
 package com.campigoto.campservice.services.validation;
 
 import com.campigoto.campservice.dto.CustomerDto;
+import com.campigoto.campservice.dto.SupplierDto;
 import com.campigoto.campservice.entities.Customer;
+import com.campigoto.campservice.entities.Supplier;
 import com.campigoto.campservice.entities.enums.PersonType;
-import com.campigoto.campservice.repositories.CustumerRepository;
+import com.campigoto.campservice.repositories.SupplierRepository;
 import com.campigoto.campservice.resources.exceptions.FieldMessage;
 import com.campigoto.campservice.services.validation.utils.BR;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +15,17 @@ import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerInsertValidator implements ConstraintValidator<CustomerInsert, CustomerDto> {
+public class SupplierInsertValidator implements ConstraintValidator<SupplierInsert, SupplierDto> {
 	
 	@Autowired
-	private CustumerRepository repo;
+	private SupplierRepository repo;
 
 	@Override
-	public void initialize(CustomerInsert ann) {
+	public void initialize(SupplierInsert ann) {
 	}
 
 	@Override
-	public boolean isValid(CustomerDto objDto, ConstraintValidatorContext context) {
+	public boolean isValid(SupplierDto objDto, ConstraintValidatorContext context) {
 
 		List<FieldMessage> list = new ArrayList<>();
 
@@ -35,7 +37,7 @@ public class CustomerInsertValidator implements ConstraintValidator<CustomerInse
 			list.add(new FieldMessage("cpfCnpj", "CNPJ inválido"));
 		}
 
-		Customer aux = repo.findByEmailAddress(objDto.getEmailAddress());
+		Supplier aux = repo.findByEmailAddress(objDto.getEmailAddress());
 		if (aux != null) {
 			list.add(new FieldMessage("emailAddress", "Email já existente"));
 		}

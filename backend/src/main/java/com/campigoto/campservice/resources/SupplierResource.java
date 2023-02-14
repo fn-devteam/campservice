@@ -23,8 +23,8 @@ public class SupplierResource {
     private SupplierService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Supplier> findById(@PathVariable Long id) {
-        Supplier dto = service.findById(id);
+    public ResponseEntity<SupplierDto> findById(@PathVariable Long id) {
+        SupplierDto dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 

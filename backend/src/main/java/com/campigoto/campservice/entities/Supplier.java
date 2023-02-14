@@ -21,7 +21,8 @@ public class Supplier implements Serializable {
     private Long id;
     private String name;
     private boolean active;
-    private int personType;
+    @Enumerated(EnumType.STRING)
+    private PersonType personType;
     private String cpfCnpj;
     private String stateRegistration;
     private String zipCode;
@@ -159,16 +160,17 @@ public class Supplier implements Serializable {
     public void setObs(String obs) {
         this.obs = obs;
     }
-    public void setPersonType(PersonType personType) {
 
-        this.personType = personType.getCod();
+
+    public  void setPersonType(PersonType personType) {
+
+        this.personType = personType;
     }
 
     public PersonType getPersonType() {
 
-        return PersonType.toEnum(this.personType);
+        return personType;
     }
-
     public Instant getRegistrationDate() {
         return registrationDate;
     }

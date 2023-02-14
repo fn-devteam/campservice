@@ -37,24 +37,24 @@ public class SupplierService {
     private SupplierMapper supplierMapper;
 
     public SupplierDto find(Long id) {
-
-
         Supplier supplier = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
 
         return supplierMapper.toDTO(supplier);
     }
 
-    public Supplier findById(Long id) {
-        Optional<Supplier> obj = repo.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException(
+    // o find (acima) e o findById (abaixo) estão fazendo a mesma coisa.. deveria existir 2 métodos iguais? não
+    public SupplierDto findById(Long id) {
+        Supplier obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
+        ;
+        return supplierMapper.toDTO(obj); // agora vai trazer VAZIO no findById também (mas vamos arrumar)
     }
 
     @Transactional
     public SupplierDto insert(SupplierDto dto) {
 
-        Supplier entity =  supplierMapper.fromDTO(dto);
+        Supplier entity = supplierMapper.fromDTO(dto);
         repo.save(entity);
         return supplierMapper.toDTO(entity);
 
@@ -68,8 +68,7 @@ public class SupplierService {
             supplierMapper.fromDTO(dto);
             entity = repo.save(entity);
             return new SupplierDto();
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 
         }
@@ -107,9 +106,6 @@ public class SupplierService {
         newObj.setName(obj.getName());
         newObj.setEmailAddress(obj.getEmailAddress());
     }
-
-
-
 
 
 }

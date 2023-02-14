@@ -65,7 +65,6 @@ public class CustomerService {
         try {
             Customer entity = repo.getReferenceById(id);
             customerMapper.fromDTO(dto);
-           // copyDtoToEntity(dto, entity);
             entity = repo.save(entity);
             return new CustomerDto();
         }
@@ -107,10 +106,6 @@ public class CustomerService {
         return customers.map(customer -> customerMapper.toDTO(customer));
     }
 
-    public Customer fromDTO(CustomerDto objDto) {
-        return customerMapper.fromDTO(objDto);
-
-    }
 
     private void updateData(Customer newObj, CustomerDto obj) {
         newObj.setName(obj.getName());
