@@ -1,8 +1,8 @@
 package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.UserDto;
-import com.campigoto.campservice.dto.UserInsertDTO;
-import com.campigoto.campservice.dto.UserUpdateDTO;
+import com.campigoto.campservice.dto.UserInsertDto;
+import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,9 +34,8 @@ public class UserResource {
         return ResponseEntity.ok().body(list);
     }
 
-
     @PostMapping
-    public ResponseEntity<UserDto> insert(@RequestBody @Valid UserInsertDTO dto) {
+    public ResponseEntity<UserDto> insert(@RequestBody @Valid UserInsertDto dto) {
         UserDto newDto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(newDto.getId()).toUri();
@@ -44,7 +43,7 @@ public class UserResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDTO dto) {
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @RequestBody @Valid UserUpdateDto dto) {
         UserDto newDto = service.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }

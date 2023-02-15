@@ -1,53 +1,48 @@
 package com.campigoto.campservice.services.validation;
 
-import com.campigoto.campservice.dto.CustomerDto;
 import com.campigoto.campservice.dto.SupplierDto;
-import com.campigoto.campservice.entities.Customer;
-import com.campigoto.campservice.entities.Supplier;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.repositories.SupplierRepository;
 import com.campigoto.campservice.resources.exceptions.FieldMessage;
 import com.campigoto.campservice.services.validation.utils.BR;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class SupplierInsertValidator implements ConstraintValidator<SupplierInsert, SupplierDto> {
-	
-	@Autowired
-	private SupplierRepository repo;
 
-	@Override
-	public void initialize(SupplierInsert ann) {
-	}
+    @Autowired
+    private SupplierRepository repo;
 
-	@Override
-	public boolean isValid(SupplierDto objDto, ConstraintValidatorContext context) {
+    @Override
+    public void initialize(SupplierInsert ann) {
+    }
 
-		List<FieldMessage> list = new ArrayList<>();
+    @Override
+    public boolean isValid(SupplierDto objDto, ConstraintValidatorContext context) {
 
-		if (objDto.getPersonType().equals(PersonType.FISICA.getCod()) && !BR.isValidCPF(objDto.getCpfCnpj())) {
-			list.add(new FieldMessage("cpfCnpj", "CPF inválido"));
-		}
+        List<FieldMessage> list = new ArrayList<>();
 
-		if (objDto.getPersonType().equals(PersonType.JURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfCnpj())) {
-			list.add(new FieldMessage("cpfCnpj", "CNPJ inválido"));
-		}
+        if (objDto.getPersonType() == PersonType.FISICA && !BR.isValidCPF(objDto.getCpfCnpj())) {
+            list.add(new FieldMessage("cpfCnpj", "CPF inválido"));
+        }
 
-		Supplier aux = repo.findByEmailAddress(objDto.getEmailAddress());
-		if (aux != null) {
-			list.add(new FieldMessage("emailAddress", "Email já existente"));
-		}
+        if (objDto.getPersonType() == PersonType.JURIDICA && !BR.isValidCNPJ(objDto.getCpfCnpj())) {
+            list.add(new FieldMessage("cpfCnpj", "CNPJ inválido"));
+        }
 
-		
-		for (FieldMessage e : list) {
-			context.disableDefaultConstraintViolation();
-			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
-					.addConstraintViolation();
-		}
-		return list.isEmpty();
-	}
+        if (repo.findByEmailAddress(objDto.getEmailAddress()) != null) {
+            list.add(new FieldMessage("emailAddress", "Email já existente"));
+        }
+
+        list.forEach(e -> {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
+                    .addConstraintViolation();
+        });
+
+        return list.isEmpty();
+    }
 }

@@ -13,9 +13,9 @@ import java.time.Instant;
 @ControllerAdvice
 public class ResourceExceptionHandler {
 
-	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<ValidationError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
+
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 		ValidationError err = new ValidationError();
 		err.setTimestamp(Instant.now());

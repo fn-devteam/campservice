@@ -10,18 +10,13 @@ import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -35,13 +30,6 @@ public class SupplierService {
 
     @Autowired
     private SupplierMapper supplierMapper;
-
-    public SupplierDto find(Long id) {
-        Supplier supplier = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
-
-        return supplierMapper.toDTO(supplier);
-    }
 
     // o find (acima) e o findById (abaixo) estão fazendo a mesma coisa.. deveria existir 2 métodos iguais? não
     public SupplierDto findById(Long id) {
@@ -75,7 +63,7 @@ public class SupplierService {
     }
 
     public void delete(Long id) {
-        find(id);
+        findById(id);
         try {
             repo.deleteById(id);
         } catch (DataIntegrityViolationException e) {

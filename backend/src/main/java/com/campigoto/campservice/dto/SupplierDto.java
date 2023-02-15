@@ -1,21 +1,14 @@
 package com.campigoto.campservice.dto;
 
-
 import com.campigoto.campservice.entities.enums.PersonType;
-import com.campigoto.campservice.services.validation.CustomerUpdate;
 import com.campigoto.campservice.services.validation.SupplierInsert;
-import com.campigoto.campservice.services.validation.UserInsertValid;
 import jakarta.persistence.Column;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @SupplierInsert
 public class SupplierDto implements Serializable {
@@ -53,7 +46,7 @@ public class SupplierDto implements Serializable {
     private Instant registrationDate;
 
 
-    public SupplierDto( ) {
+    public SupplierDto() {
     }
 
     public Long getId() {
@@ -71,6 +64,7 @@ public class SupplierDto implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public boolean isActive() {
         return active;
     }
@@ -182,6 +176,7 @@ public class SupplierDto implements Serializable {
     public void setObs(String obs) {
         this.obs = obs;
     }
+
     public Instant getRegistrationDate() {
         return registrationDate;
     }

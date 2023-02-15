@@ -1,6 +1,6 @@
 package com.campigoto.campservice.services.validation;
 
-import com.campigoto.campservice.dto.UserUpdateDTO;
+import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.entities.User;
 import com.campigoto.campservice.repositories.UserRepository;
 import com.campigoto.campservice.resources.exceptions.FieldMessage;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid, UserUpdateDTO> {
+public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid, UserUpdateDto> {
 	
 	@Autowired
 	private HttpServletRequest request;
@@ -27,7 +27,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
 	}
 
 	@Override
-	public boolean isValid(UserUpdateDTO dto, ConstraintValidatorContext context) {
+	public boolean isValid(UserUpdateDto dto, ConstraintValidatorContext context) {
 		
 		@SuppressWarnings("unchecked")
 		var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);

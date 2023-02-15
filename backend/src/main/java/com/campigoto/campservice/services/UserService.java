@@ -2,8 +2,8 @@ package com.campigoto.campservice.services;
 
 
 import com.campigoto.campservice.dto.UserDto;
-import com.campigoto.campservice.dto.UserInsertDTO;
-import com.campigoto.campservice.dto.UserUpdateDTO;
+import com.campigoto.campservice.dto.UserInsertDto;
+import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.entities.User;
 import com.campigoto.campservice.repositories.UserRepository;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
@@ -39,7 +39,7 @@ public class UserService {
 
 
     @Transactional
-    public UserDto insert(UserInsertDTO dto) {
+    public UserDto insert(UserInsertDto dto) {
         User entity = new User();
         copyDtoToEntity(dto, entity);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -54,7 +54,7 @@ public class UserService {
 
 
     @Transactional
-    public UserDto update(Long id, UserUpdateDTO dto) {
+    public UserDto update(Long id, UserUpdateDto dto) {
         try {
             User entity = repository.findById(id).get();
             copyDtoToEntity(dto, entity);
