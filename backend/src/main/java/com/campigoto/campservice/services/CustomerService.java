@@ -35,15 +35,6 @@ public class CustomerService {
     @Autowired
     private CustomerMapper customerMapper;
 
-    public CustomerDto find(Long id) {
-
-
-        Customer customer = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
-                "Objeto não encontrado! Id: " + id + ", Tipo: " + Customer.class.getName()));
-
-        return customerMapper.toDTO(customer);
-    }
-
     public Customer findById(Long id) {
         Optional<Customer> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -52,12 +43,9 @@ public class CustomerService {
 
     @Transactional
     public CustomerDto insert(CustomerDto dto) {
-
-        Customer entity =  customerMapper.fromDTO(dto);
+        Customer entity = customerMapper.fromDTO(dto);
         repo.save(entity);
         return customerMapper.toDTO(entity);
-
-
     }
 
     @Transactional
@@ -67,15 +55,14 @@ public class CustomerService {
             customerMapper.fromDTO(dto);
             entity = repo.save(entity);
             return new CustomerDto();
-        }
-        catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 
         }
     }
 
     public void delete(Long id) {
-        find(id);
+        findById(id);
         try {
             repo.deleteById(id);
         } catch (DataIntegrityViolationException e) {
@@ -111,9 +98,6 @@ public class CustomerService {
         newObj.setName(obj.getName());
         newObj.setEmailAddress(obj.getEmailAddress());
     }
-
-
-
 
 
 }

@@ -7,8 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface CustumerRepository extends JpaRepository<Customer, Long> {
-	
-	@Transactional(readOnly=true)
-	Customer findByEmailAddress(String email);
-
+    @Transactional(readOnly = true)
+    Customer findByEmailAddress(String email);
 }

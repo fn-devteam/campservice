@@ -1,26 +1,16 @@
 package com.campigoto.campservice.dto;
 
-
-import com.campigoto.campservice.entities.Customer;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import com.campigoto.campservice.services.validation.CustomerInsert;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
-import com.campigoto.campservice.services.validation.UserInsertValid;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.FetchType;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @CustomerUpdate
 @CustomerInsert
@@ -62,7 +52,7 @@ public class CustomerDto implements Serializable {
     private Instant registrationDate;
 
 
-    public CustomerDto( ) {
+    public CustomerDto() {
     }
 
     public Long getId() {

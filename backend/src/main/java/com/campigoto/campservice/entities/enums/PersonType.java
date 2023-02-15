@@ -1,40 +1,16 @@
 package com.campigoto.campservice.entities.enums;
 
 public enum PersonType {
+    FISICA("Pessoa Física"),
+    JURIDICA("Pessoa Jurídica");
 
-	FISICA(1, "Pessoa Física"),
-	JURIDICA(2, "Pessoa Jurídica");
+    private String description;
 
-	private int cod;
-	private String description;
+    PersonType(String description) {
+        this.description = description;
+    }
 
-	PersonType(int cod, String description) {
-		this.cod = cod;
-		this.description = description;
-
-	}
-
-	public int getCod() {
-		return cod;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-	
-	public static PersonType toEnum(Integer cod) {
-		if (cod == null) {
-			return null;
-		}
-		
-		for (PersonType x : PersonType.values()) {
-			if (cod.equals(x.getCod())) {
-				return x;
-			}
-		}
-		
-		throw new IllegalArgumentException("Id inválido: " + cod);
-		
-	}
-
+    public String getDescription() {
+        return description;
+    }
 }
