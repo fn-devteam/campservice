@@ -5,7 +5,7 @@ CREATE TABLE `customer` (
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `fantasy_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `active` int DEFAULT NULL,
-  `person_type` int DEFAULT NULL,
+  `person_type` varchar(20) DEFAULT NULL,
   `cpf_cnpj` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `state_registration` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `city` varchar(100) DEFAULT NULL,
@@ -23,14 +23,12 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
 -- Campservice.orderDetail definition
 
-CREATE TABLE `orderDetail` (
+CREATE TABLE `orderdetail` (
   `id` double NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- Campservice.product definition
 
@@ -55,51 +53,47 @@ CREATE TABLE `product` (
   `quantity_last_entry` float DEFAULT NULL,
   `product_location` varchar(100) DEFAULT NULL,
   `last_supplier` int DEFAULT NULL,
-  `item_type` int DEFAULT NULL,
+  `item_type` varchar(20) DEFAULT NULL,
   `references` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
+PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8245 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-
--- Campservice.productsGroups definition
-
-CREATE TABLE `productsGroups` (
+-- Campservice.productgroup definition
+CREATE TABLE `productgroup` (
   `id` double NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  `obs` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.serviceOrder definition
 
-CREATE TABLE `serviceOrder` (
+CREATE TABLE `serviceorder` (
   `id` double NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- Campservice.supplier definition
 
 CREATE TABLE `supplier` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `city` varchar(100) DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
-  `zip_code` varchar(8) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `number` int DEFAULT NULL,
-  `person_type` int DEFAULT NULL,
+  `id` double NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `active` int DEFAULT NULL,
-  `last_purchase` int DEFAULT NULL,
-  `district` varchar(100) DEFAULT NULL,
+  `person_type` varchar(20) DEFAULT NULL,
+  `cpf_cnpj` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `state_registration` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `zip_code` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cell_number` varchar(11) DEFAULT NULL,
-  `email_address` varchar(100) DEFAULT NULL,
-  `obs` varchar(100) DEFAULT NULL,
+  `cell_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `contact_person` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `obs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
-  `contact_person` varchar(100) DEFAULT NULL,
-  `state_registration` varchar(100) DEFAULT NULL,
-  `cpf_cnpj` varchar(100) DEFAULT NULL,
-  `state` varchar(2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
