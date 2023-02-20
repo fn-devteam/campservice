@@ -5,9 +5,10 @@ import com.campigoto.campservice.dto.UserDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.entities.User;
+import com.campigoto.campservice.mappers.UserUpdateMapper;
 import com.campigoto.campservice.repositories.UserRepository;
-import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import com.campigoto.campservice.services.exceptions.DatabaseException;
+import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    private UserUpdateMapper userUpdateMapper;
 
     @Transactional( )
     public UserDto findById(Long id) {
@@ -55,14 +58,16 @@ public class UserService {
 
     @Transactional
     public UserDto update(Long id, UserUpdateDto dto) {
+
         try {
-            User entity = repository.findById(id).get();
-            copyDtoToEntity(dto, entity);
+
+            User entity = userUpdateMapper.fromDTO(dto);
+            entity.setId(id);
             entity = repository.save(entity);
-            return new UserDto(entity);
-        }
-        catch (EntityNotFoundException e) {
+            return userUpdateMapper.toDto(entity);
+        } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
+
         }
     }
 

@@ -70,9 +70,8 @@ public class User implements  Serializable {
 
     public boolean equals(Object object) {
         if (this == object) return true;
-        if (!(object instanceof User)) return false;
+        if (!(object instanceof User user)) return false;
         if (!super.equals(object)) return false;
-        User user = (User) object;
         return getId().equals(user.getId());
     }
 

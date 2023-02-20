@@ -6,8 +6,8 @@ public enum Profile {
 
 	MECANICO(2, "ROLE_MECANICO");
 
-	private int cod;
-	private String description;
+	private final int cod;
+	private final String description;
 
 	Profile(int cod, String description) {
 		this.cod = cod;

@@ -27,10 +27,10 @@ public class ProductGroupService {
 
     @Autowired
     private ProductGroupMapper productGroupMapper;
+
     public ProductGroupDto findById(Long id) {
         ProductGroup obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + ProductGroupMapper.class.getName()));
-        ;
         return productGroupMapper.toDTO(obj);
     }
 
@@ -40,17 +40,16 @@ public class ProductGroupService {
         ProductGroup entity = productGroupMapper.fromDTO(dto);
         repo.save(entity);
         return productGroupMapper.toDTO(entity);
-
-
     }
 
     @Transactional
     public @Valid ProductGroupDto update(Long id, @Valid ProductGroupDto dto) {
         try {
-            ProductGroup entity = repo.getReferenceById(id);
-            productGroupMapper.fromDTO(dto);
+
+            ProductGroup entity = productGroupMapper.fromDTO(dto);
+            entity.setId(id);
             entity = repo.save(entity);
-            return new ProductGroupDto();
+            return productGroupMapper.toDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 
@@ -72,11 +71,8 @@ public class ProductGroupService {
         return productGroups.map(productGroup -> productGroupMapper.toDTO(productGroup));
     }
 
-
     private void updateData(ProductGroup newObj, SupplierDto obj) {
         newObj.setName(obj.getName());
         newObj.setObs(obj.getObs());
     }
-
-
 }

@@ -35,7 +35,6 @@ public class SupplierService {
     public SupplierDto findById(Long id) {
         Supplier obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
-        ;
         return supplierMapper.toDTO(obj); // agora vai trazer VAZIO no findById também (mas vamos arrumar)
     }
 
@@ -51,11 +50,13 @@ public class SupplierService {
 
     @Transactional
     public @Valid SupplierDto update(Long id, @Valid SupplierDto dto) {
+
         try {
-            Supplier entity = repo.getReferenceById(id);
-            supplierMapper.fromDTO(dto);
+
+            Supplier entity = supplierMapper.fromDTO(dto);
+            entity.setId(id);
             entity = repo.save(entity);
-            return new SupplierDto();
+            return supplierMapper.toDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 

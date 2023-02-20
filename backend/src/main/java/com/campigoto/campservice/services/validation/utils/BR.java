@@ -31,7 +31,7 @@ public class BR {
 
 		final Integer digit1 = calculate(ssn.substring(0, 9), weightSsn);
 		final Integer digit2 = calculate(ssn.substring(0, 9) + digit1, weightSsn);
-		return ssn.equals(ssn.substring(0, 9) + digit1.toString() + digit2.toString());
+		return ssn.equals(ssn.substring(0, 9) + digit1 + digit2);
 	}
 
 	/**
@@ -46,6 +46,6 @@ public class BR {
 
 		final Integer digit1 = calculate(tin.substring(0, 12), weightTin);
 		final Integer digit2 = calculate(tin.substring(0, 12) + digit1, weightTin);
-		return tin.equals(tin.substring(0, 12) + digit1.toString() + digit2.toString());
+		return tin.equals(tin.substring(0, 12) + digit1 + digit2);
 	}
 }

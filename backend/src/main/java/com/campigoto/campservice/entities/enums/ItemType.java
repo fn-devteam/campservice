@@ -4,7 +4,7 @@ public enum ItemType {
     PRODUTO("Produto"),
     SERVICO("Serviço");
 
-    private String description;
+    private final String description;
 
     ItemType(String description) {
         this.description = description;

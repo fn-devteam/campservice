@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class CepService {
 
-	private String CEP_API = "https://viacep.com.br/ws/";
+	private final String CEP_API = "https://viacep.com.br/ws/";
 
 	public BuscaCEPDto buscar(String cep) {
 

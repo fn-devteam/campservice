@@ -615,7 +615,7 @@ INSERT INTO Campservice.supplier (name,active,person_type,cpf_cnpj,state_registr
 	 ('ACEVILLE TRANSP.LTDA',1,'JURIDICA','','','','','',NULL,NULL,'','','','','','2015-02-09'),
 	 ('NOVA GERAÇÃO',1,'JURIDICA','','','','','',NULL,NULL,'','','','','','2015-05-12');
 
- INSERT INTO Campservice.productgroup (name,obs) VALUES
+ INSERT INTO Campservice.product_group (name,obs) VALUES
    	 ('AUTO',' '),
    	 ('2',' '),
    	 ('3',' '),

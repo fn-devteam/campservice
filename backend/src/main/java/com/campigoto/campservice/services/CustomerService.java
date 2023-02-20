@@ -8,7 +8,7 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -50,11 +50,13 @@ public class CustomerService {
 
     @Transactional
     public @Valid CustomerDto update(Long id, @Valid CustomerDto dto) {
+
         try {
-            Customer entity = repo.getReferenceById(id);
-            customerMapper.fromDTO(dto);
+
+            Customer entity = customerMapper.fromDTO(dto);
+            entity.setId(id);
             entity = repo.save(entity);
-            return new CustomerDto();
+            return customerMapper.toDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 

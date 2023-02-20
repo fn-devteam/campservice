@@ -4,7 +4,7 @@ public enum PersonType {
     FISICA("Pessoa Física"),
     JURIDICA("Pessoa Jurídica");
 
-    private String description;
+    private final String description;
 
     PersonType(String description) {
         this.description = description;

@@ -23,9 +23,17 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- Campservice.serviceOrder definition
+
+CREATE TABLE `service_order` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
 -- Campservice.orderDetail definition
 
-CREATE TABLE `orderdetail` (
+CREATE TABLE `order_detail` (
   `id` double NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -58,21 +66,13 @@ CREATE TABLE `product` (
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8245 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Campservice.productgroup definition
-CREATE TABLE `productgroup` (
+-- Campservice.product_group definition
+CREATE TABLE `product_group` (
   `id` double NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `obs` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Campservice.serviceOrder definition
-
-CREATE TABLE `serviceorder` (
-  `id` double NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 -- Campservice.supplier definition
 
 CREATE TABLE `supplier` (
