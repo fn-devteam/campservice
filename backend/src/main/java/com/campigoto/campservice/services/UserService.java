@@ -11,7 +11,8 @@ import com.campigoto.campservice.services.exceptions.DatabaseException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -19,27 +20,20 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
+    private final UserRepository repository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserUpdateMapper userUpdateMapper;
 
-    @Autowired
-    private UserRepository repository;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    private UserUpdateMapper userUpdateMapper;
-
-    @Transactional( )
+    @Transactional()
     public UserDto findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new UserDto(entity);
     }
-
 
     @Transactional
     public UserDto insert(UserInsertDto dto) {
@@ -74,11 +68,9 @@ public class UserService {
     public void delete(Long id) {
         try {
             repository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found " + id);
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
     }

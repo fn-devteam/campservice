@@ -15,6 +15,5 @@ public abstract class ProductMapper {
 	
 	public abstract List<ProductDto> toDTO(List<Product> products);
 
-	public abstract Pro
-	duct fromDTO(ProductDto dto);
+	public abstract Product fromDTO(ProductDto dto);
 }

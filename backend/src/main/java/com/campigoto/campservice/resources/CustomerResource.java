@@ -5,7 +5,7 @@ import com.campigoto.campservice.entities.Customer;
 import com.campigoto.campservice.services.CustomerService;
 import java.net.URI;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -13,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/customers")
 public class CustomerResource {
 
-    @Autowired
-    private CustomerService service;
+    private final CustomerService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Customer> findById(@PathVariable Long id) {

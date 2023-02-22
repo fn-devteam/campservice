@@ -10,27 +10,20 @@ import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class SupplierService {
 
-    @Autowired
-    private BCryptPasswordEncoder pe;
-
-    @Autowired
-    private SupplierRepository repo;
-
-    @Autowired
-    private SupplierMapper supplierMapper;
+    private final SupplierRepository repo;
+    private final SupplierMapper supplierMapper;
 
     public SupplierDto findById(Long id) {
         Supplier obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
@@ -76,7 +69,7 @@ public class SupplierService {
         Supplier obj = repo.findByEmailAddress(email);
         if (obj == null) {
             throw new ObjectNotFoundException(
-                    "Objeto não encontrado! Id: " + obj.getEmailAddress() + ", Tipo: " + Customer.class.getName());
+                    "Objeto não encontrado! Id: " + email + ", Tipo: " + Customer.class.getName());
         }
         return supplierMapper.toDTO(obj);
 
@@ -87,14 +80,6 @@ public class SupplierService {
     @Transactional
     public Page<SupplierDto> findAllPaged(PageRequest pageRequest) {
         Page<Supplier> suppliers = repo.findAll(pageRequest);
-        return suppliers.map(supplier -> supplierMapper.toDTO(supplier));
+        return suppliers.map(supplierMapper::toDTO);
     }
-
-
-    private void updateData(Supplier newObj, SupplierDto obj) {
-        newObj.setName(obj.getName());
-        newObj.setEmailAddress(obj.getEmailAddress());
-    }
-
-
 }
