@@ -1,9 +1,12 @@
 package com.campigoto.campservice.dto;
 
 import com.campigoto.campservice.services.validation.UserInsertValid;
-
 import java.io.Serial;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @UserInsertValid
 public class UserInsertDto extends UserDto {
 
@@ -11,16 +14,4 @@ public class UserInsertDto extends UserDto {
     private static final long serialVersionUID = 1L;
 
     private String password;
-
-    UserInsertDto() {
-        super();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

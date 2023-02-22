@@ -5,7 +5,7 @@ import com.campigoto.campservice.dto.SupplierDto;
 import com.campigoto.campservice.services.SupplierService;
 import java.net.URI;
 import javax.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -13,12 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/suppliers")
 public class SupplierResource {
 
-    @Autowired
-    private SupplierService service;
+    private final SupplierService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<SupplierDto> findById(@PathVariable Long id) {

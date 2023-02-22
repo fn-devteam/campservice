@@ -3,7 +3,9 @@ package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.ProductDto;
 import com.campigoto.campservice.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.net.URI;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -11,15 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/products")
 public class ProductResource {
 
-    @Autowired
-    private ProductService service;
+    private final ProductService service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> findById(@PathVariable Long id) {

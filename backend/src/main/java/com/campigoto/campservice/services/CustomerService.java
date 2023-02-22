@@ -9,31 +9,24 @@ import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class CustomerService {
 
-    @Autowired
-    private BCryptPasswordEncoder pe;
-
-    @Autowired
-    private CustumerRepository repo;
-
-    @Autowired
-    private CustomerMapper customerMapper;
+    private final CustumerRepository repo;
+    private final CustomerMapper customerMapper;
 
     public Customer findById(Long id) {
         Optional<Customer> obj = repo.findById(id);
@@ -74,32 +67,22 @@ public class CustomerService {
 
     public List<CustomerDto> findAll() {
         List<Customer> list = repo.findAll(Sort.by("name"));
-        return list.stream().map(x -> customerMapper.toDTO(x)).collect(Collectors.toList());
+        return list.stream().map(customerMapper::toDTO).collect(Collectors.toList());
     }
 
     public CustomerDto findByEmailAddress(String email) {
         Customer obj = repo.findByEmailAddress(email);
         if (obj == null) {
             throw new ObjectNotFoundException(
-                    "Objeto não encontrado! Id: " + obj.getEmailAddress() + ", Tipo: " + Customer.class.getName());
+                    "Objeto não encontrado! Id: " + email + ", Tipo: " + Customer.class.getName());
         }
         return customerMapper.toDTO(obj);
-
-        //return obj;
     }
 
 
     @Transactional
     public Page<CustomerDto> findAllPaged(PageRequest pageRequest) {
         Page<Customer> customers = repo.findAll(pageRequest);
-        return customers.map(customer -> customerMapper.toDTO(customer));
+        return customers.map(customerMapper::toDTO);
     }
-
-
-    private void updateData(Customer newObj, CustomerDto obj) {
-        newObj.setName(obj.getName());
-        newObj.setEmailAddress(obj.getEmailAddress());
-    }
-
-
 }
