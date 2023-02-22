@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "productgroup")
+@Table(name = "product_group")
 public class ProductGroup implements Serializable {
 
     @Serial

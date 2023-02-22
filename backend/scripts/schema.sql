@@ -1,7 +1,7 @@
 -- Campservice.customer definition
 
 CREATE TABLE `customer` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `fantasy_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `active` int DEFAULT NULL,
@@ -21,12 +21,12 @@ CREATE TABLE `customer` (
   `registration_date` date DEFAULT NULL,
   `profile` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=478 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.serviceOrder definition
 
 CREATE TABLE `service_order` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -34,14 +34,14 @@ CREATE TABLE `service_order` (
 -- Campservice.orderDetail definition
 
 CREATE TABLE `order_detail` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.product definition
 
 CREATE TABLE `product` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `group` int DEFAULT NULL,
   `active` int DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
@@ -64,19 +64,19 @@ CREATE TABLE `product` (
   `item_type` varchar(20) DEFAULT NULL,
   `references` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8245 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.product_group definition
 CREATE TABLE `product_group` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `obs` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 -- Campservice.supplier definition
 
 CREATE TABLE `supplier` (
-  `id` double NOT NULL AUTO_INCREMENT,
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `active` int DEFAULT NULL,
   `person_type` varchar(20) DEFAULT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `supplier` (
   `obs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- Campservice.`user` definition
@@ -107,4 +107,18 @@ CREATE TABLE `user` (
   `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `User_Id_IDX` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.`product_supplier` definition
+
+CREATE TABLE `product_supplier` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `product_id`  int unsigned NOT NULL,
+  `supplier_id` int unsigned NOT NULL,
+  `last_purchase_date` timestamp,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`product_id`) REFERENCES product(`id`)
+    ON DELETE CASCADE,
+  FOREIGN KEY (`supplier_id`) REFERENCES supplier(`id`)
+    ON DELETE CASCADE
+)

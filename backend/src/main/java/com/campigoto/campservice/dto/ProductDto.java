@@ -1,29 +1,27 @@
-package com.campigoto.campservice.entities;
+package com.campigoto.campservice.dto;
 
-import jakarta.persistence.*;
+import com.campigoto.campservice.services.validation.SupplierInsert;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
-@Entity
-@Table(name = "product")
-public class Product implements Serializable {
-
+@SupplierInsert
+public class ProductDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @Size(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 100 caracteres")
+    private String description;
+
 
     private int group;
 
     private boolean active;
-
-    private String description;
 
     private String unit;
 
@@ -61,17 +59,7 @@ public class Product implements Serializable {
 
     private String references;
 
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "product_supplier",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "supplier_id")
-    )
-    private Set<Supplier> suppliers = new HashSet<>();
-
-
-    public Product() {
-
+    public ProductDto() {
     }
 
     public Long getId() {
@@ -80,6 +68,14 @@ public class Product implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getGroup() {
@@ -96,14 +92,6 @@ public class Product implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getUnit() {
@@ -248,21 +236,5 @@ public class Product implements Serializable {
 
     public void setReferences(String references) {
         this.references = references;
-    }
-
-    public Set<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product customer)) return false;
-        return getId().equals(customer.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

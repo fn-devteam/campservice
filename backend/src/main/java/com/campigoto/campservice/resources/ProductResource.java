@@ -1,8 +1,8 @@
 package com.campigoto.campservice.resources;
 
 
-import com.campigoto.campservice.dto.ProductGroupDto;
-import com.campigoto.campservice.services.ProductGroupService;
+import com.campigoto.campservice.dto.ProductDto;
+import com.campigoto.campservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,33 +15,33 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/product_groups")
-public class ProductGroupResource {
+@RequestMapping(value = "/products")
+public class ProductResource {
 
     @Autowired
-    private ProductGroupService service;
+    private ProductService service;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductGroupDto> findById(@PathVariable Long id) {
-        ProductGroupDto dto = service.findById(id);
+    public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
+        ProductDto dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductGroupDto>> findAll(
+    public ResponseEntity<Page<ProductDto>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+            @RequestParam(value = "orderBy", defaultValue = "description") String orderBy
     ) {
         PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 
-        Page<ProductGroupDto> list = service.findAllPaged(pageRequest);
+        Page<ProductDto> list = service.findAllPaged(pageRequest);
         return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
-    public ResponseEntity<ProductGroupDto> insert(@RequestBody @Valid ProductGroupDto dto) {
+    public ResponseEntity<ProductDto> insert(@RequestBody @Valid ProductDto dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -49,7 +49,7 @@ public class ProductGroupResource {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProductGroupDto> update(@PathVariable Long id, @Valid @RequestBody ProductGroupDto dto) {
+    public ResponseEntity<ProductDto> update(@PathVariable Long id, @Valid @RequestBody ProductDto dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
