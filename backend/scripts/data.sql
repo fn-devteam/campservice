@@ -34,7 +34,7 @@ INSERT INTO Campservice.supplier (name,active,person_type,cpf_cnpj,state_registr
    	 ('9',' '),
    	 ('ADRIANO',' ');
 
- INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier,item_type,`references`) VALUES
+ INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
  	 (1,0,'CABO ACELERADOR BRAS CARB DUPLA','PC','JOINCAR',0.56,0.0,10.0,2.6,1.0,160.0,100.0,1.0,20.0,NULL,'MT-139',10.0,'FILA 10, PRATELEIRA A, VAO 1',98,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR BRAS CARB SIMPLES','PC','',0.54,0.0,3.0,4.25,1.7,150.0,100.0,1.7,20.0,NULL,'16401',20.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR CORCEL 69/74','PC','',1.0,0.0,3.0,9.38,5.0,87.5,50.0,10.0,20.0,'','FC-328',0.0,'',0,'PRODUTO',''),
@@ -46,19 +46,19 @@ INSERT INTO Campservice.supplier (name,active,person_type,cpf_cnpj,state_registr
  	 (1,1,'CABO ACELERADOR CHEV 87/','PC','',1.0,0.0,3.0,28.0,14.0,100.0,100.0,14.0,20.0,'52.277.953','15058',0.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR FIAT 147/OGGI/SPAZIO','PC','',2.04,0.0,4.0,7.75,3.1,150.0,100.0,3.1,20.0,'4.359.989','14007',10.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO','');
 
- INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier,item_type,`references`) VALUES
- 	 (1,0,'KIT ESTAB INT POLO','','',8.0,0.0,0.0,16.5,16.5,100.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'MAO OBRA','','',600.0,0.0,0.0,600.5,600.5,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'COXIM HIDRAULICO LD MOTOR CLIO 1.6 16V','','',135.0,0.0,0.0,229.5,229.5,70.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'COXIM SUP TRAS GOL G5','','',20.0,0.0,0.0,40.5,40.5,100.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'SOMDA ZETEC 4F','','',135.0,0.0,0.0,250.0,250.0,85.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'OLEO CX RENAUL PEG','','',80.0,0.0,0.0,80.5,80.5,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'PASTILHA TRAS PEG','','',31.0,0.0,0.0,57.5,57.5,85.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'ALAVANCA FREIO FIESTA 02/..','','',85.0,0.0,0.0,157.5,157.5,85.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'MOLA TRAS FOX','','',50.0,0.0,0.0,82.5,82.5,65.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'TRASEIRO','','',0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO','');
+ INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
+ 	 (1,0,'KIT ESTAB INT POLO','','',8.0,0.0,0.0,16.5,16.5,100.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'MAO OBRA','','',600.0,0.0,0.0,600.5,600.5,0.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'COXIM HIDRAULICO LD MOTOR CLIO 1.6 16V','','',135.0,0.0,0.0,229.5,229.5,70.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'COXIM SUP TRAS GOL G5','','',20.0,0.0,0.0,40.5,40.5,100.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'SOMDA ZETEC 4F','','',135.0,0.0,0.0,250.0,250.0,85.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'OLEO CX RENAUL PEG','','',80.0,0.0,0.0,80.5,80.5,0.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'PASTILHA TRAS PEG','','',31.0,0.0,0.0,57.5,57.5,85.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'ALAVANCA FREIO FIESTA 02/..','','',85.0,0.0,0.0,157.5,157.5,85.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'MOLA TRAS FOX','','',50.0,0.0,0.0,82.5,82.5,65.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO',''),
+ 	 (1,0,'TRASEIRO','','',0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,'','',0.0,'',NULL,'PRODUTO','');
 
- INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier,item_type,`references`) VALUES
+ INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
  	 (1,0,'MOLA DIANT NEW CIVIC','','',25.0,0.0,0.0,41.5,41.5,65.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
  	 (1,0,'COIFA LC L200 ','','',32.0,0.0,0.0,59.5,59.5,85.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
  	 (1,0,'KIT EMB C ROL L200','','',500.0,0.0,0.0,500.5,500.5,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
