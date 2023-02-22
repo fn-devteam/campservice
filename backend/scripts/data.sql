@@ -45,8 +45,6 @@ INSERT INTO Campservice.supplier (name,active,person_type,cpf_cnpj,state_registr
  	 (1,1,'CABO ACELERADOR CHEV 83/86 CARB.DUPLO','PC','',4.16,0.0,3.0,17.6,8.0,120.0,100.0,8.0,20.0,'94.601.840','15306',5.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR CHEV 87/','PC','',1.0,0.0,3.0,28.0,14.0,100.0,100.0,14.0,20.0,'52.277.953','15058',0.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR FIAT 147/OGGI/SPAZIO','PC','',2.04,0.0,4.0,7.75,3.1,150.0,100.0,3.1,20.0,'4.359.989','14007',10.0,'FILA 10, PRATELEIRA A, VAO 1',NULL,'PRODUTO','');
- 	 (1,0,'PORCA HOMOC','','',10.0,0.0,0.0,10.5,10.5,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
- 	 (1,0,'REGULADOR AL PALIO','','',110.0,0.0,0.0,110.5,110.5,0.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO','');
 
  INSERT INTO Campservice.product (`group`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier,item_type,`references`) VALUES
  	 (1,0,'KIT ESTAB INT POLO','','',8.0,0.0,0.0,16.5,16.5,100.0,100.0,0.0,0.0,'','',0.0,'',0,'PRODUTO',''),
