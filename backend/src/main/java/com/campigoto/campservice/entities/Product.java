@@ -1,14 +1,15 @@
 package com.campigoto.campservice.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,7 +25,8 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int group;
+    @ManyToOne
+    private ProductGroup group;
 
     private boolean active;
 
@@ -60,7 +62,7 @@ public class Product implements Serializable {
 
     private String productLocation;
 
-    @OneToOne
+    @ManyToOne
     private Supplier lastSupplier;
 
     private String itemType;
