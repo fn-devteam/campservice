@@ -43,5 +43,6 @@ public class VehicleDto implements Serializable {
     private int kmChangeTimingBelt;
 
     @NotEmpty(message = "Preenchimento obrigatório")
-    private int kmChangeTimingBeltChange;
+    private int kmLastTimingBeltChange;
 }
+g

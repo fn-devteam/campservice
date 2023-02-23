@@ -30,7 +30,7 @@ public class Vehicle implements Serializable {
     private int kmOilChange;
     private int kmLastOilChange;
     private int kmChangeTimingBelt;
-    private int kmChangeTimingBeltChange;
+    private int kmLastTimingBeltChange;
 
     @Override
     public boolean equals(Object o) {
