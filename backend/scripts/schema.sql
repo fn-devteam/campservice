@@ -19,7 +19,7 @@ CREATE TABLE `customer` (
   `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `obs` varchar(100) DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
-  `profile` int DEFAULT NULL,
+  `profile` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -42,7 +42,7 @@ CREATE TABLE `order_detail` (
 
 CREATE TABLE `product` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `group` int DEFAULT NULL,
+  `group_id` int DEFAULT NULL,
   `active` int DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `unit` varchar(100) DEFAULT NULL,
@@ -73,6 +73,7 @@ CREATE TABLE `product_group` (
   `obs` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- Campservice.supplier definition
 
 CREATE TABLE `supplier` (
@@ -122,3 +123,20 @@ CREATE TABLE `product_supplier` (
   FOREIGN KEY (`supplier_id`) REFERENCES supplier(`id`)
     ON DELETE CASCADE
 )
+
+-- Campservice.vehicle definition
+
+CREATE TABLE `vehicle` (
+  `id` double NOT NULL AUTO_INCREMENT,
+  `license_plate` varchar(7) NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  `color` varchar(100) NOT NULL,
+  `year` int NOT NULL,
+  `current_km` int NOT NULL,
+  `km_oil_change` int NOT NULL,
+  `km_last_oil_change` int NOT NULL,
+  `km_change_timing_belt` int NOT NULL,
+  `km_last_ timing_belt_change` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

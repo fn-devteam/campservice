@@ -10,12 +10,13 @@ import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Transactional
@@ -28,7 +29,7 @@ public class SupplierService {
     public SupplierDto findById(Long id) {
         Supplier obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
-        return supplierMapper.toDTO(obj); // agora vai trazer VAZIO no findById também (mas vamos arrumar)
+        return supplierMapper.toDTO(obj);
     }
 
     @Transactional

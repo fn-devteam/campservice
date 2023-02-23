@@ -3,14 +3,14 @@ package com.campigoto.campservice.entities;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -42,21 +42,18 @@ public class Customer implements Serializable {
     private String emailAddress;
     private String contactPerson;
     private String obs;
-    private Integer profile;
+    private Profile profile;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant registrationDate;
 
     public Profile getProfile() {
-        if (this.profile == null)
-            return null;
+        return this.profile;
 
-        return Profile.toEnum(this.profile);
     }
 
-    public void setProfile(Profile customer) {
-        this.profile = customer.getCod();
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
-
 
     @Override
     public boolean equals(Object o) {
