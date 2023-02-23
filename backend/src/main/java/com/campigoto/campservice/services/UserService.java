@@ -5,7 +5,7 @@ import com.campigoto.campservice.dto.UserDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.entities.User;
-import com.campigoto.campservice.mappers.UserUpdateMapper;
+import com.campigoto.campservice.mappers.UserMapper;
 import com.campigoto.campservice.repositories.UserRepository;
 import com.campigoto.campservice.services.exceptions.DatabaseException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
@@ -26,27 +26,26 @@ public class UserService {
 
     private final UserRepository repository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserUpdateMapper userUpdateMapper;
+    private final UserMapper userMapper;
 
-    @Transactional()
+    @Transactional
     public UserDto findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new UserDto(entity);
+        return userMapper.toDto(entity);
     }
 
     @Transactional
     public UserDto insert(UserInsertDto dto) {
-        User entity = new User();
-        copyDtoToEntity(dto, entity);
+        User entity = userMapper.fromInsertDto(dto);
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity = repository.save(entity);
-        return new UserDto(entity);
+        return userMapper.toDto(entity);
     }
 
     public Page<UserDto> findAllPaged(Pageable pageable) {
         Page<User> list = repository.findAll(pageable);
-        return list.map(UserDto::new);
+        return list.map(userMapper::toDto);
     }
 
 
@@ -54,17 +53,17 @@ public class UserService {
     public UserDto update(Long id, UserUpdateDto dto) {
 
         try {
-
-            User entity = userUpdateMapper.fromDTO(dto);
+            User entity = userMapper.fromUpdateDto(dto);
             entity.setId(id);
             entity = repository.save(entity);
-            return userUpdateMapper.toDto(entity);
+            return userMapper.toDto(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
 
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         try {
             repository.deleteById(id);
@@ -74,15 +73,6 @@ public class UserService {
             throw new DatabaseException("Integrity violation");
         }
     }
-
-    private void copyDtoToEntity(UserDto dto, User entity) {
-
-        entity.setFirstName(dto.getFirstName());
-        entity.setLastName(dto.getLastName());
-        entity.setEmail(dto.getEmail());
-
-    }
-
 }
 
 
