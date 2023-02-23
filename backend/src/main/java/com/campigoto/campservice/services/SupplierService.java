@@ -9,7 +9,6 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -17,15 +16,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class SupplierService {
 
     private final SupplierRepository repo;
     private final SupplierMapper supplierMapper;
 
+    @Transactional(readOnly = true)
     public SupplierDto findById(Long id) {
         Supplier obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Supplier.class.getName()));
@@ -57,6 +57,7 @@ public class SupplierService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         findById(id);
         try {
@@ -66,6 +67,7 @@ public class SupplierService {
         }
     }
 
+    @Transactional(readOnly = true)
     public SupplierDto findByEmailAddress(String email) {
         Supplier obj = repo.findByEmailAddress(email);
         if (obj == null) {
@@ -78,7 +80,7 @@ public class SupplierService {
     }
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<SupplierDto> findAllPaged(PageRequest pageRequest) {
         Page<Supplier> suppliers = repo.findAll(pageRequest);
         return suppliers.map(supplierMapper::toDTO);

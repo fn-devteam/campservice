@@ -4,7 +4,6 @@ import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import com.campigoto.campservice.services.validation.CustomerInsert;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
-import jakarta.persistence.Column;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
@@ -51,7 +50,5 @@ public class CustomerDto implements Serializable {
     private String contactPerson;
     private String obs;
     private Profile profile;
-
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant registrationDate;
 }

@@ -1,7 +1,6 @@
 package com.campigoto.campservice.dto;
 
 
-import com.campigoto.campservice.entities.User;
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
@@ -18,11 +17,4 @@ public class UserDto implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
-
-    public UserDto(User entity) {
-        id = entity.getId();
-        firstName = entity.getFirstName();
-        lastName = entity.getLastName();
-        email = entity.getEmail();
-    }
 }
