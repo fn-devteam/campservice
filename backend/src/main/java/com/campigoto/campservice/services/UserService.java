@@ -1,6 +1,5 @@
 package com.campigoto.campservice.services;
 
-
 import com.campigoto.campservice.dto.UserDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
@@ -10,7 +9,6 @@ import com.campigoto.campservice.repositories.UserRepository;
 import com.campigoto.campservice.services.exceptions.DatabaseException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +27,7 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDto findById(Long id) {
         Optional<User> obj = repository.findById(id);
         User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
@@ -43,6 +42,7 @@ public class UserService {
         return userMapper.toDto(entity);
     }
 
+    @Transactional(readOnly = true)
     public Page<UserDto> findAllPaged(Pageable pageable) {
         Page<User> list = repository.findAll(pageable);
         return list.map(userMapper::toDto);

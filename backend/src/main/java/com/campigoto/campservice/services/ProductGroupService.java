@@ -8,38 +8,38 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class ProductGroupService {
 
     private final ProductGroupRepository repo;
     private final ProductGroupMapper productGroupMapper;
 
+    @Transactional(readOnly = true)
     public ProductGroupDto findById(Long id) {
         ProductGroup obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + ProductGroupMapper.class.getName()));
+
         return productGroupMapper.toDTO(obj);
     }
 
     @Transactional
     public ProductGroupDto insert(ProductGroupDto dto) {
-
         ProductGroup entity = productGroupMapper.fromDTO(dto);
-        repo.save(entity);
+        entity = repo.save(entity);
         return productGroupMapper.toDTO(entity);
     }
 
     @Transactional
-    public @Valid ProductGroupDto update(Long id, @Valid ProductGroupDto dto) {
+    public @Valid ProductGroupDto update(Long id, ProductGroupDto dto) {
         try {
 
             ProductGroup entity = productGroupMapper.fromDTO(dto);
@@ -52,6 +52,7 @@ public class ProductGroupService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         findById(id);
         try {
@@ -61,7 +62,7 @@ public class ProductGroupService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductGroupDto> findAllPaged(PageRequest pageRequest) {
         Page<ProductGroup> productGroups = repo.findAll(pageRequest);
         return productGroups.map(productGroupMapper::toDTO);

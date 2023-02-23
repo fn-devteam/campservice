@@ -8,7 +8,6 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -19,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +27,7 @@ public class CustomerService {
     private final CustumerRepository repo;
     private final CustomerMapper customerMapper;
 
+    @Transactional(readOnly = true)
     public Customer findById(Long id) {
         Optional<Customer> obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException(
@@ -63,11 +64,13 @@ public class CustomerService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerDto> findAll() {
         List<Customer> list = repo.findAll(Sort.by("name"));
         return list.stream().map(customerMapper::toDTO).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public CustomerDto findByEmailAddress(String email) {
         Customer obj = repo.findByEmailAddress(email);
         if (obj == null) {
@@ -78,7 +81,7 @@ public class CustomerService {
     }
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<CustomerDto> findAllPaged(PageRequest pageRequest) {
         Page<Customer> customers = repo.findAll(pageRequest);
         return customers.map(customerMapper::toDTO);

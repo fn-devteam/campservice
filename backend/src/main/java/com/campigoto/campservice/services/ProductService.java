@@ -8,22 +8,22 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class ProductService {
 
     private final ProductRepository repo;
     private final ProductMapper productMapper;
 
+    @Transactional(readOnly = true)
     public ProductDto findById(Long id) {
         Product obj = repo.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                 "Objeto não encontrado! Id: " + id + ", Tipo: " + Product.class.getName()));
@@ -53,6 +53,7 @@ public class ProductService {
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         findById(id);
         try {
@@ -63,7 +64,7 @@ public class ProductService {
     }
 
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<ProductDto> findAllPaged(PageRequest pageRequest) {
         Page<Product> products = repo.findAll(pageRequest);
         return products.map(productMapper::toDTO);
