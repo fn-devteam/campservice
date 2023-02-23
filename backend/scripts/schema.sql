@@ -21,7 +21,7 @@ CREATE TABLE `customer` (
   `registration_date` date DEFAULT NULL,
   `profile` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.serviceOrder definition
 
@@ -64,7 +64,7 @@ CREATE TABLE `product` (
   `item_type` varchar(20) DEFAULT NULL,
   `references` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.product_group definition
 CREATE TABLE `product_group` (
@@ -72,7 +72,7 @@ CREATE TABLE `product_group` (
   `name` varchar(30) DEFAULT NULL,
   `obs` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.supplier definition
 
@@ -95,7 +95,7 @@ CREATE TABLE `supplier` (
   `obs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `registration_date` date DEFAULT NULL,
 PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 -- Campservice.`user` definition
@@ -108,7 +108,7 @@ CREATE TABLE `user` (
   `password` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `User_Id_IDX` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.`product_supplier` definition
 
@@ -122,7 +122,7 @@ CREATE TABLE `product_supplier` (
     ON DELETE CASCADE,
   FOREIGN KEY (`supplier_id`) REFERENCES supplier(`id`)
     ON DELETE CASCADE
-)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.vehicle definition
 
@@ -137,6 +137,6 @@ CREATE TABLE `vehicle` (
   `km_oil_change` int NOT NULL,
   `km_last_oil_change` int NOT NULL,
   `km_change_timing_belt` int NOT NULL,
-  `km_last_ timing_belt_change` int NOT NULL,
+  `km_last_timing_belt_change` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
