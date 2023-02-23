@@ -21,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class CustomerService {
 
@@ -37,25 +36,24 @@ public class CustomerService {
     @Transactional
     public CustomerDto insert(CustomerDto dto) {
         Customer entity = customerMapper.fromDTO(dto);
-        repo.save(entity);
+        entity = repo.save(entity);
         return customerMapper.toDTO(entity);
     }
 
     @Transactional
-    public @Valid CustomerDto update(Long id, @Valid CustomerDto dto) {
+    public @Valid CustomerDto update(Long id, CustomerDto dto) {
 
         try {
-
             Customer entity = customerMapper.fromDTO(dto);
             entity.setId(id);
             entity = repo.save(entity);
             return customerMapper.toDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
-
         }
     }
 
+    @Transactional
     public void delete(Long id) {
         findById(id);
         try {
