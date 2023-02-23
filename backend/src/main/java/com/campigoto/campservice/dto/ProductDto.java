@@ -31,35 +31,35 @@ public class ProductDto implements Serializable {
 
     private String obs;
 
-    private double purchase_price;
+    private double purchasePrice;
 
-    private double current_inventory;
+    private double currentInventory;
 
-    private double minimum_stock;
+    private double minimumStock;
 
-    private double sale_price;
+    private double salePrice;
 
-    private double price_value;
+    private double priceValue;
 
-    private double profit_margin;
+    private double profitMargin;
 
-    private double factory_index;
+    private double factoryIndex;
 
-    private double list_price;
+    private double listPrice;
 
     private double rebate;
 
-    private String original_code;
+    private String originalCode;
 
-    private String original_code1;
+    private String originalCode1;
 
-    private double quantity_last_entry;
+    private double quantityLastEntry;
 
-    private String product_location;
+    private String productLocation;
 
-    private int last_supplier;
+    private SupplierDto lastSupplier;
 
-    private String item_type;
+    private String itemType;
 
     private String references;
 }
