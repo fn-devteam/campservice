@@ -128,7 +128,7 @@ CREATE TABLE `product_supplier` (
 
 CREATE TABLE `vehicle` (
   `id` double NOT NULL AUTO_INCREMENT,
-  `license_plate` varchar(7) NOT NULL,
+  `license_plate` varchar(10) NOT NULL,
   `brand` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
   `color` varchar(100) NOT NULL,

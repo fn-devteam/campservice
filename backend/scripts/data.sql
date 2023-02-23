@@ -1,10 +1,10 @@
 INSERT INTO Campservice.customer (name,fantasy_name,active,person_type,cpf_cnpj,state_registration,city,state,phone_number,cell_number,email_address,contact_person,zip_code,address,district,obs,registration_date,profile) VALUES
-	 ('MEC NITAO            ICA','MEC NITAO            ICA',1,'FISICA',NULL,'2/R 2.052.564','1059',NULL,'04734655091','04744660196','campigoto','','89230200','R JARIVATUBA, 572','JARIVATUBA',NULL,'MECANICO',),
+	 ('MEC NITAO            ICA','MEC NITAO            ICA',1,'FISICA',NULL,'2/R 2.052.564','1059',NULL,'04734655091','04744660196','campigoto','','89230200','R JARIVATUBA, 572','JARIVATUBA',NULL, NULL,'MECANICO'),
 	 ('PANAGUA','PANAGUA',1,'FISICA',NULL,'2/R-1.470.020','1059',NULL,'00434635944','00474262323','','',NULL,'R.GUANABARA','FLORESTA',NULL,NULL,'CLIENTE'),
 	 ('ANTONIO F.DA ROCHA','ANTONIO F.DA ROCHA',1,'FISICA',NULL,'2R-719.289','1059',NULL,'47488533831',NULL,'','',NULL,'R JOAO ELIAS DE OLIVEIRA 182','PANAGUA',NULL,NULL,'CLIENTE'),
 	 ('CENTRO VILLE GAS E GAS','CENTRO VILLE GAS E GAS',1,'FISICA',NULL,'344.638','1059',NULL,'00034655001','84299511','','',NULL,'R.AGULHAS NEGRAS1215','JARIVATUBA','ESPOSA LOURIVAL',NULL,'CLIENTE'),
 	 ('GILMAR MELLO','GILMAR MELLO',1,'FISICA',NULL,NULL,'1059',NULL,'334522075',NULL,'','',NULL,'R.AMADOR COELHO 728',NULL,NULL,NULL,'CLIENTE'),
-	 ('JOSE DARIO DE OLIVEIRA','JOSE DARIO DE OLIVEIRA',1,'FISICA',NULL,NULL,'1059',NULL,NULL,NULL,'','',NULL,'A',NULL,NULL,NULL,NULL,'CLIENTE'),
+	 ('JOSE DARIO DE OLIVEIRA','JOSE DARIO DE OLIVEIRA',1,'FISICA',NULL,NULL,'1059',NULL,NULL,NULL,'','',NULL,'A',NULL,NULL,NULL,'CLIENTE'),
 	 ('JOTACAR','JOTACAR',1,'FISICA','','','1059',NULL,'04734655594','','','','','R:ANTONIO NEVES LT 75','JARIVATUBA','4 OLEO 15W40','2013-12-19','CLIENTE'),
 	 ('JOSE DE OLIVEIRA (JUCA)','JOSE DE OLIVEIRA (JUCA)',1,'FISICA',NULL,NULL,'1059',NULL,'04734650238',NULL,'','',NULL,'R.MARTA DELF DA MAIA 72','J.COSTA',NULL,NULL,'CLIENTE'),
 	 ('ANTONIO BLOEMER','ANTONIO BLOEMER',1,'FISICA',NULL,'2/R/.1.868.811','1059',NULL,'34665698',NULL,'','',NULL,'R.JOAO BASILIO CORREIA 1350','JARIVATUBA',NULL,NULL,'CLIENTE'),
@@ -73,7 +73,7 @@ INSERT INTO Campservice.supplier (name,active,person_type,cpf_cnpj,state_registr
  INSERT INTO Campservice.`user` (first_name,last_name,email,password) VALUES
  	 ('Evandro','Campigoto','campigoto@hotmail.com','123');
 
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('BMD-1652','Volkswagen','Gol','Branco',1993,0,0,0,0,0),
 	 ('KBD-3039','Chevrollet','Opala','Preto',1978,0,0,0,0,0),
 	 ('MCS-1366','RENAULT','CLIO','PRETA',2001,0,0,0,0,0),
@@ -84,7 +84,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('LXS-7724','vw','gol bola','verde',95,0,0,0,0,0),
 	 ('LZO-2503','FIAT','UNO','VERDE',1988,0,0,0,0,0),
 	 ('DIM-9604','citroen','xsara picasso','preto',0,0,0,0,0,0);
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('CVL-2741','vw','Golf            (pretão)','preto',2001,0,0,0,0,0),
 	 ('BUY-9902','vw','gol quadrado 1.0','vermelho ',1992,0,0,0,0,0),
 	 ('LYV-1683','fiat','palio','branco',1997,0,0,0,0,0),
@@ -95,7 +95,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('MAD-6476','chevrolet','corsa','prata ',2006,0,0,0,0,0),
 	 ('AHU-2271','Chevrollet','Corsa','Verde',2006,0,0,0,0,0),
 	 ('EFM-6401','chevrollet','corsa','branco',1996,0,0,0,0,0);
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('BBB-0000','0000','00000','00000',0,0,0,0,0,0),
 	 ('MFC-4020','Ford','Focus','Preto',2002,0,0,0,0,0),
 	 ('BFW-1080','vw','Gol quadrado','Branco',0,0,0,0,0,0),
@@ -106,7 +106,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('IAQ-5663','ford','escort','prata',1995,0,0,0,0,0),
 	 ('MCQ-1079','gm','corsa ','prata',2005,0,0,0,0,0),
 	 ('AME-0417','Ford','Verona 1.8',' Vinho',1993,0,0,0,0,0);
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('DOB-7991','VW','Saveiro ','cinza',2001,0,0,0,0,0),
 	 ('AHO-8158','Ford','Fiesta 1.4 16v','Branco',1999,0,0,0,0,0),
 	 ('MDL-2285','Renalth','Megane ','Prata',2008,0,0,0,0,0),
@@ -117,7 +117,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('BPN-8771','gm','corsa ','preto',1995,0,0,0,0,0),
 	 ('AGS-7118','vw','gol',' branco',1995,0,0,0,0,0),
 	 ('NGT-2974','towner','effa','branca',2012,0,0,0,0,0);
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('MEI-2726','Fiat','Uno Fire','verde claro',2011,0,0,0,0,0),
 	 ('MFE-4394','Volksvagem','Gol 1.0 8v power','Branco',2006,0,0,0,0,0),
 	 ('LYU-4280','Fiat','Tempra','Vinho',0,0,0,0,0,0),
@@ -128,7 +128,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('MEZ-4108','Volksvagem','Gol G IIII','VERMELHO',2010,0,0,0,0,0),
 	 ('EAR-6553','Renalth','sandero 1.8 16','preto',2011,0,0,0,0,0),
 	 ('LXZ-6293','Fiat','Uno','azul escuro',1993,0,0,0,0,0);
-INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_ timing_belt_change`) VALUES
+INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_km,km_oil_change,km_last_oil_change,km_change_timing_belt,`km_last_timing_belt_change`) VALUES
 	 ('MEF-0930','Fiat','Palio','Cinza',2000,0,0,0,0,0),
 	 ('MDO-3267','Fiat','Palio Fire','Prata',2009,0,0,0,0,0),
 	 ('ICJ-0912','vw','santana','verde',1991,0,0,0,0,0),
