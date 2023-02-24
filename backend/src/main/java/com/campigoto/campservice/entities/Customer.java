@@ -3,13 +3,16 @@ package com.campigoto.campservice.entities;
 import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import jakarta.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.Instant;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -41,6 +44,14 @@ public class Customer implements Serializable {
     private String emailAddress;
     private String contactPerson;
     private String obs;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "customer_vehicle",
+            joinColumns = @JoinColumn(name = "customer_id"),
+            inverseJoinColumns = @JoinColumn(name = "vehicle_id")
+    )
+    private Set<Vehicle> vehicles = new HashSet<>();
+
 
     @Enumerated(EnumType.STRING)
     private Profile profile;

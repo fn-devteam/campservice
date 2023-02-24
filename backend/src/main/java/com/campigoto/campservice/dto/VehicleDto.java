@@ -45,4 +45,3 @@ public class VehicleDto implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     private int kmLastTimingBeltChange;
 }
-g

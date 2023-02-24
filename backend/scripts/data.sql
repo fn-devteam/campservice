@@ -139,3 +139,22 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('MIM-4077','VW','Gol g4 1.0 8v','preto',2013,0,0,0,0,0),
 	 ('IJF-6605','vw','gol','branco',2005,0,0,0,0,0),
 	 ('LCD-4718','renauth','clio 1.0 16v','verde',2005,0,0,0,0,0);
+
+	 INSERT INTO Campservice.customer_vehicle (customer_id,vehicle_id) VALUES
+     	 (1,1),
+     	 (2,2),
+     	 (2,3),
+     	 (3,5),
+     	 (4,10);
+
+     INSERT INTO Campservice.service_order (customer_id,license_plate_id,entry_date,delivery_date,amount,obs,status,current_km) VALUES
+	 (1,5,'2014-01-13','1900-01-01',281.0,'','AGUARDANDO APROVAÇÃO',NULL),
+	 (2,8,'2014-01-13','1900-01-01',45.5,'','AGUARDANDO PEÇA',NULL),
+	 (10,20,'2014-01-14','1900-01-01',75.0,'','APROVADO ',NULL),
+	 (3,10,'2014-01-14','1900-01-01',75.0,'','RECUSADO',NULL),
+	 (8,15,'2014-01-14','1900-01-01',240.0,'','FINALIZADO',NULL),
+	 (5,22,'2014-01-14','1900-01-01',102.0,'','ENTREGUE',NULL),
+	 (4,7,'2014-01-14','1900-01-01',2350.5,'','AGUARDANDO APROVAÇÃO',NULL),
+	 (7,3,'2014-01-14','1900-01-01',15.5,'','APROVADO',NULL),
+	 (9,9,'2014-01-14','1900-01-01',15.0,'','RECUSADO',NULL),
+	 (6,17,'2014-01-14','1900-01-01',70.0,'','ENTREGUE',NULL);

@@ -23,11 +23,20 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Campservice.serviceOrder definition
+-- Campservice.service_order definition
 
 CREATE TABLE `service_order` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+ `id` int unsigned NOT NULL AUTO_INCREMENT,
+ `customer_id` int NOT NULL,
+ `license_plate_id` int NOT NULL,
+ `entry_date` date NOT NULL,
+ `delivery_date` date DEFAULT NULL,
+ `amount` double DEFAULT NULL,
+ `rebate` double DEFAULT NULL,
+ `obs` varchar(200) DEFAULT NULL,
+ `current_km` int DEFAULT NULL,
+ `status` varchar(30) DEFAULT NULL,
+ PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -139,4 +148,17 @@ CREATE TABLE `vehicle` (
   `km_change_timing_belt` int NOT NULL,
   `km_last_timing_belt_change` int NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.`customer_vehicle` definition
+
+CREATE TABLE `customer_vehicle` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `customer_id`  int unsigned NOT NULL,
+  `vehicle_id` int unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`customer_id`) REFERENCES product(`id`)
+    ON DELETE CASCADE,
+  FOREIGN KEY (`vehicle_id`) REFERENCES supplier(`id`)
+    ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
