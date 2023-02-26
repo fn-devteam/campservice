@@ -2,7 +2,6 @@ package com.campigoto.campservice.dto;
 
 import com.campigoto.campservice.entities.ProductGroup;
 import com.campigoto.campservice.services.validation.SupplierInsert;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,7 +24,6 @@ public class ProductDto implements Serializable {
     @Size(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 100 caracteres")
     private String description;
 
-    @ManyToOne
     private ProductGroup group;
 
     private boolean active;

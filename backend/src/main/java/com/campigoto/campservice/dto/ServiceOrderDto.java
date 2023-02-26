@@ -6,7 +6,6 @@ import com.campigoto.campservice.entities.enums.ServiceOrderStatus;
 import com.campigoto.campservice.services.validation.CustomerInsert;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
 import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -29,13 +28,11 @@ public class ServiceOrderDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    @ManyToOne
-    private Customer customerId;
+    private Customer customer;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    @ManyToOne
-    private Vehicle licensePlateId;
+    private Vehicle vehicle;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @NotEmpty(message = "Preenchimento obrigatório")
@@ -46,8 +43,8 @@ public class ServiceOrderDto implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Instant deliveryDate;
-    private double amount;
-    private double rebate;
+    private Double amount;
+    private Double rebate;
     private int currentKm;
     private String obs;
     private ServiceOrderStatus status;

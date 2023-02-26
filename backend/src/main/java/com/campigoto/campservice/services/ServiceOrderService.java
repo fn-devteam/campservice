@@ -67,7 +67,7 @@ public class ServiceOrderService {
 
     @Transactional(readOnly = true)
     public List<ServiceOrderDto> findAll() {
-        List<ServiceOrder> list = repo.findAll(Sort.by("licensePlateId"));
+        List<ServiceOrder> list = repo.findAll(Sort.by("vehicle"));
         return list.stream().map(serviceOrderMapper::toDTO).collect(Collectors.toList());
     }
 

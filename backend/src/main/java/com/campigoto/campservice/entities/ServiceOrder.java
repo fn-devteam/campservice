@@ -25,18 +25,18 @@ public class ServiceOrder implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private Customer customerId;
+    private Customer customer;
     @ManyToOne
-    private Vehicle licensePlateId;
+    private Vehicle vehicle;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant entryDate;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant deliveryDate;
     @Enumerated(EnumType.STRING)
     private ServiceOrderStatus status;
-    private double amount;
-    private double rebate;
-    private int currentKm;
+    private Double amount;
+    private Double rebate;
+    private Integer currentKm;
     private String obs;
 
     @Override

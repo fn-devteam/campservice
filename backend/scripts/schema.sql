@@ -1,3 +1,52 @@
+-- Campservice.supplier definition
+
+CREATE TABLE `supplier` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `active` int DEFAULT NULL,
+  `person_type` varchar(20) DEFAULT NULL,
+  `cpf_cnpj` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `state_registration` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `zip_code` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `state` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `cell_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `contact_person` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `obs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `registration_date` date DEFAULT NULL,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.vehicle definition
+
+CREATE TABLE `vehicle` (
+  `id` int unsigned  NOT NULL AUTO_INCREMENT,
+  `license_plate` varchar(10) NOT NULL,
+  `brand` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  `color` varchar(100) NOT NULL,
+  `year` int NOT NULL,
+  `current_km` int NOT NULL,
+  `km_oil_change` int NOT NULL,
+  `km_last_oil_change` int NOT NULL,
+  `km_change_timing_belt` int NOT NULL,
+  `km_last_timing_belt_change` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.product_group definition
+
+CREATE TABLE `product_group` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) DEFAULT NULL,
+  `obs` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 -- Campservice.customer definition
 
 CREATE TABLE `customer` (
@@ -27,8 +76,8 @@ CREATE TABLE `customer` (
 
 CREATE TABLE `service_order` (
  `id` int unsigned NOT NULL AUTO_INCREMENT,
- `customer_id` int NOT NULL,
- `license_plate_id` int NOT NULL,
+ `customer_id` int unsigned NOT NULL,
+ `vehicle_id` int unsigned NOT NULL,
  `entry_date` date NOT NULL,
  `delivery_date` date DEFAULT NULL,
  `amount` double DEFAULT NULL,
@@ -36,9 +85,10 @@ CREATE TABLE `service_order` (
  `obs` varchar(200) DEFAULT NULL,
  `current_km` int DEFAULT NULL,
  `status` varchar(30) DEFAULT NULL,
- PRIMARY KEY (`id`)
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (customer_id) REFERENCES customer(id),
+ FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- Campservice.orderDetail definition
 
@@ -51,7 +101,7 @@ CREATE TABLE `order_detail` (
 
 CREATE TABLE `product` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `group_id` int DEFAULT NULL,
+  `group_id` int unsigned DEFAULT NULL,
   `active` int DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `unit` varchar(100) DEFAULT NULL,
@@ -69,43 +119,13 @@ CREATE TABLE `product` (
   `original_code1` varchar(100) DEFAULT NULL,
   `quantity_last_entry` float DEFAULT NULL,
   `product_location` varchar(100) DEFAULT NULL,
-  `last_supplier_id` int DEFAULT NULL,
+  `last_supplier_id` int unsigned DEFAULT NULL,
   `item_type` varchar(20) DEFAULT NULL,
   `references` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+FOREIGN KEY (`group_id`)  REFERENCES product_group(`id`),
+FOREIGN KEY (`last_supplier_id`)  REFERENCES supplier(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Campservice.product_group definition
-CREATE TABLE `product_group` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) DEFAULT NULL,
-  `obs` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Campservice.supplier definition
-
-CREATE TABLE `supplier` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `active` int DEFAULT NULL,
-  `person_type` varchar(20) DEFAULT NULL,
-  `cpf_cnpj` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `state_registration` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `zip_code` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `district` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `state` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cell_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `contact_person` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `obs` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `registration_date` date DEFAULT NULL,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 -- Campservice.`user` definition
 
@@ -131,23 +151,6 @@ CREATE TABLE `product_supplier` (
     ON DELETE CASCADE,
   FOREIGN KEY (`supplier_id`) REFERENCES supplier(`id`)
     ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Campservice.vehicle definition
-
-CREATE TABLE `vehicle` (
-  `id` double NOT NULL AUTO_INCREMENT,
-  `license_plate` varchar(10) NOT NULL,
-  `brand` varchar(100) NOT NULL,
-  `model` varchar(100) NOT NULL,
-  `color` varchar(100) NOT NULL,
-  `year` int NOT NULL,
-  `current_km` int NOT NULL,
-  `km_oil_change` int NOT NULL,
-  `km_last_oil_change` int NOT NULL,
-  `km_change_timing_belt` int NOT NULL,
-  `km_last_timing_belt_change` int NOT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.`customer_vehicle` definition
