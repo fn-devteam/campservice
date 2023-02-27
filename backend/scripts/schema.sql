@@ -72,31 +72,6 @@ CREATE TABLE `customer` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Campservice.service_order definition
-
-CREATE TABLE `service_order` (
- `id` int unsigned NOT NULL AUTO_INCREMENT,
- `customer_id` int unsigned NOT NULL,
- `vehicle_id` int unsigned NOT NULL,
- `entry_date` date NOT NULL,
- `delivery_date` date DEFAULT NULL,
- `amount` double DEFAULT NULL,
- `rebate` double DEFAULT NULL,
- `obs` varchar(200) DEFAULT NULL,
- `current_km` int DEFAULT NULL,
- `status` varchar(30) DEFAULT NULL,
- PRIMARY KEY (`id`),
- FOREIGN KEY (customer_id) REFERENCES customer(id),
- FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Campservice.orderDetail definition
-
-CREATE TABLE `order_detail` (
-  `id` int unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 -- Campservice.product definition
 
 CREATE TABLE `product` (
@@ -125,6 +100,39 @@ CREATE TABLE `product` (
 PRIMARY KEY (`id`),
 FOREIGN KEY (`group_id`)  REFERENCES product_group(`id`),
 FOREIGN KEY (`last_supplier_id`)  REFERENCES supplier(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.service_order definition
+
+CREATE TABLE `service_order` (
+ `id` int unsigned NOT NULL AUTO_INCREMENT,
+ `customer_id` int unsigned NOT NULL,
+ `vehicle_id` int unsigned NOT NULL,
+ `entry_date` date NOT NULL,
+ `delivery_date` date DEFAULT NULL,
+ `amount` double DEFAULT NULL,
+ `rebate` double DEFAULT NULL,
+ `obs` varchar(200) DEFAULT NULL,
+ `current_km` int DEFAULT NULL,
+ `status` varchar(30) DEFAULT NULL,
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (customer_id) REFERENCES customer(id),
+ FOREIGN KEY (vehicle_id) REFERENCES vehicle(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.order_detail definition
+
+CREATE TABLE `order_detail` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `service_order_id` int unsigned NOT NULL,
+  `product_id` int unsigned NOT NULL,
+  `amount` float NOT NULL,
+  `unitary_value` varchar(100) DEFAULT NULL,
+  `rebate` float DEFAULT NULL,
+  `obs` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`service_order_id`) REFERENCES service_order(id),
+  FOREIGN KEY (`product_id`) REFERENCES product(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Campservice.`user` definition

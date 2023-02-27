@@ -68,17 +68,6 @@ INSERT INTO Campservice.product_group (name,obs) VALUES
 	 ('ANTONIO BLOEMER','ANTONIO BLOEMER',1,'FISICA',NULL,'2/R/.1.868.811','1059',NULL,'34665698',NULL,'','',NULL,'R.JOAO BASILIO CORREIA 1350','JARIVATUBA',NULL,NULL,'CLIENTE'),
 	 ('ADRIANO GERMANO','ADRIANO GERMANO',1,'FISICA',NULL,NULL,'1059',NULL,'00474296840','00474296840','','',NULL,'R.SÃO BENTO DO SUL','MOTO CUBLE',NULL,NULL,'CLIENTE');
 
-   INSERT INTO Campservice.service_order (customer_id,vehicle_id,entry_date,delivery_date,amount,obs,status,current_km) VALUES
-	 (1,5,'2014-01-13','1900-01-01',281.0,'','AGUARDANDO_APROVACAO',NULL),
-	 (2,8,'2014-01-13','1900-01-01',45.5,'','AGUARDANDO_PECA',NULL),
-	 (10,20,'2014-01-14','1900-01-01',75.0,'','APROVADO ',NULL),
-	 (3,10,'2014-01-14','1900-01-01',75.0,'','RECUSADO',NULL),
-	 (8,15,'2014-01-14','1900-01-01',240.0,'','FINALIZADO',NULL),
-	 (5,22,'2014-01-14','1900-01-01',102.0,'','ENTREGUE',NULL),
-	 (4,7,'2014-01-14','1900-01-01',2350.5,'','AGUARDANDO_APROVACAO',NULL),
-	 (7,3,'2014-01-14','1900-01-01',15.5,'','APROVADO',NULL),
-	 (9,9,'2014-01-14','1900-01-01',15.0,'','RECUSADO',NULL),
-	 (6,17,'2014-01-14','1900-01-01',70.0,'','ENTREGUE',NULL);
 
  INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
  	 (1,0,'CABO ACELERADOR BRAS CARB DUPLA','PC','JOINCAR',0.56,0.0,10.0,2.6,1.0,160.0,100.0,1.0,20.0,NULL,'MT-139',10.0,'FILA 10, PRATELEIRA A, VAO 1',9,'PRODUTO',''),
@@ -116,6 +105,24 @@ INSERT INTO Campservice.product_group (name,obs) VALUES
  	 (1,0,'JGO JUNTA C3 1.4','','',110.0,0.0,0.0,181.5,181.5,65.0,100.0,0.0,0.0,'','',0.0,'',2,'PRODUTO',''),
  	 (1,0,'LONA TRAS GOL','','',23.0,-1.0,0.0,38.0,38.0,65.0,100.0,0.0,0.0,'','',0.0,'',1,'PRODUTO','');
 
+   INSERT INTO Campservice.service_order (customer_id,vehicle_id,entry_date,delivery_date,amount,obs,status,current_km) VALUES
+	 (1,5,'2014-01-13','1900-01-01',281.0,'','AGUARDANDO_APROVACAO',NULL),
+	 (2,8,'2014-01-13','1900-01-01',45.5,'','AGUARDANDO_PECA',NULL),
+	 (10,20,'2014-01-14','1900-01-01',75.0,'','APROVADO ',NULL),
+	 (3,10,'2014-01-14','1900-01-01',75.0,'','RECUSADO',NULL),
+	 (8,15,'2014-01-14','1900-01-01',240.0,'','FINALIZADO',NULL),
+	 (5,22,'2014-01-14','1900-01-01',102.0,'','ENTREGUE',NULL),
+	 (4,7,'2014-01-14','1900-01-01',2350.5,'','AGUARDANDO_APROVACAO',NULL),
+	 (7,3,'2014-01-14','1900-01-01',15.5,'','APROVADO',NULL),
+	 (9,9,'2014-01-14','1900-01-01',15.0,'','RECUSADO',NULL),
+	 (6,17,'2014-01-14','1900-01-01',70.0,'','ENTREGUE',NULL);
+
+INSERT INTO Campservice.order_detail (service_order_id,product_id,amount,unitary_value,rebate,obs) VALUES
+	 (1,8,1.0,'0.0',0.0,NULL),
+	 (1,5,1.0,'0.67',0.0,NULL),
+	 (2,8,1.0,'0.0',0.0,NULL),
+	 (2,6,1.0,'15.0',0.0,NULL),
+	 (3,3,1.0,'7.75',0.75,NULL);
 
  INSERT INTO Campservice.`user` (first_name,last_name,email,password) VALUES
  	 ('Evandro','Campigoto','campigoto@hotmail.com','123');
