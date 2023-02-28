@@ -1,5 +1,6 @@
 package com.campigoto.campservice.entities;
 
+import com.campigoto.campservice.entities.enums.ItemType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -64,8 +65,8 @@ public class Product implements Serializable {
 
     @ManyToOne
     private Supplier lastSupplier;
-
-    private String itemType;
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
 
     private String references;
 

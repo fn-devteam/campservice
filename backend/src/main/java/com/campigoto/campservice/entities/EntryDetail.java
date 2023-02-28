@@ -13,8 +13,8 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "order_detail")
-public class OrderDetail implements Serializable {
+@Table(name = "entryDetail")
+public class EntryDetail implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -23,19 +23,17 @@ public class OrderDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private ServiceOrder serviceOrderId ;
+    private StockEntry entryId;
     @ManyToOne
     private Product productId;
     private Double amount;
-    private Double unitaryValue;
-    private Double rebate;
     private String obs;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderDetail orderDetail)) return false;
-        return getId().equals(orderDetail.getId());
+        if (!(o instanceof EntryDetail entryDetail)) return false;
+        return getId().equals(entryDetail.getId());
     }
 
     @Override

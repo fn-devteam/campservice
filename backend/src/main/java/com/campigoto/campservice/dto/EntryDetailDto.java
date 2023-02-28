@@ -1,7 +1,7 @@
 package com.campigoto.campservice.dto;
 
 import com.campigoto.campservice.entities.Product;
-import com.campigoto.campservice.entities.ServiceOrder;
+import com.campigoto.campservice.entities.StockEntry;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class OrderDetailDto implements Serializable {
+public class EntryDetailDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -21,15 +21,14 @@ public class OrderDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private ServiceOrder serviceOrderId ;
+    private StockEntry entryId;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Product productId;
+
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Double amount;
-    private Double unitaryValue;
-    private Double rebate;
     private String obs;
 }

@@ -127,7 +127,7 @@ CREATE TABLE `order_detail` (
   `service_order_id` int unsigned NOT NULL,
   `product_id` int unsigned NOT NULL,
   `amount` float NOT NULL,
-  `unitary_value` varchar(100) DEFAULT NULL,
+  `unitary_value` float DEFAULT NULL,
   `rebate` float DEFAULT NULL,
   `obs` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -172,4 +172,35 @@ CREATE TABLE `customer_vehicle` (
     ON DELETE CASCADE,
   FOREIGN KEY (`vehicle_id`) REFERENCES supplier(`id`)
     ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.stock_entry definition
+
+CREATE TABLE `stock_entry` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `document_number` int NOT NULL,
+  `supplier_id` int unsigned NOT NULL,
+  `payment_type` int NOT NULL,
+  `canceled` tinyint(1) NOT NULL,
+  `movement_type` int NOT NULL,
+  `amount` float NOT NULL,
+  `entry_date` date NOT NULL,
+  `cancel_date` date DEFAULT NULL,
+  `obs` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`supplier_id`) REFERENCES `supplier` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Campservice.entry_detail definition
+
+CREATE TABLE `entry_detail` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `entry_id` int unsigned NOT NULL,
+  `product_id` int unsigned NOT NULL,
+  `amount` float NOT NULL,
+  `unitary_value` float NOT NULL,
+  `obs` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
+  FOREIGN KEY (`entry_id`) REFERENCES `stock_entry` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

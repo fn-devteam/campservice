@@ -1,8 +1,6 @@
 package com.campigoto.campservice.dto;
 
-import com.campigoto.campservice.entities.Customer;
-import com.campigoto.campservice.entities.Vehicle;
-import com.campigoto.campservice.entities.enums.ServiceOrderStatus;
+import com.campigoto.campservice.entities.Supplier;
 import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +13,7 @@ import java.time.Instant;
 
 @Data
 @NoArgsConstructor
-public class ServiceOrderDto implements Serializable {
+public class StockEntryDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -24,12 +22,20 @@ public class ServiceOrderDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Customer customer;
+    private Integer documentNumber;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Vehicle vehicle;
+    private Supplier supplierId;
 
+    private String paymentType;
+
+    private Boolean canceled;
+    private String movementType;
+
+    @NotEmpty(message = "Preenchimento obrigatório")
+    @NonNull
+    private Double amount;
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
@@ -38,10 +44,6 @@ public class ServiceOrderDto implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Instant deliveryDate;
-    private Double amount;
-    private Double rebate;
-    private Integer currentKm;
+    private Instant cancelDate;
     private String obs;
-    private ServiceOrderStatus status;
 }
