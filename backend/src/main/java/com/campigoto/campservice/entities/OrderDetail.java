@@ -23,9 +23,9 @@ public class OrderDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private ServiceOrder serviceOrderId ;
+    private ServiceOrder serviceOrder ;
     @ManyToOne
-    private Product productId;
+    private Product product;
     private Double amount;
     private Double unitaryValue;
     private Double rebate;

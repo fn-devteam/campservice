@@ -27,7 +27,7 @@ public class StockEntry implements Serializable {
     private Long id;
     private Integer documentNumber;
     @ManyToOne
-    private Supplier supplierId;
+    private Supplier supplier;
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 

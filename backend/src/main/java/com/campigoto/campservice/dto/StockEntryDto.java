@@ -26,7 +26,7 @@ public class StockEntryDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Supplier supplierId;
+    private Supplier supplier;
 
     private String paymentType;
 

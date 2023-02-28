@@ -21,11 +21,11 @@ public class OrderDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private ServiceOrder serviceOrderId ;
+    private ServiceOrder serviceOrder ;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Product productId;
+    private Product product;
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Double amount;

@@ -21,11 +21,11 @@ public class EntryDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private StockEntry entryId;
+    private StockEntry entry;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Product productId;
+    private Product product;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
