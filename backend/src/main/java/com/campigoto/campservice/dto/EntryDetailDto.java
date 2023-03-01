@@ -1,7 +1,6 @@
 package com.campigoto.campservice.dto;
 
 import com.campigoto.campservice.entities.Product;
-import com.campigoto.campservice.entities.StockEntry;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -21,7 +20,7 @@ public class EntryDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private StockEntry entry;
+    private StockEntryDto entry;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull

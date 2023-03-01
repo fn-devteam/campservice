@@ -1,6 +1,5 @@
 package com.campigoto.campservice.dto;
 
-import com.campigoto.campservice.entities.Supplier;
 import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +25,7 @@ public class StockEntryDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Supplier supplier;
+    private SupplierDto supplier;
 
     private String paymentType;
 

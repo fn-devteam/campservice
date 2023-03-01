@@ -1,7 +1,5 @@
 package com.campigoto.campservice.dto;
 
-import com.campigoto.campservice.entities.Customer;
-import com.campigoto.campservice.entities.Vehicle;
 import com.campigoto.campservice.entities.enums.ServiceOrderStatus;
 import jakarta.persistence.Column;
 import lombok.Data;
@@ -24,11 +22,11 @@ public class ServiceOrderDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Customer customer;
+    private CustomerDto customer;
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private Vehicle vehicle;
+    private VehicleDto vehicle;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @NotEmpty(message = "Preenchimento obrigatório")
