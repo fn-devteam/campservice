@@ -1,6 +1,5 @@
 package com.campigoto.campservice.dto;
 
-import com.campigoto.campservice.entities.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -20,11 +19,7 @@ public class OrderDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private ServiceOrderDto serviceOrder ;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    @NonNull
-    private Product product;
+    private ProductDto product;
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Double amount;

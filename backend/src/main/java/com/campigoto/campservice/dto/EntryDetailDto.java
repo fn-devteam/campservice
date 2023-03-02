@@ -19,10 +19,6 @@ public class EntryDetailDto implements Serializable {
 
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
-    private StockEntryDto entry;
-
-    @NotEmpty(message = "Preenchimento obrigatório")
-    @NonNull
     private ProductDto product;
 
     @NotEmpty(message = "Preenchimento obrigatório")

@@ -10,6 +10,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,6 +39,8 @@ public class ServiceOrder implements Serializable {
     private Double rebate;
     private Integer currentKm;
     private String obs;
+    @OneToMany(mappedBy = "serviceOrder")
+    private Set<OrderDetail> orderDetails;
 
     @Override
     public boolean equals(Object o) {

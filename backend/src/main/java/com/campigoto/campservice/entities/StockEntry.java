@@ -11,6 +11,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -40,6 +41,9 @@ public class StockEntry implements Serializable {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant cancelDate;
     private String obs;
+
+    @OneToMany(mappedBy = "entry")
+    private Set<EntryDetail> entryDetails;
 
     @Override
     public boolean equals(Object o) {

@@ -10,6 +10,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -42,4 +43,6 @@ public class ServiceOrderDto implements Serializable {
     private Integer currentKm;
     private String obs;
     private ServiceOrderStatus status;
+    private Set<OrderDetailDto> orderDetails;
+
 }

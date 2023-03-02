@@ -1,6 +1,5 @@
 package com.campigoto.campservice.dto;
 
-import jakarta.persistence.Column;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -9,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -35,14 +35,15 @@ public class StockEntryDto implements Serializable {
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Double amount;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Instant entryDate;
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     @NotEmpty(message = "Preenchimento obrigatório")
     @NonNull
     private Instant cancelDate;
     private String obs;
+
+    private Set<EntryDetailDto> entryDetails;
 }

@@ -23,9 +23,9 @@ public class EntryDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private StockEntry entryId;
+    private StockEntry entry;
     @ManyToOne
-    private Product productId;
+    private Product product;
     private Double amount;
     private String obs;
 
