@@ -10,9 +10,4 @@ public class CampserviceApplication {
         SpringApplication.run(CampserviceApplication.class, args);
     }
 
-    public boolean teste() {
-        return true;
-
-    }
-
 }
