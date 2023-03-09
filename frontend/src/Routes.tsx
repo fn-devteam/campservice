@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Navbar from "components/Navbar";
-import User from "pages/User";
 import Register from "pages/Register";
+import Users from "pages/Register/Users";
 
 const Routes = () =>
 
@@ -13,7 +13,7 @@ const Routes = () =>
                 <Home />
             </Route>
             <Route path="/user">
-                <User />
+                <Users />
             </Route>
             <Route path="/moviment">
                 <Register />

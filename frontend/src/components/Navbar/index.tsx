@@ -11,7 +11,7 @@ const Navbar = () => {
     <div className='collapse navbar-collapse'>
       <ul className='navbar-nav offset-md-2 main-menu'>
         <li>
-          <NavLink to="/" > Home </NavLink>
+          <NavLink to="/"> Home </NavLink>
         </li>
         <li>
           <NavLink to="/register">Cadastro </NavLink>

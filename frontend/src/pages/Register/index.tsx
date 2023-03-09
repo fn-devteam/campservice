@@ -1,6 +1,7 @@
 import { Route, Switch } from 'react-router-dom';
 import Navbar from './Navbar';
 import './styles.css';
+import Users from './Users';
 
 const Register = () => {
     return (
@@ -9,7 +10,7 @@ const Register = () => {
             <div className='register-content>'>
                 <Switch>
                     <Route path="/register/users">
-                      <h1>User CRUD</h1>
+                      <Users />
                    </Route>              
                    <Route path="/register/customers" >
                       <h1>Customer CRUD</h1>
