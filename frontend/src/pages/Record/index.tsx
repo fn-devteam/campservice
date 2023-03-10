@@ -3,28 +3,28 @@ import Navbar from './Navbar';
 import './styles.css';
 import Users from './Users';
 
-const Register = () => {
+const Record = () => {
     return (
         <div className='register-container'>
             <Navbar />
             <div className='register-content>'>
                 <Switch>
-                    <Route path="/register/users">
+                    <Route path="/record/users">
                       <Users />
                    </Route>              
-                   <Route path="/register/customers" >
+                   <Route path="/record/customers" >
                       <h1>Customer CRUD</h1>
                       </Route>              
-                    <Route path="/register/suppliers" >
+                    <Route path="/record/suppliers" >
                       <h1>Supplier CRUD</h1>
                     </Route>              
-                    <Route path="/register/products" >
+                    <Route path="/record/products" >
                       <h1>Product CRUD</h1>
                     </Route>              
-                    <Route path="/register/groupProducts" >
+                    <Route path="/record/groupProducts" >
                       <h1>Group Products CRUD</h1>
                     </Route>              
-                    <Route path="/register/vehicles" >
+                    <Route path="/record/vehicles" >
                       <h1>Vehicle CRUD</h1>
                     </Route>              
                 </Switch>
@@ -34,4 +34,4 @@ const Register = () => {
 )
   }
   
-  export default Register;
+  export default Record;

@@ -1,4 +1,4 @@
-import { ReactComponent as ArrowIcon } from 'assets/images/arrow.svg';
+import { ReactComponent as ArrowIcon } from '/home/campigoto/Workspaces/campservice/frontend/src/assets/Images/arrow.svg';
 import ReactPaginate from 'react-paginate';
 
 import './styles.css';

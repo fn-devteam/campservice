@@ -6,10 +6,10 @@ import List from './List';
 const Users = () => {
   return (
     <Switch>
-        <Route path="/register/users" exact>
+        <Route path="/record/users" exact>
             <List />
         </Route>
-        <Route path="/register/users/:userId">
+        <Route path="/record/users/:userId">
             <Form />
         </Route>
     </Switch>

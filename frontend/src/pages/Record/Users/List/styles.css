@@ -53,3 +53,14 @@
     justify-content: space-around;
     margin-bottom: 5px;
   }
+  .user-buttons-container {
+    padding: 0 10px;
+    margin-bottom: 15px;
+  }
+  .user-button{
+
+  }
+
+  .user-button-first {
+    margin-right: 10px;
+  }
