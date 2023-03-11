@@ -57,10 +57,38 @@
     padding: 0 10px;
     margin-bottom: 15px;
   }
-  .user-button{
+  .list-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
+
+  }
+  
+  .list-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 10px;
+    margin-right: 10px;
 
   }
 
   .user-button-first {
     margin-right: 10px;
+
+  }
+  .user-name-container {
+    display:flex;
+    margin-left: 150px;
+  }
+
+  .user-lastName {
+    margin-left: 10px;
+    margin-right: 100px;
+    
+  }
+
+  .user-email {
+    margin-left: 190px;
+    
   }

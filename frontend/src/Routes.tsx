@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Navbar from "components/Navbar";
-import Register from "pages/Record";
 import Users from "pages/Record/Users";
+import Record from "pages/Record";
 
 const Routes = () =>
 
@@ -16,16 +16,16 @@ const Routes = () =>
                 <Users />
             </Route>
             <Route path="/moviment">
-                <Register />
+                <Record />
             </Route>
             <Route path="/record">
-                <Register />
+                <Record />
             </Route>
             <Route path="/reports">
-                <Register />
+                <Record />
             </Route>
             <Route path="/manager">
-                <Register />
+                <Record />
             </Route>
         </Switch>
     </ BrowserRouter>

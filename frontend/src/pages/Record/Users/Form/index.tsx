@@ -1,13 +1,13 @@
 
 import { AxiosRequestConfig } from 'axios';
-import { config } from 'process';
 import { useEffect, useState } from 'react';
-import { useForm , Controller} from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { Route, Switch, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { User } from 'types/user';
 import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
+import Users from '..';
 import './styles.css';
 
 type UrlParams = {
@@ -66,6 +66,14 @@ const Form = () => {
   };
 
       
+  const handleCancel = () => {
+    <Switch>
+        <Route path="/record/users">
+          <Users />
+       </Route> 
+    </Switch>  
+  };
+
 
 
 
@@ -115,8 +123,13 @@ const Form = () => {
                   </div>
                 </div>
                 <div className='user-crud-buttons-container'>
-                  <button className='btn btn-outline-danger user-crud-button'>Cancelar</button> 
-                  <button className='btn btn-primary user-crud-button text-white'>Salvar</button>   
+                  <button className='btn btn-outline-danger user-crud-button' 
+                    onClick={handleCancel}>
+                    Cancelar
+                  </button> 
+                  <button className='btn btn-primary user-crud-button text-white'>
+                    Salvar
+                  </button>   
                 </div>
               </form>
             </div>
