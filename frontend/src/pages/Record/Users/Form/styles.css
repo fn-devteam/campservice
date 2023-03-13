@@ -1,5 +1,6 @@
 .user-crud-form {
     padding: 20px;
+    border: 2px blue;
   }
 .user-crud-form-title {
     font-weight: bold;

@@ -1,13 +1,11 @@
 
 import { AxiosRequestConfig } from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Route, Switch, useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { User } from 'types/user';
-import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
-import Users from '..';
 import './styles.css';
 
 type UrlParams = {
@@ -16,21 +14,20 @@ type UrlParams = {
 
 const Form = () => {
 
+  const history = useHistory();
+
   const { userId } = useParams<UrlParams>();
 
   const isEditing = userId !== 'create'; 
-
-  const [page, setPage] = useState<SpringPage<User>>();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    control,
+    setValue
   } = useForm<User>();
 
-
+  
 
   useEffect(() => {if (isEditing) {
     requestBackend({ url: `/users/${userId}` }).then((response) => {
@@ -52,26 +49,23 @@ const Form = () => {
     const config: AxiosRequestConfig = {
       method: isEditing ? 'PUT' : 'POST',
       url: isEditing ? `/users/${userId}` : '/users',
-      data,
-      withCredentials: true,
+      data
     };
   
     requestBackend(config)
     .then(() => {
       toast.info('Usuário cadastrado com sucess');
+      console.log('Usuário cadastrado com sucess');
     })
     .catch(() => {
       toast.error('Erro ao cadastrar usuário');
     });
+    history.push("/record/users")
   };
 
       
   const handleCancel = () => {
-    <Switch>
-        <Route path="/record/users">
-          <Users />
-       </Route> 
-    </Switch>  
+    history.push("/record/users")
   };
 
 
@@ -102,7 +96,7 @@ const Form = () => {
                       })}
                       type="text"
                       className={`form-control base-input ${errors.lastName? 'is-invalid' : ''}`}
-                      placeholder="Sobre Nome"
+                      placeholder="Sobrenome"
                       name="lastName"
                     />
                   </div>

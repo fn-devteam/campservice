@@ -5,11 +5,11 @@
 }
 
 .pagination-item {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background-color: #e1e1e1;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   letter-spacing: -0.015em;
   color: #fff;

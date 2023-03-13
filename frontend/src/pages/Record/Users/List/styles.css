@@ -92,3 +92,69 @@
     margin-left: 190px;
     
   }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  text-align: left;
+  padding: 10px;
+  background-color: #f2f2f2;
+}
+
+tbody td {
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+tbody td:last-child {
+  text-align: center;
+}
+
+tbody td:last-child button {
+  margin-right: 10px;
+}
+
+button {
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+button:hover {
+  color: #0077ff;
+}
+
+button svg {
+  margin-right: 5px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.table th {
+  background-color: #f1f1f1;
+}
