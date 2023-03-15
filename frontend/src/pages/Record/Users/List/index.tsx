@@ -7,9 +7,12 @@ import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import './styles.css';
+import { UserFilterData } from 'components/UserFilter';
+
 
 type ControlComponentsData = {
   activePage: number;
+  filterData: UserFilterData;
 };
 
   
@@ -17,6 +20,10 @@ type ControlComponentsData = {
 const List = () => {
 
   const [page, setPage] = useState<SpringPage<User>>();
+  const [filteredPage, setFilteredPage] = useState<SpringPage<User>>();
+  const [searchTerm, setSearchTerm] = useState('');
+
+
   
   const history = useHistory();
 
@@ -37,35 +44,54 @@ const List = () => {
       history.go(0);
     });
   };
-   
+
   
   
   const [controlComponentsData, setControlComponentsData] =
   useState<ControlComponentsData>({
-    activePage: 0  });
+    activePage: 0,
+    filterData: { firstname: ''},  });
 
     const handlePageChange = (pageNumber: number) => {
-      setControlComponentsData({ activePage: pageNumber });
+      setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData });
     };
 
-    const getUsers = useCallback(() => {
+    const handleSubmitFilter = (data: UserFilterData) => {
+      setControlComponentsData({ activePage: 0, filterData: data });   
+      const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/users',
+        params: {
+          page: 0,
+          size: 5,
+          firstName: searchTerm
+        },
+      };
+      requestBackend(config).then((response) => {
+        setFilteredPage(response.data);
+      });
+    };
+  
+    const getUsers = useCallback((filterData: UserFilterData) => {
       const config: AxiosRequestConfig = {
         method: 'GET',
         url: '/users',
         params: {
           page: controlComponentsData.activePage,
-          size: 5
+          size: 500 ,
+          ...(controlComponentsData.filterData || {}),
+          ...filterData,
         },
       };
       requestBackend(config).then((response) => {
         setPage(response.data);
       });
     }, [controlComponentsData]);
-  
+    
     useEffect(() => {
-      getUsers();
-    }, [getUsers]);
-
+      getUsers(controlComponentsData.filterData);
+    }, [getUsers, controlComponentsData.filterData]);
+    
   
     function handleEdit  (userId : number)  {
 
@@ -73,60 +99,92 @@ const List = () => {
     };
 
 
-    return (
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
+    };
+    const [searchResults, setSearchResults] = useState<User[]>([]);
+
+    useEffect(() => {
+      const filteredUsers = page?.content.filter(user =>
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResults(filteredUsers || []);
+    }, [page, searchTerm]);
     
-    <><div className='input-container'>
-        <Link to={`/record/users/create`}>
-          <button className="btn btn-primary text-white btn-crud-add">
-            Adicionar
-          </button>
-        </Link>
-        <div className='base-card user-search-container'>
+    return (
+      <><div className='input-container'>
+      <Link to={`/record/users/create`}>
+        <button className="btn btn-primary text-white btn-crud-add">
+          Adicionar
+        </button>
+      </Link>
+      <div className='search-container'>
+        <input
+          type='text'
+          placeholder='Pesquisar por nome'
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <button onClick={() => handleSubmitFilter({ firstname: searchTerm })}>
           Pesquisar
-        </div>
+        </button>
       </div>
+    </div>
+    
         <div className="container">
           <h1>Lista de usuários</h1>
           <table className="table">
             <thead>
               <tr>
-                <th >Nome</th>
-                <th ></th>
-                <th >E-mail</th>
-                <th >Ações</th>
+                <th>Nome</th>
+                <th></th>
+                <th>E-mail</th>
+                <th>Ações</th>
               </tr>
             </thead>
-            <tbody>
-              <div >
+            <tbody>{searchTerm !== '' && searchResults.map(user => (
+  <tr key={user.id}>
+    <td>{user.firstName}</td>
+    <td>{user.lastName}</td>
+    <td>{user.email}</td>
+    <td>
+      <button type="button" onClick={() => handleEdit(user.id)} style={{ marginRight: '10px' }}>
+        <FaEdit />
+      </button>
+      <button type="button" onClick={() => handleDelete(user.id)} style={{ marginRight: '10px' }}>
+        <FaTrash />
+      </button>
+    </td>
+  </tr>
+))}
 
-                {page?.content.map(user => (
-                  <tr key={user.id}>
-                    <td>{user.firstName}</td>
-                    <td>{user.lastName}</td>
-                    <td>{user.email}</td>
-                    <td>
-                      <button type="button" onClick={() => handleEdit(user.id)} style={{ marginRight: '10px' }}>
-                        <FaEdit />
-                      </button>
-                      <button type="button" onClick={() => handleDelete(user.id)} style={{ marginRight: '10px' }}>
-                        <FaTrash />
-                      </button>
-                    </td>
+{searchTerm === '' && (filteredPage || page)?.content.map(user => (
+  <tr key={user.id}>
+    <td>{user.firstName}</td>
+    <td>{user.lastName}</td>
+    <td>{user.email}</td>
+    <td>
+      <button type="button" onClick={() => handleEdit(user.id)} style={{ marginRight: '10px' }}>
+        <FaEdit />
+      </button>
+      <button type="button" onClick={() => handleDelete(user.id)} style={{ marginRight: '10px' }}>
+        <FaTrash />
+      </button>
+    </td>
+  </tr>
+))}
 
-                  </tr>
-                ))}
-              </div>
             </tbody>
           </table>
           <Pagination
             forcePage={page?.number}
-            pageCount={page ? page.totalPages : 0}
-            range={5}
+            pageCount={filteredPage ? filteredPage.totalPages : (page ? page.totalPages : 0)}
+            range={999}
             onChange={handlePageChange} />
-
-
-        </div></>
+        </div>
+      </>
     )
+    
     
 }
 
