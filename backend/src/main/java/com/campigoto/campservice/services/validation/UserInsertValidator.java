@@ -1,16 +1,16 @@
 package com.campigoto.campservice.services.validation;
 
-import com.campigoto.campservice.dto.UserInsertDto;
+import com.campigoto.campservice.dto.UserDto;
 import com.campigoto.campservice.entities.User;
 import com.campigoto.campservice.repositories.UserRepository;
 import com.campigoto.campservice.resources.exceptions.FieldMessage;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDto> {
+public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserDto> {
 
     @Autowired
     private UserRepository repository;
@@ -20,7 +20,7 @@ public class UserInsertValidator implements ConstraintValidator<UserInsertValid,
     }
 
     @Override
-    public boolean isValid(UserInsertDto dto, ConstraintValidatorContext context) {
+    public boolean isValid(UserDto dto, ConstraintValidatorContext context) {
 
         List<FieldMessage> list = new ArrayList<>();
 

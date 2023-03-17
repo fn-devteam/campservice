@@ -4,6 +4,7 @@ import com.campigoto.campservice.dto.UserDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.net.URI;
 
 @RequiredArgsConstructor

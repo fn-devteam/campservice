@@ -8,6 +8,7 @@ import { requestBackend } from 'util/requests';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import './styles.css';
 import { UserFilterData } from 'components/UserFilter';
+import ContentLoader from 'react-content-loader';
 
 
 type ControlComponentsData = {
@@ -63,7 +64,7 @@ const List = () => {
         url: '/users',
         params: {
           page: 0,
-          size: 5,
+          size: 3,
           firstName: searchTerm
         },
       };
@@ -78,15 +79,17 @@ const List = () => {
         url: '/users',
         params: {
           page: controlComponentsData.activePage,
-          size: 500 ,
+          size: 5,
+          searchTerm,
           ...(controlComponentsData.filterData || {}),
           ...filterData,
         },
+        
       };
       requestBackend(config).then((response) => {
         setPage(response.data);
       });
-    }, [controlComponentsData]);
+    }, [controlComponentsData, searchTerm]);
     
     useEffect(() => {
       getUsers(controlComponentsData.filterData);
@@ -100,7 +103,22 @@ const List = () => {
 
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
+      const searchTerm = event.target.value;
+      setSearchTerm(searchTerm);
+    
+      const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/users',
+        params: {
+          page: 0,
+          size: 5,
+          searchTerm,
+        },
+      };
+    
+      requestBackend(config).then((response) => {
+        setFilteredPage(response.data);
+      });
     };
     const [searchResults, setSearchResults] = useState<User[]>([]);
 
@@ -176,11 +194,11 @@ const List = () => {
 
             </tbody>
           </table>
-          <Pagination
+        {  <Pagination
             forcePage={page?.number}
             pageCount={filteredPage ? filteredPage.totalPages : (page ? page.totalPages : 0)}
             range={999}
-            onChange={handlePageChange} />
+            onChange={handlePageChange} />}
         </div>
       </>
     )

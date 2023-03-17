@@ -5,11 +5,11 @@ import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.repositories.SupplierRepository;
 import com.campigoto.campservice.resources.exceptions.FieldMessage;
 import com.campigoto.campservice.services.validation.utils.BR;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class SupplierInsertValidator implements ConstraintValidator<SupplierInsert, SupplierDto> {
 

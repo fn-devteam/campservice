@@ -125,7 +125,11 @@ INSERT INTO Campservice.order_detail (service_order_id,product_id,amount,unitary
 	 (3,3,1.0,'7.75',0.75,NULL);
 
  INSERT INTO Campservice.`user` (first_name,last_name,email,password) VALUES
- 	 ('Evandro','Campigoto','campigoto@hotmail.com','123');
+ 	 ('Evandro','Campigoto','campigoto@hotmail.com','123'),
+ 	 ('Lipe','Campigoto','lipe@hotmail.com','123'),
+ 	 ('Du','Campigoto','du@hotmail.com','123'),
+ 	 ('Adri','Campigoto','adri@hotmail.com','123'),
+ 	 ('Le','Ricas','le@hotmail.com','123');
 
 	 INSERT INTO Campservice.customer_vehicle (customer_id,vehicle_id) VALUES
      	 (1,1),
