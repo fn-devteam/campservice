@@ -1,6 +1,7 @@
 package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.UserDto;
+import com.campigoto.campservice.dto.UserFilterDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.services.UserService;
@@ -28,8 +29,11 @@ public class UserResource {
     }
 
     @GetMapping
-    public ResponseEntity<Page<UserDto>> findAll(Pageable pageable) {
-        Page<UserDto> list = service.findAllPaged(pageable);
+    public ResponseEntity<Page<UserDto>> findAll(
+            UserFilterDto filter,
+            Pageable pageable
+    ) {
+        Page<UserDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
     }
 

@@ -1,6 +1,7 @@
 package com.campigoto.campservice.services;
 
 import com.campigoto.campservice.dto.UserDto;
+import com.campigoto.campservice.dto.UserFilterDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.entities.User;
@@ -44,8 +45,8 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserDto> findAllPaged(Pageable pageable) {
-        Page<User> list = repository.findAll(pageable);
+    public Page<UserDto> findAllPaged(UserFilterDto filter, Pageable pageable) {
+        Page<User> list = repository.findByTerm(filter, pageable);
         return list.map(userMapper::toDto);
     }
 

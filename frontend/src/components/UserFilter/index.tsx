@@ -6,7 +6,7 @@ import { User } from 'types/user';
 import './styles.css';
 
 export type UserFilterData = {
-  firstname: string;
+  firstName: string;
 };
 
 type Props = {
@@ -26,7 +26,7 @@ const UserFilter = ({ users, onSubmitFilter }: Props) => {
   };
 
   const handleFormClear = () => {
-    setValue('firstname', '');
+    setValue('firstName', '');
     setFilteredUsers([]);
   };
 
@@ -46,7 +46,7 @@ const UserFilter = ({ users, onSubmitFilter }: Props) => {
       <form onSubmit={handleSubmit(onSubmit)} className="user-filter-form">
         <div className="user-filter-name-container">
           <input
-            {...register('firstname', {
+            {...register('firstName', {
               onChange: handleSearch,
             })}
             type="text"
