@@ -14,9 +14,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("""
              select u from User u 
-             where (COALESCE(:#{#filter.firstName}) IS NULL OR LOWER(u.firstName) LIKE CONCAT('%', LOWER(:#{#filter.firstName}), '%'))
-             AND (COALESCE(:#{#filter.lastName}) IS NULL OR LOWER(u.lastName) LIKE CONCAT('%', LOWER(:#{#filter.lastName}), '%'))
-             AND (COALESCE(:#{#filter.email}) IS NULL OR LOWER(u.email) LIKE CONCAT('%', LOWER(:#{#filter.email}), '%'))
+             where 
+             (COALESCE(:#{#filter.searchTerm}) IS NULL) OR 
+             (:#{#filter.property} = 'firstName' AND LOWER(u.firstName) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
+             OR (:#{#filter.property} = 'lastName' AND LOWER(u.lastName) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
+             OR (:#{#filter.property} = 'email' AND LOWER(u.email) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
             """)
     Page<User> findByTerm(@Param("filter") UserFilterDto filter, Pageable pageable);
 }

@@ -7,8 +7,12 @@ import { SpringPage } from 'types/vendor/spring';
 import { requestBackend } from 'util/requests';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import './styles.css';
-import { UserFilterData } from 'components/UserFilter';
-import ContentLoader from 'react-content-loader';
+import { debounce } from 'lodash';
+
+type UserFilterData = {
+  searchTerm: string;
+  property: string;
+};
 
 type ControlComponentsData = {
   activePage: number;
@@ -20,7 +24,10 @@ const List = () => {
   const [page, setPage] = useState<SpringPage<User>>();
   const [controlComponentsData, setControlComponentsData] = useState<ControlComponentsData>({
     activePage: 0,
-    filterData: { firstName: '' },
+    filterData: { 
+      searchTerm: '',
+      property: 'firstName'
+    },
   });
 
   const history = useHistory();
@@ -57,11 +64,24 @@ const List = () => {
       ...controlComponentsData,
       filterData: {
         ...controlComponentsData.filterData,
-        firstName: searchTerm
+        searchTerm: searchTerm
+      }
+    }
+
+    setControlComponentsData(data);
+  };
+
+  const handlePropertyFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const property = event.target.value;
+    const data = {
+      ...controlComponentsData,
+      filterData: {
+        ...controlComponentsData.filterData,
+        property: property
       }
     }
     setControlComponentsData(data);
-  };
+  }
 
   const getUsers = useCallback(() => {
     const config: AxiosRequestConfig = {
@@ -74,10 +94,16 @@ const List = () => {
       },
 
     };
+
     requestBackend(config).then((response) => {
       setPage(response.data);
     });
+    
   }, [controlComponentsData]);
+
+  const debounceHandleSearch = useCallback(
+    debounce(handleSearch, 1000)
+  ,[controlComponentsData.filterData])
 
   useEffect(() => {
     getUsers();
@@ -93,10 +119,15 @@ const List = () => {
       <div className='search-container'>
         <input
           type='text'
-          placeholder='Pesquisar por nome'
-          value={controlComponentsData.filterData.firstName}
-          onChange={handleSearch}
+          placeholder='Pesquisar'
+          onChange={debounceHandleSearch}
         />
+
+          <select onChange={handlePropertyFilterChange}>
+            <option value="firstName">Nome</option>
+            <option value="lastName">Sobrenome</option>
+            <option value="email">Email</option>
+          </select>
       </div>
     </div>
 

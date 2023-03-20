@@ -13,7 +13,6 @@ public class UserFilterDto implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private String firstName;
-    private String lastName;
-    private String email;
+    private String searchTerm;
+    private String property;
 }
