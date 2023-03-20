@@ -101,7 +101,7 @@ const List = () => {
 
   useEffect(() => {
     getUsers();
-  }, [getUsers, controlComponentsData.filterData]);
+  }, [controlComponentsData.filterData]);
 
   return (
     <><div className='input-container'>
