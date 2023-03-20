@@ -77,7 +77,7 @@ const List = () => {
     debounceHandleSearch()
   }
 
-  const getUsers = () => {
+  const getUsers = useCallback(() => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/users',
@@ -93,7 +93,7 @@ const List = () => {
       setPage(response.data);
     });
     
-  };
+  }, [controlComponentsData.activePage, controlComponentsData.filterData]);
 
   const debounceHandleSearch = useCallback(
     debounce(getUsers, 1000)
@@ -101,7 +101,7 @@ const List = () => {
 
   useEffect(() => {
     getUsers();
-  }, [controlComponentsData.filterData]);
+  }, [getUsers, controlComponentsData.activePage, controlComponentsData.filterData]);
 
   return (
     <><div className='input-container'>
