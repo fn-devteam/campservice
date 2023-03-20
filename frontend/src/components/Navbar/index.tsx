@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
     <nav className='navbar navbar-expand-md bg-primary main-nav'>
   <div className='container-fluid'>
-    <a href="link" className="nav-logo-text">
+    <a href="/" className="nav-logo-text">
       <h4>CampService</h4>
     </a>
     <div className='collapse navbar-collapse'>

@@ -3,6 +3,7 @@ import Home from "pages/Home";
 import Navbar from "components/Navbar";
 import Users from "pages/Record/Users";
 import Record from "pages/Record";
+import Login from "pages/Login";
 
 const Routes = () =>
 
@@ -26,6 +27,9 @@ const Routes = () =>
             </Route>
             <Route path="/manager">
                 <Record />
+            </Route>
+            <Route path="/pages/login" >
+                <Login />
             </Route>
         </Switch>
     </ BrowserRouter>

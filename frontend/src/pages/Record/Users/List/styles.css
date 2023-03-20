@@ -17,12 +17,14 @@
   }
   
   .user-search-container {
+    display: flex;
+    align-items: center;
     width: 750px;
     height: 40px;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 14px;
     letter-spacing: -0.015em;
-    margin-top: 10px;
+    margin-top: 16px;
     margin-bottom: 20px;
     margin-left: 10px;
     margin-right: 10px;
@@ -157,4 +159,34 @@ button svg {
 
 .table th {
   background-color: #f1f1f1;
+}
+
+.btn-user-filter-clear {
+  width: 120px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 14px;
+  letter-spacing: -0.015em;
+  font-weight: bold;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-right: 10px;
+}
+
+.paginate {
+  display: flex;
+  flex-direction: row;
+}
+.term-select {
+  display: flex;
+  height: 60px;
+  font-size: 14px;
+  letter-spacing: -0.015em;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
 }

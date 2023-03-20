@@ -77,7 +77,7 @@ const List = () => {
     debounceHandleSearch()
   }
 
-  const getUsers = useCallback(() => {
+  const getUsers = () => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/users',
@@ -93,15 +93,15 @@ const List = () => {
       setPage(response.data);
     });
     
-  }, [controlComponentsData.activePage, controlComponentsData.filterData]);
+  };
 
   const debounceHandleSearch = useCallback(
-    debounce(getUsers, 1000)
+    debounce(getUsers, 500)
   ,[])
 
   useEffect(() => {
     getUsers();
-  }, [getUsers, controlComponentsData.activePage, controlComponentsData.filterData]);
+  }, [controlComponentsData.filterData]);
 
   return (
     <><div className='input-container'>
@@ -110,24 +110,26 @@ const List = () => {
           Adicionar
         </button>
       </Link>
-      <div className='search-container'>
-        <input
-          type='text'
-          placeholder='Pesquisar'
-          onChange={handleSearchTermChange}
-          value={controlComponentsData.filterData.searchTerm}
-        />
-
-          <select 
-            onChange={handlePropertyFilterChange}
-            value={controlComponentsData.filterData.property}
-            >
-            <option value="firstName">Nome</option>
-            <option value="lastName">Sobrenome</option>
-            <option value="email">Email</option>
-          </select>
-
-          <button onClick={handleFilterClear}>Limpar</button>
+      <div className='user-search-container'>
+       <div className='term-select'>
+          <input
+            type='text'
+            placeholder='Pesquisar'
+            onChange={handleSearchTermChange}
+            value={controlComponentsData.filterData.searchTerm}
+          />
+          
+            <select 
+              onChange={handlePropertyFilterChange}
+              value={controlComponentsData.filterData.property}
+              >
+              <option value="firstName">Nome</option>
+              <option value="lastName">Sobrenome</option>
+              <option value="email">Email</option>
+            </select>
+         
+          <button className='btn btn-secondary text-white btn-user-filter-clear' onClick={handleFilterClear}>Limpar</button>
+          </div>
       </div>
     </div>
 
@@ -137,7 +139,6 @@ const List = () => {
           <thead>
             <tr>
               <th>Nome</th>
-              <th>Sobrenome</th>
               <th>E-mail</th>
               <th>Ações</th>
             </tr>
@@ -145,8 +146,7 @@ const List = () => {
           <tbody>
             {page?.content.map(user => (
               <tr key={user.id}>
-                <td>{user.firstName}</td>
-                <td>{user.lastName}</td>
+                <td>{user.firstName} {user.lastName}</td>
                 <td>{user.email}</td>
                 <td>
                   <button type="button" onClick={() => handleEdit(user.id)} style={{ marginRight: '10px' }}>

@@ -9,6 +9,9 @@ const Record = () => {
             <Navbar />
             <div className='register-content>'>
                 <Switch>
+                    <Route path="/pages/users">
+                      <Users />
+                   </Route>         
                     <Route path="/record/users">
                       <Users />
                    </Route>              
