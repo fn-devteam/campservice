@@ -58,32 +58,26 @@ const List = () => {
     setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData });
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = event.target.value;
-    const data = {
-      ...controlComponentsData,
-      filterData: {
-        ...controlComponentsData.filterData,
-        searchTerm: searchTerm
-      }
-    }
-
-    setControlComponentsData(data);
+  const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    controlComponentsData.filterData.searchTerm = event.target.value
+    setControlComponentsData({ ...controlComponentsData });
+    debounceHandleSearch()
   };
 
   const handlePropertyFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const property = event.target.value;
-    const data = {
-      ...controlComponentsData,
-      filterData: {
-        ...controlComponentsData.filterData,
-        property: property
-      }
-    }
-    setControlComponentsData(data);
+    controlComponentsData.filterData.property = event.target.value;
+    setControlComponentsData({ ...controlComponentsData });
+    debounceHandleSearch()
   }
 
-  const getUsers = useCallback(() => {
+  const handleFilterClear = () => {
+    controlComponentsData.filterData.property = "firstName"
+    controlComponentsData.filterData.searchTerm = "";
+    setControlComponentsData({ ...controlComponentsData });
+    debounceHandleSearch()
+  }
+
+  const getUsers = () => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/users',
@@ -99,15 +93,15 @@ const List = () => {
       setPage(response.data);
     });
     
-  }, [controlComponentsData]);
+  };
 
   const debounceHandleSearch = useCallback(
-    debounce(handleSearch, 1000)
-  ,[controlComponentsData.filterData])
+    debounce(getUsers, 1000)
+  ,[])
 
   useEffect(() => {
     getUsers();
-  }, [getUsers, controlComponentsData.filterData]);
+  }, [controlComponentsData.filterData]);
 
   return (
     <><div className='input-container'>
@@ -120,14 +114,20 @@ const List = () => {
         <input
           type='text'
           placeholder='Pesquisar'
-          onChange={debounceHandleSearch}
+          onChange={handleSearchTermChange}
+          value={controlComponentsData.filterData.searchTerm}
         />
 
-          <select onChange={handlePropertyFilterChange}>
+          <select 
+            onChange={handlePropertyFilterChange}
+            value={controlComponentsData.filterData.property}
+            >
             <option value="firstName">Nome</option>
             <option value="lastName">Sobrenome</option>
             <option value="email">Email</option>
           </select>
+
+          <button onClick={handleFilterClear}>Limpar</button>
       </div>
     </div>
 
