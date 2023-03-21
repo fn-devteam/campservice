@@ -55,36 +55,39 @@ const List = () => {
   };
 
   const handlePageChange = (pageNumber: number) => {
-    setControlComponentsData({ activePage: pageNumber, filterData: controlComponentsData.filterData });
+    controlComponentsData.activePage = pageNumber
+    updateComponentDataAndHandleSearch(controlComponentsData)
   };
 
   const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     controlComponentsData.filterData.searchTerm = event.target.value
-    setControlComponentsData({ ...controlComponentsData });
-    debounceHandleSearch()
+    updateComponentDataAndHandleSearch(controlComponentsData)
   };
 
   const handlePropertyFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     controlComponentsData.filterData.property = event.target.value;
-    setControlComponentsData({ ...controlComponentsData });
-    debounceHandleSearch()
+    updateComponentDataAndHandleSearch(controlComponentsData)
   }
 
   const handleFilterClear = () => {
     controlComponentsData.filterData.property = "firstName"
     controlComponentsData.filterData.searchTerm = "";
-    setControlComponentsData({ ...controlComponentsData });
-    debounceHandleSearch()
+    updateComponentDataAndHandleSearch(controlComponentsData)
   }
 
-  const getUsers = () => {
+  const updateComponentDataAndHandleSearch = (componentData: ControlComponentsData) => {
+    setControlComponentsData({ ...componentData });
+    debounceHandleSearch(componentData)
+  }
+
+  const getUsers = (componentData: ControlComponentsData) => {
     const config: AxiosRequestConfig = {
       method: 'GET',
       url: '/users',
       params: {
-        page: controlComponentsData.activePage,
+        page: componentData.activePage,
         size: 5,
-        ...(controlComponentsData.filterData || {}),
+        ...(componentData.filterData || {}),
       },
 
     };
@@ -96,12 +99,10 @@ const List = () => {
   };
 
   const debounceHandleSearch = useCallback(
-    debounce(getUsers, 500)
+    debounce(componentData => getUsers(componentData), 500)
   ,[])
 
-  useEffect(() => {
-    getUsers();
-  }, [controlComponentsData.filterData]);
+  useEffect(() => getUsers(controlComponentsData), []);
 
   return (
     <><div className='input-container'>
