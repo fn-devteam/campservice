@@ -7,7 +7,7 @@ const Record = () => {
     return (
         <div className='register-container'>
             <Navbar />
-            <div className='register-content>'>
+            <div className='register-content'>
                 <Switch>
                     <Route path="/pages/users">
                       <Users />

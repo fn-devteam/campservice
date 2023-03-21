@@ -1,29 +1,40 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './styles.css';
 
 const Navbar = () => {
     return (
     <nav className='navbar navbar-expand-md bg-primary main-nav'>
   <div className='container-fluid'>
-    <a href="/" className="nav-logo-text">
-      <h4>CampService</h4>
-    </a>
+  <Link to="/" className="nav-logo-text">
+          <h4>CampiService</h4>
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#dscatalog-navbar"
+          aria-controls="dscatalog-navbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
     <div className='collapse navbar-collapse'>
       <ul className='navbar-nav offset-md-2 main-menu'>
         <li>
-          <NavLink to="/"> Home </NavLink>
+          <NavLink to="/" activeClassName="active" exact> Home </NavLink>
         </li>
         <li>
-          <NavLink to="/record">Cadastro </NavLink>
+          <NavLink to="/record" activeClassName="active" >Cadastro </NavLink>
         </li>
         <li>
-          <NavLink to="link"> Movimento </NavLink>
+          <NavLink to="link" activeClassName="active" > Movimento </NavLink>
         </li>
         <li>
-          <NavLink to="link"> Relatórios </NavLink>
+          <NavLink to="link" activeClassName="active" > Relatórios </NavLink>
         </li>
         <li>
-          <NavLink to="link"> Admin </NavLink>
+          <NavLink to="link" activeClassName="active" > Admin </NavLink>
         </li>
       </ul>
     </div>

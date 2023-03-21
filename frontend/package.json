@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.14",
     "@popperjs/core": "^2.11.6",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.14",
