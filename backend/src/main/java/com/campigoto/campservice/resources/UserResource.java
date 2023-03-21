@@ -1,17 +1,19 @@
 package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.UserDto;
+import com.campigoto.campservice.dto.UserFilterDto;
 import com.campigoto.campservice.dto.UserInsertDto;
 import com.campigoto.campservice.dto.UserUpdateDto;
 import com.campigoto.campservice.services.UserService;
-import java.net.URI;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,10 +28,12 @@ public class UserResource {
         return ResponseEntity.ok().body(dto);
     }
 
-
     @GetMapping
-    public ResponseEntity<Page<UserDto>> findAll(Pageable pageable) {
-        Page<UserDto> list = service.findAllPaged(pageable);
+    public ResponseEntity<Page<UserDto>> findAll(
+            UserFilterDto filter,
+            Pageable pageable
+    ) {
+        Page<UserDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
     }
 

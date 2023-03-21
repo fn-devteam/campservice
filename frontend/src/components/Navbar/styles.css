@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+.nav-logo-text, nav-logo-text:hover {
+    color: #FFF;
+    
+}
+.nav-logo-text:hover {
+    color: #FFF;
+    
+}
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+    font-weight: 700;
+    margin-bottom: 0; }
+
+a, a:hover {
+    text-decoration: none; 
+    color: unset;
+}
+
+.main-nav {
+    padding-left: 70px;
+}
+
+.main-menu {
+    display: flex;
+    font-size: 18px;
+    width: 780px;
+    justify-content:space-between;
+
+}
+.main-menu a {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.main-menu a:hover {
+    color: #FFF;
+}
+
+.main-menu a.active {
+    color: #FFF;
+    font-weight: 700;
+}

@@ -1,11 +1,10 @@
 package com.campigoto.campservice.dto;
 
 import com.campigoto.campservice.services.validation.SupplierInsert;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 

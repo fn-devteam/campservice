@@ -8,7 +8,7 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;

@@ -1,11 +1,11 @@
 package com.campigoto.campservice.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;

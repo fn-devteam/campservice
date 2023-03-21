@@ -3,8 +3,7 @@ package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.ProductGroupDto;
 import com.campigoto.campservice.services.ProductGroupService;
-import java.net.URI;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +11,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController

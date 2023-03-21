@@ -4,14 +4,15 @@ import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.entities.enums.Profile;
 import com.campigoto.campservice.services.validation.CustomerInsert;
 import com.campigoto.campservice.services.validation.CustomerUpdate;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor

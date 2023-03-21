@@ -8,6 +8,7 @@ import com.campigoto.campservice.services.exceptions.DataIntegrityException;
 import com.campigoto.campservice.services.exceptions.ObjectNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -15,8 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
