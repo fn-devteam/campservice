@@ -1,10 +1,13 @@
-$theme-colors: (
-  'primary': #407bff,
-  'secondary': #9E9E9E,
-  'danger':#DF5753
-);
+:root {
+  --bs-blue: #407bff;
+  --bs-primary: #407bff;
+  --bs-gray: #9E9E9E;
+  --bs-secondary: #9E9E9E;
+  --bs-red: #DF5753;
+  --bs-danger: #DF5753;
+}
 
-$body-bg: #e5e5e5;
-$body-color: #263238;
+$body-bg: #fff;
+// $body-color: #263238;
 
 @import '~bootstrap/scss/bootstrap.scss';

@@ -8,7 +8,7 @@ import { requestBackend } from 'util/requests';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import './styles.css';
 import { debounce } from 'lodash';
-import Tooltip from '@mui/material/Tooltip';
+import { Tooltip } from '@mui/material';
 
 type UserFilterData = {
   searchTerm: string;
@@ -56,34 +56,32 @@ const List = () => {
 
   const handlePageChange = (pageNumber: number) => {
     controlComponentsData.activePage = pageNumber;
-    updateComponentDataAndHandleSearch(controlComponentsData);
+    updateComponentData(controlComponentsData);
   };
 
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     controlComponentsData.filterData.searchTerm = event.target.value;
-    updateComponentDataAndHandleSearch(controlComponentsData);
+    updateComponentData(controlComponentsData);
   };
 
   const handlePropertyFilterChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     controlComponentsData.filterData.property = event.target.value;
-    updateComponentDataAndHandleSearch(controlComponentsData);
+    updateComponentData(controlComponentsData);
   };
 
   const handleFilterClear = () => {
     controlComponentsData.filterData.property = 'firstName';
     controlComponentsData.filterData.searchTerm = '';
-    updateComponentDataAndHandleSearch(controlComponentsData);
+    updateComponentData(controlComponentsData);
   };
 
-  const updateComponentDataAndHandleSearch = (
+  const updateComponentData = (
     componentData: ControlComponentsData
-  ) => {
-    setControlComponentsData({ ...componentData });
-  };
+  ) => setControlComponentsData({ ...componentData });;
 
   const getUsers = (componentData: ControlComponentsData) => {
     const config: AxiosRequestConfig = {
@@ -114,98 +112,111 @@ const List = () => {
 
   return (
     <>
-      <div className="input-container">
-        <Link to={`/record/users/create`}>
-          <button className="btn btn-primary text-white btn-crud-add">
-            Adicionar
-          </button>
-        </Link>
-        <div className="user-search-container">
-          <div className="term-search">
-            <Tooltip title="Digite o que você procura !" arrow>
-              <input
-                className="input-group-text"
-                style={{ width: '300px' }}
-                type="text"
-                placeholder="Pesquisar"
-                onChange={handleSearchTermChange}
-                value={controlComponentsData.filterData.searchTerm}
-              />
-            </Tooltip>
+      <div className="card my-3 mx-5">
+        <div className="card-header"><h3>Filtro</h3></div>
+        <div className="card-body">
+          <div className='row mb-3'>
+            <div className="col">
+              <label htmlFor="search-input" className='form-label'>Pesquisar por</label>
+              {/* <Tooltip title="Digite o que você procura !" arrow placement='top'> */}
+                <input
+                  placeholder="Pesquisar"
+                  onChange={handleSearchTermChange}
+                  value={controlComponentsData.filterData.searchTerm}
+                  className="form-control"
+                  id='search-input'
+                  title='Digite o que você procura !'
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                />
+              {/* </Tooltip> */}
+            </div>
+
+            <div className="col">
+              <label htmlFor='property-input' className='form-label'>Filtrar por</label>
+              <Tooltip title="Escolha o campo de pesquisa !" arrow placement='top'>
+                <select
+                  className="form-control"
+                  onChange={handlePropertyFilterChange}
+                  value={controlComponentsData.filterData.property}
+                  id="property-input"
+                >
+                  <option value="firstName">Nome</option>
+                  <option value="lastName">Sobrenome</option>
+                  <option value="email">Email</option>
+                </select>
+              </Tooltip>
+            </div>
           </div>
 
-          <div className="term-select">
-            <Tooltip title="Escolha o campo de pesquisa !" arrow>
-              <select
-                className="form-control"
-                onChange={handlePropertyFilterChange}
-                value={controlComponentsData.filterData.property}
-              >
-                <option value="firstName">Nome</option>
-                <option value="lastName">Sobrenome</option>
-                <option value="email">Email</option>
-              </select>
-            </Tooltip>
+          <div className="row">
+            <div className="col-2">
+              <button
+                className="btn btn-outline-secondary"
+                onClick={handleFilterClear}>
+                Limpar
+              </button>
+            </div>
           </div>
-          <button
-            className="btn btn-secondary text-white btn-user-filter-clear"
-            onClick={handleFilterClear}
-          >
-            Limpar
-          </button>
         </div>
       </div>
-      <div className="container">
-        <h1>Lista de usuários</h1>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {page?.content.map((user) => (
-              <tr key={user.id}>
-                <td>
-                  {user.firstName} {user.lastName}
-                </td>
-                <td>{user.email}</td>
-                <td>
-                  <div className="btn-crud">
-                    <Tooltip title="Clique aqui para editar o usuário" arrow>
+
+      <div className="card mb-5 mx-5">
+        <div className="card-header">
+          <h3>Lista de usuários</h3>
+        </div>
+        <div className="card-body">
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {page?.content.map((user) => (
+                <tr key={user.id}>
+                  <td>
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td>{user.email}</td>
+                  <td className='flex-row'>
+
+                    <Tooltip title="Clique aqui para editar o usuário" arrow placement='top'>
                       <button
                         type="button"
                         onClick={() => handleEdit(user.id)}
-                        style={{ marginRight: '10px' }}
                       >
                         <FaEdit />
                       </button>
                     </Tooltip>
-                    <Tooltip title="Clique aqui para excluir o usuário" arrow>
+                    <Tooltip title="Clique aqui para excluir o usuário" arrow placement='top'>
                       <button
                         type="button"
                         onClick={() => handleDelete(user.id)}
-                        style={{ marginRight: '10px' }}
                       >
                         <FaTrash />
                       </button>
                     </Tooltip>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {
-          <Pagination
-            forcePage={page?.number}
-            pageCount={page?.totalPages || 0}
-            range={page?.size || 0}
-            onChange={handlePageChange}
-          />
-        }
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {
+            <Pagination
+              forcePage={page?.number}
+              pageCount={page?.totalPages || 0}
+              range={page?.size || 0}
+              onChange={handlePageChange}
+            />
+          }
+
+          <Link to={`/record/users/create`} className="btn btn-primary">
+              Adicionar
+          </Link>
+        </div>
       </div>
     </>
   );
