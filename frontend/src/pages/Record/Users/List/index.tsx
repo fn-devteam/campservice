@@ -118,7 +118,7 @@ const List = () => {
           <div className='row mb-3'>
             <div className="col">
               <label htmlFor="search-input" className='form-label'>Pesquisar por</label>
-              {/* <Tooltip title="Digite o que você procura !" arrow placement='top'> */}
+              <Tooltip title="Digite o que você procura !" arrow placement='top'>
                 <input
                   placeholder="Pesquisar"
                   onChange={handleSearchTermChange}
@@ -129,7 +129,7 @@ const List = () => {
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                 />
-              {/* </Tooltip> */}
+              </Tooltip>
             </div>
 
             <div className="col">
