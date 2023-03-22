@@ -1,18 +1,21 @@
 import ContentLoader from 'react-content-loader';
 
 const UserLoader = () => (
-  <div className="user-loader-container">
     <ContentLoader
-      speed={2}
-      width={320}
-      height={460}
-      viewBox="0 0 320 460"
+      speed={1}
+      width={1024}
+      height={200}
+      viewBox="0 0 1024 200"
       backgroundColor="#ecebeb"
       foregroundColor="#d6d2d2"
-    >
-      <rect x="0" y="0" rx="2" ry="2" width="300" height="300" />
+      style={{width: "100%"}}
+      >
+      <rect x="0" y="0" rx="1" ry="1" width="100%" height="30"/>
+      <rect x="0" y="40" rx="1" ry="1" width="100%" height="30"/>
+      <rect x="0" y="80" rx="1" ry="1" width="100%" height="30"/>
+      <rect x="0" y="120" rx="1" ry="1" width="100%" height="30"/>
+      <rect x="0" y="160" rx="1" ry="1" width="100%" height="30"/>
     </ContentLoader>
-  </div>
 );
 
 export default UserLoader;
