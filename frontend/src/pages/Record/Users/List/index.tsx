@@ -79,9 +79,8 @@ const List = () => {
     updateComponentData(controlComponentsData);
   };
 
-  const updateComponentData = (
-    componentData: ControlComponentsData
-  ) => setControlComponentsData({ ...componentData });;
+  const updateComponentData = (componentData: ControlComponentsData) =>
+    setControlComponentsData({ ...componentData });
 
   const getUsers = (componentData: ControlComponentsData) => {
     const config: AxiosRequestConfig = {
@@ -89,7 +88,7 @@ const List = () => {
       url: '/users',
       params: {
         page: componentData.activePage,
-        size: 5,
+        size: 4,
         ...(componentData.filterData || {}),
       },
     };
@@ -113,19 +112,26 @@ const List = () => {
   return (
     <>
       <div className="card my-3 mx-5">
-        <div className="card-header"><h3>Filtro</h3></div>
+        <div className="card-header">
+          <h3>Filtro</h3>
+        </div>
         <div className="card-body">
-          <div className='row mb-3'>
+          <div className="row mb-3">
             <div className="col">
-              <label htmlFor="search-input" className='form-label'>Pesquisar por</label>
-              <Tooltip title="Digite o que você procura !" arrow placement='top'>
+              <label htmlFor="search-input" className="form-label">
+                Pesquisar por
+              </label>
+              <Tooltip
+                title="Digite o que você procura !"
+                arrow
+                placement="top"
+              >
                 <input
                   placeholder="Pesquisar"
                   onChange={handleSearchTermChange}
                   value={controlComponentsData.filterData.searchTerm}
                   className="form-control"
-                  id='search-input'
-                  title='Digite o que você procura !'
+                  id="search-input"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                 />
@@ -133,8 +139,14 @@ const List = () => {
             </div>
 
             <div className="col">
-              <label htmlFor='property-input' className='form-label'>Filtrar por</label>
-              <Tooltip title="Escolha o campo de pesquisa !" arrow placement='top'>
+              <label htmlFor="property-input" className="form-label">
+                Filtrar por
+              </label>
+              <Tooltip
+                title="Escolha o campo de pesquisa !"
+                arrow
+                placement="top"
+              >
                 <select
                   className="form-control"
                   onChange={handlePropertyFilterChange}
@@ -153,7 +165,8 @@ const List = () => {
             <div className="col-2">
               <button
                 className="btn btn-outline-secondary"
-                onClick={handleFilterClear}>
+                onClick={handleFilterClear}
+              >
                 Limpar
               </button>
             </div>
@@ -161,7 +174,7 @@ const List = () => {
         </div>
       </div>
 
-      <div className="card mb-5 mx-5">
+      <div className="card mb-5 mx-5 card-list ">
         <div className="card-header">
           <h3>Lista de usuários</h3>
         </div>
@@ -181,17 +194,21 @@ const List = () => {
                     {user.firstName} {user.lastName}
                   </td>
                   <td>{user.email}</td>
-                  <td className='flex-row'>
-
-                    <Tooltip title="Clique aqui para editar o usuário" arrow placement='top'>
-                      <button
-                        type="button"
-                        onClick={() => handleEdit(user.id)}
-                      >
+                  <td className="flex-row">
+                    <Tooltip
+                      title="Clique aqui para editar o usuário"
+                      arrow
+                      placement="top"
+                    >
+                      <button type="button" onClick={() => handleEdit(user.id)}>
                         <FaEdit />
                       </button>
                     </Tooltip>
-                    <Tooltip title="Clique aqui para excluir o usuário" arrow placement='top'>
+                    <Tooltip
+                      title="Clique aqui para excluir o usuário"
+                      arrow
+                      placement="top"
+                    >
                       <button
                         type="button"
                         onClick={() => handleDelete(user.id)}
@@ -214,7 +231,7 @@ const List = () => {
           }
 
           <Link to={`/record/users/create`} className="btn btn-primary">
-              Adicionar
+            Adicionar
           </Link>
         </div>
       </div>

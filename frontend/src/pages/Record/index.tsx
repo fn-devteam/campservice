@@ -8,10 +8,7 @@ const Record = () => {
         <div className='register-container'>
             <Navbar />
             <div className='register-content'>
-                <Switch>
-                    <Route path="/pages/users">
-                      <Users />
-                   </Route>         
+                <Switch>  
                     <Route path="/record/users">
                       <Users />
                    </Route>              
