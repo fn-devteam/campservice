@@ -64,23 +64,22 @@ const Form = () => {
 
   return (
     <div >
-      <div className="base-card user-crud-form card my-5 mx-5">
-        <div className="card-header card-title  ">
+      <div className="card my-3 mx-5">
+        <div className="card-header">
           <h3>Dados do Usuário</h3>
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div>
-              <div className="mb-3">
+            <div className="row">
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="firstName" className='form-label'>Nome</label>
                 <input
                   {...register('firstName', {
                     required: 'Campo obrigatório',
                   })}
                   type="text"
-                  className={`form-control  ${
-                    errors.firstName ? 'Inválido' : ''
-                  }`}
-                  placeholder="Nome"
+                  className={`form-control  ${errors.firstName ? 'Inválido' : ''
+                    }`}
                   name="firstName"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
@@ -89,22 +88,24 @@ const Form = () => {
                   {errors.firstName?.message}
                 </div>
               </div>
-              <div className="mb-3">
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="lastName" className='form-label'>Sobrenome</label>
                 <input
                   {...register('lastName', {
                     required: 'Campo obrigatório',
                   })}
                   type="text"
-                  className={`form-control  ${
-                    errors.lastName ? 'Inválido' : ''
-                  }`}
-                  placeholder="Sobrenome"
+                  className={`form-control  ${errors.lastName ? 'Inválido' : ''
+                    }`}
                   name="lastName"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                 />
               </div>
-              <div className="mb-3">
+            </div>
+            <div className="row">
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="email" className='form-label'>Email</label>
                 <input
                   {...register('email', {
                     required: 'Campo obrigatório',
@@ -115,7 +116,7 @@ const Form = () => {
                   })}
                   type="text"
                   className={`form-control  ${errors.email ? 'Inválido' : ''}`}
-                  placeholder="Email"
+                  placeholder="email@example.com"
                   name="email"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
@@ -124,20 +125,15 @@ const Form = () => {
             </div>
 
             <div className="d-grid gap-2 col-6 d-md-flex ">
-              <div className="btn-cancelar">
-                <button
-                  className="btn btn-outline-danger btn-lg"
-                  onClick={handleCancel}
-                >
-                  Cancelar
-                </button>
-              </div>
-              <div className="btn-salvar">
-                <button className="btn btn-primary btn-lg text-white">
-                  {' '}
-                  Salvar{' '}
-                </button>
-              </div>
+              <button
+                className="btn btn-outline-danger"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </button>
+              <button className="btn btn-primary">
+                Salvar
+              </button>
             </div>
           </form>
         </div>
