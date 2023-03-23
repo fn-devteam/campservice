@@ -17,7 +17,7 @@ const Home = () => {
             </div>
             <div>
               <Link to="/pages/login">
-                <ButtonIcon text="Inicie agora..... " />
+                <ButtonIcon text="Fazer Login " />
               </Link>
             </div>
           </div>

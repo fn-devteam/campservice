@@ -1,35 +1,4 @@
-.user-crud-form {
-    padding: 20px;
-    border: 2px blue;
-  }
-.user-crud-form-title {
-    font-weight: bold;
-    font-size: 22px;
-    letter-spacing: -0.015em;
-    color: #263238;
-    margin-bottom: 30px;
-  }
-  
-.margin-bottom-30 {
-    margin-bottom: 30px;
-  }
-  
-.user-crud-inputs-container {
-    margin-bottom: 30px;
-  }
-  
-.user-crud-inputs-left-container {
-    margin-bottom: 30px;
-  }
-  
-.user-crud-buttons-container {
+.btn-form {
     display: flex;
     justify-content: space-around;
   }
-  
-.user-crud-button {
-    height: 50px;
-    width: 270px;
-    border-radius: 10px;
-    font-weight: bold;
-}

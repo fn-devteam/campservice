@@ -1,4 +1,3 @@
-
 import { AxiosRequestConfig } from 'axios';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -13,24 +12,22 @@ type UrlParams = {
 };
 
 const Form = () => {
-
   const history = useHistory();
 
   const { userId } = useParams<UrlParams>();
 
-  const isEditing = userId !== 'create'; 
+  const isEditing = userId !== 'create';
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm<User>();
 
-  
-
-  useEffect(() => {if (isEditing) {
-    requestBackend({ url: `/users/${userId}` }).then((response) => {
+  useEffect(() => {
+    if (isEditing) {
+      requestBackend({ url: `/users/${userId}` }).then((response) => {
         const user = response.data as User;
 
         setValue('firstName', user.firstName);
@@ -41,95 +38,108 @@ const Form = () => {
   }, [isEditing, userId, setValue]);
 
   const onSubmit = (formData: User) => {
-
     const data = {
-      ...formData
-  };   
+      ...formData,
+    };
 
     const config: AxiosRequestConfig = {
       method: isEditing ? 'PUT' : 'POST',
       url: isEditing ? `/users/${userId}` : '/users',
-      data
+      data,
     };
-  
+
     requestBackend(config)
-    .then(() => {
-      toast.info('Usuário cadastrado com sucess');
-      console.log('Usuário cadastrado com sucess');
-    })
-    .catch(() => {
-      toast.error('Erro ao cadastrar usuário');
-    });
-    history.push("/record/users")
+      .then(() => {
+        toast.info('Usuário cadastrado com sucess');
+      })
+      .catch(() => {
+        toast.error('Erro ao cadastrar usuário');
+      });
+    history.push('/record/users');
   };
 
-      
   const handleCancel = () => {
-    history.push("/record/users")
+    history.push('/record/users');
   };
 
-
-
-
-    return (
-        <div className="user-crud-container"> 
-            <div className="base-card user-crud-form">
-              <h1 className="user-crud-form-title" >Dados do Usuário</h1>
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='user-crud-inputs-left-container'>
-                   <div className='user-crud-input'>
-                      <input
-                        {...register('firstName', {
-                          required: 'Campo obrigatório'
-                        })}
-                        type="text"
-                        className={`form-control base-input ${errors.firstName ? 'is-invalid' : ''}`}
-                        placeholder="Nome"
-                        name="firstName"
-                      />
-                   <div className="invalid-feedback d-block">{errors.firstName?.message}</div>
-                  </div>
-                  <div className='user-crud-input'>
-                    <input
-                      {...register('lastName', {
-                        required: 'Campo obrigatório'
-                      })}
-                      type="text"
-                      className={`form-control base-input ${errors.lastName? 'is-invalid' : ''}`}
-                      placeholder="Sobrenome"
-                      name="lastName"
-                    />
-                  </div>
-                  <div className='user-crud-input'>
-                    <input
-                      {...register('email', {
-                        required: 'Campo obrigatório',
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: 'Email inválido'
-                        }
-                      })}
-                      type="text"
-                      className={`form-control base-input ${errors.email ? 'is-invalid' : ''}`}
-                      placeholder="Email"
-                      name="email"
-                    />
-                  </div>
+  return (
+    <div >
+      <div className="card my-3 mx-5">
+        <div className="card-header">
+          <h3>Dados do Usuário</h3>
+        </div>
+        <div className="card-body">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="row">
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="firstName" className='form-label'>Nome</label>
+                <input
+                  {...register('firstName', {
+                    required: 'Campo obrigatório',
+                  })}
+                  type="text"
+                  className={`form-control  ${errors.firstName ? 'Inválido' : ''
+                    }`}
+                  name="firstName"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                />
+                <div className="invalid-feedback d-block">
+                  {errors.firstName?.message}
                 </div>
-                <div className='user-crud-buttons-container'>
-                  <button className='btn btn-outline-danger user-crud-button' 
-                    onClick={handleCancel}>
-                    Cancelar
-                  </button> 
-                  <button className='btn btn-primary user-crud-button text-white'>
-                    Salvar
-                  </button>   
-                </div>
-              </form>
+              </div>
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="lastName" className='form-label'>Sobrenome</label>
+                <input
+                  {...register('lastName', {
+                    required: 'Campo obrigatório',
+                  })}
+                  type="text"
+                  className={`form-control  ${errors.lastName ? 'Inválido' : ''
+                    }`}
+                  name="lastName"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                />
+              </div>
             </div>
-         </div>   
-        
-    )
-}
+            <div className="row">
+              <div className="mb-3 col-12 col-md-6 col-lg4">
+                <label htmlFor="email" className='form-label'>Email</label>
+                <input
+                  {...register('email', {
+                    required: 'Campo obrigatório',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: 'Email inválido',
+                    },
+                  })}
+                  type="text"
+                  className={`form-control  ${errors.email ? 'Inválido' : ''}`}
+                  placeholder="email@example.com"
+                  name="email"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                />
+              </div>
+            </div>
+
+            <div className="d-grid gap-2 col-6 d-md-flex ">
+              <button
+                className="btn btn-outline-danger"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </button>
+              <button className="btn btn-primary">
+                Salvar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Form;
