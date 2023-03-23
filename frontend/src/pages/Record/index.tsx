@@ -1,5 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import Navbar from './Navbar';
+import ProductGroups from './ProductsGroups';
 import './styles.css';
 import Users from './Users';
 
@@ -21,8 +22,8 @@ const Record = () => {
                     <Route path="/record/products" >
                       <h1>Product CRUD</h1>
                     </Route>              
-                    <Route path="/record/groupProducts" >
-                      <h1>Group Products CRUD</h1>
+                    <Route path="/record/productsGroups" >
+                      <ProductGroups />
                     </Route>              
                     <Route path="/record/vehicles" >
                       <h1>Vehicle CRUD</h1>
