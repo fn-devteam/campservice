@@ -9,7 +9,7 @@ const ProductsGroups = () => {
         <Route path="/record/productsGroups" exact>
             <List />
         </Route>
-        <Route path="/record/productsGroups/:productGroupsId">
+        <Route path="/record/productsGroups/:productGroupId">
             <Form />
         </Route>
     </Switch>
