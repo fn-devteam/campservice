@@ -29,7 +29,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/record/groupProducts" className='  register-nav-item'> 
+        <NavLink to="/record/productsGroups" className='  register-nav-item'> 
         <p>Grupo Produtos</p> 
         </NavLink>
       </li>

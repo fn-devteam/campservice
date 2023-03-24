@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "pages/Home";
 import Navbar from "components/Navbar";
-import Users from "pages/Record/Users";
 import Record from "pages/Record";
 import Login from "pages/Login";
 
@@ -13,13 +12,10 @@ const Routes = () =>
             <Route path="/" exact>
                 <Home />
             </Route>
-            <Route path="/user">
-                <Users />
-            </Route>
-            <Route path="/moviment">
+            <Route path="/record">
                 <Record />
             </Route>
-            <Route path="/record">
+            <Route path="/moviment">
                 <Record />
             </Route>
             <Route path="/reports">
