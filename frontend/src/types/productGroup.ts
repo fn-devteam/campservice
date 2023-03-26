@@ -1,5 +1,5 @@
 export type ProductGroup = {
   id: number;
-  name: string;
+  groupName: string;
   obs: string;
 };
