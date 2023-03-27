@@ -22,8 +22,8 @@ export type Product =  {
     quantityLastEntry: number;
     productLocation: string;
     lastSupplier: Supplier;
-    itemType: number;
-    references: string;
+    itemType: string;
+    'references': string;
 
 }
   

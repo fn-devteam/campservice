@@ -34,31 +34,54 @@ const Form = () => {
     if (isEditing) {
       requestBackend({ url: `/products/${productId}` }).then((response) => {
         const product = response.data as Product;
+        const defaultSupplier = {id: 0, name: 'Fornecedor Padrão',
+        active: 0,
+        emailAddress: '',
+        cpfCnpj: '',
+        personType: 0,
+        stateRegistration: '',
+        zipCode: '',
+        address: '',
+        district: '',
+        city: '',
+        state: '',
+        phoneNumber: '',
+        cellNumber: '',
+        contactPerson: '',
+        obs: '',
+        registrationDate: ''};
 
-        setValue('description', product.description);
+        const defaultGroup = 
+        {
+          id: 1,
+          groupName: 'Grupo Padrão',
+          obs: ''
+        }
+        setValue('description', product.description ? product.description : '');
         
-        setValue('group', product.group);
+        setValue('group', product.group ? product.group : defaultGroup);
         setSelectedGroup(product.group);
 
         setValue('active', product.active);
-        setValue('unit', product.unit);
-        setValue('obs', product.obs);
-        setValue('purchasePrice', product.purchasePrice);
-        setValue('currentInventory', product.currentInventory);
-        setValue('minimumStock', product.minimumStock);
-        setValue('salePrice', product.salePrice);
-        setValue('priceValue', product.priceValue);
-        setValue('profitMargin', product.profitMargin);
-        setValue('factoryIndex', product.factoryIndex);
-        setValue('listPrice', product.listPrice);
-        setValue('rebate', product.rebate);
-        setValue('originalCode', product.originalCode);
-        setValue('originalCode1', product.originalCode1);
-        setValue('quantityLastEntry', product.quantityLastEntry);
-        setValue('productLocation', product.productLocation);
-        setValue('lastSupplier', product.lastSupplier);
-        setValue('itemType', product.itemType);
-        setValue('references', product.references);
+        setValue('unit', product.unit ? product.unit : '');
+        setValue('obs', product.obs ? product.obs : '');
+        setValue('purchasePrice', product.purchasePrice ? product.purchasePrice : 0);
+        setValue('currentInventory', product.currentInventory ? product.currentInventory : 0);
+        setValue('minimumStock', product.minimumStock ? product.minimumStock : 0);
+        setValue('salePrice', product.salePrice ? product.salePrice :0 );
+        setValue('priceValue', product.priceValue ? product.priceValue : 0);
+        setValue('profitMargin', product.profitMargin ? product.profitMargin : 0);
+        setValue('factoryIndex', product.factoryIndex ? product.factoryIndex :0);
+        setValue('listPrice', product.listPrice ? product.listPrice : 0);
+        setValue('rebate', product.rebate ? product.rebate : 0);
+        setValue('originalCode', product.originalCode ? product.originalCode : '');
+        setValue('originalCode1', product.originalCode1 ? product.originalCode1 : '');
+        setValue('quantityLastEntry', product.quantityLastEntry ? product.quantityLastEntry : 0);
+        setValue('productLocation', product.productLocation ? product.productLocation : '');
+        setValue('lastSupplier', product.lastSupplier ? product.lastSupplier : defaultSupplier);
+
+        setValue('itemType', product.itemType ? product.itemType : '');
+        setValue('references', product.references ? product.references : '');
       });
     }
   }, [isEditing, productId, setValue]);
