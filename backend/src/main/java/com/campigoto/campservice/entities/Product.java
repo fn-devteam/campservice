@@ -68,7 +68,7 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
-    private String references;
+    private String referenceCode;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_supplier",

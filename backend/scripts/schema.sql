@@ -96,7 +96,7 @@ CREATE TABLE `product` (
   `product_location` varchar(100) DEFAULT NULL,
   `last_supplier_id` int unsigned DEFAULT NULL,
   `item_type` varchar(20) DEFAULT NULL,
-  `references` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reference_code` varchar(100)  DEFAULT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`group_id`)  REFERENCES product_group(`id`),
 FOREIGN KEY (`last_supplier_id`)  REFERENCES supplier(`id`)
