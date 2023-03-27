@@ -2259,12 +2259,12 @@
 
 "@toastdotdev/lib-darwin-x64@0.0.1":
   version "0.0.1"
-  resolved "https://registry.npmjs.org/@toastdotdev/lib-darwin-x64/-/lib-darwin-x64-0.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/@toastdotdev/lib-darwin-x64/-/lib-darwin-x64-0.0.1.tgz#052062bbd3b184be5561fbc3fa1ee4728fa392b3"
   integrity sha512-nesyX960NPgXm8if2c0UUZwCVkhAi/gUGDnd8kAh5cKhb2ioxE37qgGTOHdyyM7IA73zZzDAv1tD9yZuPlHM+Q==
 
 "@toastdotdev/lib-linux-x64-gnu@0.0.1":
   version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@toastdotdev/lib-linux-x64-gnu/-/lib-linux-x64-gnu-0.0.1.tgz#b949e5f02547e4e668f6c43f336c8b85215dfe85"
+  resolved "https://registry.npmjs.org/@toastdotdev/lib-linux-x64-gnu/-/lib-linux-x64-gnu-0.0.1.tgz"
   integrity sha512-ThaNF545J8lFOlYmFuuXHFj+PpNZSQg58hjgRM69uf5wNZB3AuiHLGyV0yHtenCUfFKd9OeG2jTtSxaTgOLPbA==
 
 "@toastdotdev/lib-win32-x64-msvc@0.0.1":
@@ -2549,6 +2549,13 @@
   integrity sha512-PiYG40pnQRdPHnlf7tZnp0aQ6q9tspYr72vD61saO6zFCybLfMqwUCN0va1/P+86DXn18ZWeW30Bk7xlC5eEAQ==
   dependencies:
     "@types/react" "^17"
+
+"@types/react-input-mask@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.npmjs.org/@types/react-input-mask/-/react-input-mask-3.0.2.tgz"
+  integrity sha512-WTli3kUyvUqqaOLYG/so2pLqUvRb+n4qnx2He5klfqZDiQmRyD07jVIt/bco/1BrcErkPMtpOm+bHii4Oed6cQ==
+  dependencies:
+    "@types/react" "*"
 
 "@types/react-is@^16.7.1 || ^17.0.0":
   version "17.0.3"
@@ -5484,7 +5491,7 @@ fs.realpath@^1.0.0:
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:

@@ -15,7 +15,7 @@ type UrlParams = {
 
 const Form = () => {
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(true);
 
   const history = useHistory();
 
@@ -134,7 +134,7 @@ const Form = () => {
 
     requestBackend(config)
       .then(() => {
-        toast.info('Produto cadastrado com sucess');
+        toast.info('Produto cadastrado com sucesso');
       })
       .catch(() => {
         toast.error('Erro ao cadastrar produto');
@@ -194,7 +194,7 @@ const Form = () => {
                     </div>
                   )}
                 </div>
-                <div className="mb-3 col-auto">
+                <div className="mb-3 col-lg-2 ">
                   <label htmlFor="unit" className="form-label">
                     Unidade
                   </label>
@@ -213,7 +213,7 @@ const Form = () => {
                     {errors.description?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-auto mt-3">
+                <div className="mb-3 col-lg-2 mt-3">
                   <div className="form-check form-switch pt-4">
                     <input
                       className="form-check-input"
@@ -221,6 +221,7 @@ const Form = () => {
                       role="switch"
                       id="active"
                       {...register('active')}
+                      checked={checked}
                       onChange={(event) => setChecked(event.target.checked)}
                     />
                     <label className="form-check-label" htmlFor="active">
@@ -264,7 +265,7 @@ const Form = () => {
                     {errors.originalCode1?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-4">
+                <div className="mb-3 col-12 col-md-4 col-lg-2">
                   <label htmlFor="referenceCode" className="form-label">
                     Referência
                   </label>
@@ -279,6 +280,179 @@ const Form = () => {
                   />
                   <div className="invalid-feedback d-block">
                     {errors.referenceCode?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="currentInventory" className="form-label">
+                    Estoque
+                  </label>
+                  <input
+                    {...register('currentInventory')}
+                    type="text"
+                    className={`form-control  ${errors.currentInventory ? 'Inválido' : ''
+                      }`}
+                    name="currentInventory"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.currentInventory?.message}
+                  </div>
+                </div>
+
+              </div><div className="row">
+                <div className="mb-3 col-12 col-md-4 col-lg-1">
+                  <label htmlFor="minimumStock" className="form-label">
+                    Est.Min
+                  </label>
+                  <input
+                    {...register('minimumStock')}
+                    type="text"
+                    className={`form-control  ${errors.minimumStock ? 'Inválido' : ''
+                      }`}
+                    name="minimumStock"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.minimumStock?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-12 col-md-4 col-lg-2">
+                  <label htmlFor="quantityLastEntry" className="form-label" >
+                    Qtd.Ult.Entr
+                  </label>
+                  <input
+                    {...register('quantityLastEntry')}
+                    type="text"
+                    className={`form-control  ${errors.quantityLastEntry ? 'Inválido' : ''
+                      }`}
+                    name="quantityLastEntry"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    disabled
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.quantityLastEntry?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-12 col-md-4 col-lg-2">
+                  <label htmlFor="itemType" className="form-label">
+                    Tipo
+                  </label>
+                  <input
+                    {...register('itemType')}
+                    type="text"
+                    className={`form-control  ${errors.itemType ? 'Inválido' : ''
+                      }`}
+                    name="itemType"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.itemType?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="purchasePrice" className="form-label">
+                    R$ Compr
+                  </label>
+                  <input
+                    {...register('purchasePrice')}
+                    type="text"
+                    className={`form-control  ${errors.purchasePrice ? 'Inválido' : ''
+                      }`}
+                    name="purchasePrice"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.purchasePrice?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="profitMargin" className="form-label">
+                    Margem
+                  </label>
+                  <input
+                    {...register('profitMargin')}
+                    type="text"
+                    className={`form-control  ${errors.profitMargin ? 'Inválido' : ''
+                      }`}
+                    name="profitMargin"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.profitMargin?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="factoryIndex" className="form-label">
+                    Ind.Fábr.
+                  </label>
+                  <input
+                    {...register('factoryIndex')}
+                    type="text"
+                    className={`form-control  ${errors.factoryIndex ? 'Inválido' : ''
+                      }`}
+                    name="factoryIndex"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.factoryIndex?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="rebate" className="form-label">
+                    Desconto
+                  </label>
+                  <input
+                    {...register('rebate')}
+                    type="text"
+                    className={`form-control  ${errors.rebate ? 'Inválido' : ''
+                      }`}
+                    name="rebate"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.rebate?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="salePrice" className="form-label">
+                    R$ Venda
+                  </label>
+                  <input
+                    {...register('salePrice')}
+                    type="text"
+                    className={`form-control  ${errors.salePrice ? 'Inválido' : ''
+                      }`}
+                    name="salePrice"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.salePrice?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                  <label htmlFor="salePrice" className="form-label">
+                    R$ Lista
+                  </label>
+                  <input
+                    {...register('salePrice')}
+                    type="text"
+                    className={`form-control  ${errors.salePrice ? 'Inválido' : ''
+                      }`}
+                    name="salePrice"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.salePrice?.message}
                   </div>
                 </div>
               </div>

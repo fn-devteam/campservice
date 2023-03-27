@@ -50,7 +50,7 @@ const Form = () => {
 
     requestBackend(config)
       .then(() => {
-        toast.info('Usuário cadastrado com sucess');
+        toast.info('Usuário cadastrado com sucesso');
       })
       .catch(() => {
         toast.error('Erro ao cadastrar usuário');
