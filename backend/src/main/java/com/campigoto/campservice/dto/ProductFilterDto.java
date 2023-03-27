@@ -1,14 +1,15 @@
 package com.campigoto.campservice.dto;
 
 
-import java.io.Serial;
-import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
-public class UserFilterDto implements Serializable {
+public class ProductFilterDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

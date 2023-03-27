@@ -1,12 +1,13 @@
 package com.campigoto.campservice.entities;
 
 import jakarta.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Objects;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -21,14 +22,14 @@ public class ProductGroup implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
+    private String groupName;
     private String obs;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ProductGroup customer)) return false;
-        return getId().equals(customer.getId());
+        if (!(o instanceof ProductGroup productGroup)) return false;
+        return getId().equals(productGroup.getId());
     }
 
     @Override
