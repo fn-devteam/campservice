@@ -39,7 +39,7 @@ const List = () => {
   const history = useHistory();
 
   function handleEdit(productId: number) {
-    history.push(`/record/product/${productId}`);
+    history.push(`/record/products/${productId}`);
   }
 
   const handleDelete = (productId: number) => {
