@@ -3,12 +3,18 @@ import { requestBackend } from "util/requests";
 import { ProductGroup } from "types/productGroup";
 
 interface FindGroupProps {
-    onSelectGroup: (groupId: number) => void;
-    selectedGroup?: string;
+    onSelectGroup: (group: ProductGroup | null) => void;
+    selectedGroup: ProductGroup | null;
+    className?: string
   }
   
-const FindGroup = ({ onSelectGroup }: FindGroupProps) => {
+const FindGroup = (props: FindGroupProps) => {
   const [grupos, setGrupos] = useState<ProductGroup[]>([]);
+
+  const handleSelectGroup = (groupId: number) => {
+    const selectedGroup = grupos.find(g => g.id === groupId) || null
+    props.onSelectGroup(selectedGroup);
+  }
 
   useEffect(() => {
     const config = {
@@ -22,7 +28,12 @@ const FindGroup = ({ onSelectGroup }: FindGroupProps) => {
   }, []);
 
   return (
-    <select name="group" onChange={(event) => onSelectGroup(+event.target.value)}>
+    <select 
+    name="group" 
+    onChange={(event) => handleSelectGroup(+event.target.value)}
+    value={props.selectedGroup?.id}
+    className={props.className}
+    >
       <option value="">Selecione um grupo</option>
       {grupos.map((grupo) => (
         <option key={grupo.id} value={grupo.id}>

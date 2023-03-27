@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Product } from 'types/product';
+import { ProductGroup } from 'types/productGroup';
 import { requestBackend } from 'util/requests';
 import './styles.css';
 
@@ -13,14 +14,8 @@ type UrlParams = {
 };
 
 const Form = () => {
-  /* 
-  function buscarNomeGrupo(productGroup: any) {
-    const { groupName } = productGroup;
-    return groupName;
-  } */
-
-
-  const [selectedGroup, setSelectedGroup] = useState('');
+  
+  const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
 
   const history = useHistory();
 
@@ -41,7 +36,10 @@ const Form = () => {
         const product = response.data as Product;
 
         setValue('description', product.description);
+        
         setValue('group', product.group);
+        setSelectedGroup(product.group);
+
         setValue('active', product.active);
         setValue('unit', product.unit);
         setValue('obs', product.obs);
@@ -91,9 +89,8 @@ const Form = () => {
     history.push('/record/products');
   };
 
-  const handleSelectGroup = (groupId: number) => {
-    setSelectedGroup(String(groupId));
-    console.log(groupId);
+  const handleSelectGroup = (group: ProductGroup | null) => {
+    setSelectedGroup(group);
   };
 
   return (
@@ -132,6 +129,7 @@ const Form = () => {
         <FindGroup
           onSelectGroup={handleSelectGroup}
           selectedGroup={selectedGroup}
+          className="form-control"
         />
         {errors.group && (
           <div className="invalid-feedback d-block">
