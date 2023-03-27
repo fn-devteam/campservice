@@ -44,7 +44,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('MCQ-1079','gm','corsa ','prata',2005,0,0,0,0,0),
 	 ('AME-0417','Ford','Verona 1.8',' Vinho',1993,0,0,0,0,0);
 
-INSERT INTO Campservice.product_group (groupName,obs) VALUES
+INSERT INTO Campservice.product_group (group_name,obs) VALUES
    	 ('AUTO',' '),
    	 ('2',' '),
    	 ('3',' '),
