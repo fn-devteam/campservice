@@ -159,8 +159,8 @@ const Form = () => {
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="container">
-              <div className="row linha-1">
-                <div className="mb-3 col-12 col-md-4 col-lg4 ">
+              <div className="row">
+                <div className="mb-3 col-12 col-md-4 col-lg-4">
                   <label htmlFor="description" className="form-label">
                     Descrição
                   </label>
@@ -169,9 +169,8 @@ const Form = () => {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.description ? 'Inválido' : ''
+                      }`}
                     name="description"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -195,7 +194,7 @@ const Form = () => {
                     </div>
                   )}
                 </div>
-                <div className="col-auto">
+                <div className="mb-3 col-auto">
                   <label htmlFor="unit" className="form-label">
                     Unidade
                   </label>
@@ -204,9 +203,8 @@ const Form = () => {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.description ? 'Inválido' : ''
+                      }`}
                     name="unit"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -215,8 +213,8 @@ const Form = () => {
                     {errors.description?.message}
                   </div>
                 </div>
-                <div className="col-auto">
-                  <div className="form-check form-switch">
+                <div className="mb-3 col-auto mt-3">
+                  <div className="form-check form-switch pt-4">
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -231,17 +229,16 @@ const Form = () => {
                   </div>
                 </div>
               </div>
-              <div className="container row align-items-start linha-2">
-                <div className="mb-3 col-12 col-md-4 col-lg4 col  ">
+              <div className="row">
+                <div className="mb-3 col-12 col-md-4 col-lg-4">
                   <label htmlFor="originalCode" className="form-label">
                     Código original
                   </label>
                   <input
                     {...register('originalCode')}
                     type="text"
-                    className={`form-control  ${
-                      errors.originalCode ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.originalCode ? 'Inválido' : ''
+                      }`}
                     name="originalCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -250,16 +247,15 @@ const Form = () => {
                     {errors.originalCode?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg4 col ">
+                <div className="mb-3 col-12 col-md-4 col-lg-4">
                   <label htmlFor="originalCode1" className="form-label">
                     Código original1
                   </label>
                   <input
                     {...register('originalCode1')}
                     type="text"
-                    className={`form-control  ${
-                      errors.originalCode1 ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.originalCode1 ? 'Inválido' : ''
+                      }`}
                     name="originalCode1"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -268,25 +264,25 @@ const Form = () => {
                     {errors.originalCode1?.message}
                   </div>
                 </div>
-              </div>
-              <div className="mb-3 col-12 col-md-4 col-lg4 col referencia ">
-                <label htmlFor="referenceCode" className="form-label">
-                  Referência
-                </label>
-                <input
-                  {...register('referenceCode')}
-                  type="text"
-                  className={`form-control  ${
-                    errors.referenceCode ? 'Inválido' : ''
-                  }`}
-                  name="referenceCode"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="top"
-                />
-                <div className="invalid-feedback d-block">
-                  {errors.referenceCode?.message}
+                <div className="mb-3 col-12 col-md-4 col-lg-4">
+                  <label htmlFor="referenceCode" className="form-label">
+                    Referência
+                  </label>
+                  <input
+                    {...register('referenceCode')}
+                    type="text"
+                    className={`form-control  ${errors.referenceCode ? 'Inválido' : ''
+                      }`}
+                    name="referenceCode"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.referenceCode?.message}
+                  </div>
                 </div>
               </div>
+
               <div className="d-grid gap-2 col-6 d-md-flex ">
                 <button
                   className="btn btn-outline-danger"
