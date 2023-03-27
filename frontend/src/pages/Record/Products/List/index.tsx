@@ -22,11 +22,12 @@ type ControlComponentsData = {
 };
 
 const List = () => {
+  /* 
   function buscarNomeGrupo(productGroup: any) {
     const { groupName } = productGroup;
     return groupName;
   }
-
+ */
   const [page, setPage] = useState<SpringPage<Product>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -197,7 +198,7 @@ const List = () => {
               {page?.content.map((product) => (
                 <tr key={product.id}>
                   <td>{product.description}</td>
-                  <td>{buscarNomeGrupo(product.group)} </td>
+                  <td>{product.group.groupName} </td>
                   <td>
                     {product.active  ? <FaCheck color='green'/> : <FaTimes color='red' />}
                   </td>

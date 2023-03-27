@@ -126,31 +126,19 @@ const Form = () => {
                 </div>
               </div>
               <div className="mb-3 col-12 col-md-6 col-lg-4">
-                <label htmlFor="group" className="form-label">
-                  Grupo
-                </label>
-                <select
-                  {...register('group', {
-                    required: 'Campo obrigatório',
-                  })}
-                  className={`form-control ${errors.group ? 'is-invalid' : ''}`}
-                  name="group"
-                  value={selectedGroup}
-                  onChange={(e) => setSelectedGroup(e.target.value)}
-                >
-                  <option value="">Selecione um grupo</option>
-                  <FindGroup
-                    onSelectGroup={handleSelectGroup}
-                    selectedGroup={selectedGroup}
-                  />
-                  
-                </select>
-                {errors.group && (
-                  <div className="invalid-feedback d-block">
-                    {errors.group.message}
-                  </div>
-                )}
-              </div>
+        <label htmlFor="group" className="form-label">
+          Grupo
+        </label>
+        <FindGroup
+          onSelectGroup={handleSelectGroup}
+          selectedGroup={selectedGroup}
+        />
+        {errors.group && (
+          <div className="invalid-feedback d-block">
+            {errors.group.message}
+          </div>
+        )}
+      </div>
             </div>
             <div className="row">
               <div className="mb-3 col-12 col-md-6 col-lg4">

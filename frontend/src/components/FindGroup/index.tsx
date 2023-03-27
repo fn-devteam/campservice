@@ -29,6 +29,8 @@ const FindGroup = ({ onSelectGroup }: FindGroupProps) => {
           {grupo.groupName}
         </option>
       ))}
+        {console.log(grupos)}
+
     </select>
   );
 };

@@ -4,7 +4,7 @@ import { Supplier } from "./supplier";
 export type Product =  {
     id: number;
     description:string;
-    group: ProductGroup[];
+    group: ProductGroup;
     active: number;
     unit: string;
     obs: string ;
@@ -21,7 +21,7 @@ export type Product =  {
     originalCode1: string;
     quantityLastEntry: number;
     productLocation: string;
-    lastSupplier: Supplier[];
+    lastSupplier: Supplier;
     itemType: number;
     references: string;
 
