@@ -2,3 +2,17 @@
     display: flex;
     justify-content: space-around;
   }
+
+  .col-auto {
+    width: 85px;
+  }
+
+  .container.row.container.row.align-itens {
+    padding-right: 0px;
+    margin-right: 0px;
+  }
+  .referencia {
+
+    padding-right: 0px;
+    margin-right: 0px;
+  }

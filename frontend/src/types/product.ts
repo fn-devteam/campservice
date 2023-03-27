@@ -23,7 +23,7 @@ export type Product =  {
     productLocation: string;
     lastSupplier: Supplier;
     itemType: string;
-    'references': string;
+    referenceCode: string;
 
 }
   
