@@ -40,8 +40,6 @@ const FindGroup = (props: FindGroupProps) => {
           {grupo.groupName}
         </option>
       ))}
-        {console.log(grupos)}
-
     </select>
   );
 };

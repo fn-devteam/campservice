@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { requestBackend } from "util/requests";
 
 interface FindProductTypeProps {
     onSelectProductType: (productType: string ) => void;
@@ -15,10 +16,14 @@ interface FindProductTypeProps {
     };
   
     useEffect(() => {
-      fetch('/products/enums')
-        .then((response) => response.json())
-        .then((data) => {
-          setProductTypes(data.productType);
+      const config = {
+        method: 'GET',
+        url: '/products/enums',
+      };
+
+      requestBackend(config)
+        .then((response) => {
+          setProductTypes(response.data);
         })
         .catch((error) => console.error(error));
     }, []);

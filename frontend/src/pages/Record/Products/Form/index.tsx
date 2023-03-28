@@ -16,9 +16,9 @@ type UrlParams = {
 
 const Form = () => {
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
-  const [selectedProductType, setSelectedProductType] = useState< string  >();
+  const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
-  
+
   const history = useHistory();
 
   const { productId } = useParams<UrlParams>();
@@ -151,9 +151,9 @@ const Form = () => {
   const handleSelectGroup = (group: ProductGroup | null) => {
     setSelectedGroup(group);
 
-  }; 
-  
-  const handleSelectProductType = (itemType: string  ) => {
+  };
+
+  const handleSelectProductType = (itemType: string) => {
     setSelectedProductType(itemType);
   };
 
@@ -348,10 +348,10 @@ const Form = () => {
                     Tipo
                   </label>
                   <FindProductType
-  onSelectProductType={handleSelectProductType}
-  selectedProductType={selectedProductType}
-  className="form-control"
-/>
+                    onSelectProductType={handleSelectProductType}
+                    selectedProductType={selectedProductType}
+                    className="form-control"
+                  />
 
                   {errors.itemType && (
                     <div className="invalid-feedback d-block">
