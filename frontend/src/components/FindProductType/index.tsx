@@ -18,7 +18,7 @@ interface FindProductTypeProps {
     useEffect(() => {
       const config = {
         method: 'GET',
-        url: '/products/enums',
+        url: '/products/itemType',
       };
 
       requestBackend(config)
@@ -35,7 +35,7 @@ interface FindProductTypeProps {
         value={props.selectedProductType}
         className={props.className}
       >
-        <option value="">Selecione um tipo de produto</option>
+        <option value="">Selecione o tipo do item</option>
         {productTypes.map((productType) => (
           <option key={productType} value={productType}>
             {productType}

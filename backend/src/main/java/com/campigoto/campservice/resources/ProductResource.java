@@ -38,7 +38,7 @@ public class ProductResource {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/enums")
+    @GetMapping("/itemType")
     public ItemType[] getEnums() {
         return ItemType.values();
     }

@@ -1,3 +1,7 @@
+.form-label {
+  font-weight: bold;
+}
+
 .product-crud-form-card {
   padding: 20px;
 }

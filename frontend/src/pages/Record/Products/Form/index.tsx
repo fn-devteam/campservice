@@ -37,7 +37,7 @@ const Form = () => {
       requestBackend({ url: `/products/${productId}` }).then((response) => {
         const product = response.data as Product;
         const defaultSupplier = {
-          id: 0,
+          id: 1,
           name: 'Fornecedor Padrão',
           active: 0,
           emailAddress: '',
@@ -116,6 +116,8 @@ const Form = () => {
         );
 
         setValue('itemType', product.itemType ? product.itemType : '');
+        setSelectedProductType(product.itemType);
+
         setValue('referenceCode', product.referenceCode ? product.referenceCode : '');
       });
     }
@@ -168,7 +170,7 @@ const Form = () => {
             <div className="container">
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="description" className="form-label">
+                  <label htmlFor="description" className="form-label"  >
                     Descrição
                   </label>
                   <input
@@ -289,7 +291,7 @@ const Form = () => {
                     {errors.referenceCode?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="currentInventory" className="form-label">
                     Estoque
                   </label>
@@ -343,7 +345,7 @@ const Form = () => {
                     {errors.quantityLastEntry?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-6 col-lg-4">
+                <div className="mb-3 col-12 col-md-6 col-lg-3">
                   <label htmlFor="itemType" className="form-label">
                     Tipo
                   </label>
@@ -352,7 +354,6 @@ const Form = () => {
                     selectedProductType={selectedProductType}
                     className="form-control"
                   />
-
                   {errors.itemType && (
                     <div className="invalid-feedback d-block">
                       {errors.itemType.message}
@@ -377,7 +378,6 @@ const Form = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row">
                 <div className="mb-3 col-4 col-md-4 col-lg-1">
                   <label htmlFor="profitMargin" className="form-label">
@@ -465,7 +465,79 @@ const Form = () => {
                   </div>
                 </div>
               </div>
-
+              <div className="row">
+              <div className="mb-3 col-12 col-md-3">
+                  <label htmlFor="priceValue" className="form-label">
+                  priceValue
+                  </label>
+                  <input
+                    {...register('priceValue')}
+                    type="text"
+                    className={`form-control  ${errors.priceValue ? 'Inválido' : ''
+                      }`}
+                    name="priceValue"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.priceValue?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-12 col-md-3">
+                  <label htmlFor="productLocation" className="form-label" >
+                  Local de Estoque
+                  </label>
+                  <input
+                    {...register('productLocation')}
+                    type="text"
+                    className={`form-control  ${errors.productLocation ? 'Inválido' : ''
+                      }`}
+                    name="productLocation"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.productLocation?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-3">
+                  <label htmlFor="lastSupplierName" className="form-label">
+                  Último fornecedor
+                  </label>
+                  <input
+                    id="lastSupplierName"
+                    {...register('lastSupplier.name')}
+                    type="text"
+                    className={`form-control  ${errors.lastSupplier ? 'Inválido' : ''
+                      }`}
+                    disabled
+                    name="lastSupplier.name"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.lastSupplier?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-4 col-md-3">
+                  <label htmlFor="obs" className="form-label">
+                  Observação
+                  </label>
+                  <input
+                    {...register('obs')}
+                    type="text"
+                    className={`form-control  ${errors.obs ? 'Inválido' : ''
+                      }`}
+                    name="obs"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.obs?.message}
+                  </div>
+                </div>
+              </div>
               <div className="d-grid gap-2 col-6 d-md-flex ">
                 <button
                   className="btn btn-outline-danger"
