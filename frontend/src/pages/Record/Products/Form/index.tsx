@@ -299,11 +299,11 @@ const Form = () => {
                     {errors.currentInventory?.message}
                   </div>
                 </div>
-
-              </div><div className="row">
-                <div className="mb-3 col-12 col-md-4 col-lg-1">
+              </div>
+              <div className="row">
+                <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="minimumStock" className="form-label">
-                    Est.Min
+                    Estoque Mínimo
                   </label>
                   <input
                     {...register('minimumStock')}
@@ -318,9 +318,9 @@ const Form = () => {
                     {errors.minimumStock?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-2">
+                <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="quantityLastEntry" className="form-label" >
-                    Qtd.Ult.Entr
+                    Qtde. da Última Entrada
                   </label>
                   <input
                     {...register('quantityLastEntry')}
@@ -336,7 +336,7 @@ const Form = () => {
                     {errors.quantityLastEntry?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-2">
+                <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="itemType" className="form-label">
                     Tipo
                   </label>
@@ -353,9 +353,9 @@ const Form = () => {
                     {errors.itemType?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-3">
                   <label htmlFor="purchasePrice" className="form-label">
-                    R$ Compr
+                    Preço de Compra
                   </label>
                   <input
                     {...register('purchasePrice')}
@@ -370,6 +370,9 @@ const Form = () => {
                     {errors.purchasePrice?.message}
                   </div>
                 </div>
+              </div>
+
+              <div className="row">
                 <div className="mb-3 col-4 col-md-4 col-lg-1">
                   <label htmlFor="profitMargin" className="form-label">
                     Margem
@@ -387,9 +390,9 @@ const Form = () => {
                     {errors.profitMargin?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="factoryIndex" className="form-label">
-                    Ind.Fábr.
+                    Índ. de Fábricação
                   </label>
                   <input
                     {...register('factoryIndex')}
@@ -404,7 +407,7 @@ const Form = () => {
                     {errors.factoryIndex?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-3">
                   <label htmlFor="rebate" className="form-label">
                     Desconto
                   </label>
@@ -421,9 +424,9 @@ const Form = () => {
                     {errors.rebate?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-3">
                   <label htmlFor="salePrice" className="form-label">
-                    R$ Venda
+                    Preço de Venda
                   </label>
                   <input
                     {...register('salePrice')}
@@ -438,7 +441,7 @@ const Form = () => {
                     {errors.salePrice?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-3">
                   <label htmlFor="salePrice" className="form-label">
                     R$ Lista
                   </label>
