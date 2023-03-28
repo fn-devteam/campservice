@@ -3,6 +3,7 @@ package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.ProductDto;
 import com.campigoto.campservice.dto.ProductFilterDto;
+import com.campigoto.campservice.entities.enums.ItemType;
 import com.campigoto.campservice.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class ProductResource {
 
     private final ProductService service;
 
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         ProductDto dto = service.findById(id);
@@ -34,6 +36,11 @@ public class ProductResource {
     ) {
         Page<ProductDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/enums")
+    public ItemType[] getEnums() {
+        return ItemType.values();
     }
 
     @PostMapping

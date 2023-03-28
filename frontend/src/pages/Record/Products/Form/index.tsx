@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 import FindGroup from 'components/FindGroup';
+import FindProductType from 'components/FindProductType';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
@@ -15,8 +16,9 @@ type UrlParams = {
 
 const Form = () => {
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
+  const [selectedProductType, setSelectedProductType] = useState< string  >();
   const [checked, setChecked] = useState<boolean>(true);
-
+  
   const history = useHistory();
 
   const { productId } = useParams<UrlParams>();
@@ -148,6 +150,11 @@ const Form = () => {
 
   const handleSelectGroup = (group: ProductGroup | null) => {
     setSelectedGroup(group);
+
+  }; 
+  
+  const handleSelectProductType = (itemType: string  ) => {
+    setSelectedProductType(itemType);
   };
 
   return (
@@ -336,22 +343,21 @@ const Form = () => {
                     {errors.quantityLastEntry?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-3">
+                <div className="mb-3 col-12 col-md-6 col-lg-4">
                   <label htmlFor="itemType" className="form-label">
                     Tipo
                   </label>
-                  <input
-                    {...register('itemType')}
-                    type="text"
-                    className={`form-control  ${errors.itemType ? 'Inválido' : ''
-                      }`}
-                    name="itemType"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.itemType?.message}
-                  </div>
+                  <FindProductType
+  onSelectProductType={handleSelectProductType}
+  selectedProductType={selectedProductType}
+  className="form-control"
+/>
+
+                  {errors.itemType && (
+                    <div className="invalid-feedback d-block">
+                      {errors.itemType.message}
+                    </div>
+                  )}
                 </div>
                 <div className="mb-3 col-4 col-md-3">
                   <label htmlFor="purchasePrice" className="form-label">
