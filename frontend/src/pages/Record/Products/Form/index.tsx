@@ -15,6 +15,11 @@ type UrlParams = {
 };
 
 const Form = () => {
+  const [profitMargin, setProfitMargin] = useState('');
+  const [rebate, setRebate] = useState('');
+  const [purchasePrice, setPurchasePrice] = useState('');
+  const [factoryIndex, setFactoryIndex] = useState('');
+  const [salePrice, setSalePrice] = useState('');
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -54,7 +59,7 @@ const Form = () => {
           contactPerson: '',
           obs: '',
           registrationDate: '',
-          referenceCode: ''
+          referenceCode: '',
         };
 
         const defaultGroup = {
@@ -118,7 +123,10 @@ const Form = () => {
         setValue('itemType', product.itemType ? product.itemType : '');
         setSelectedProductType(product.itemType);
 
-        setValue('referenceCode', product.referenceCode ? product.referenceCode : '');
+        setValue(
+          'referenceCode',
+          product.referenceCode ? product.referenceCode : ''
+        );
       });
     }
   }, [isEditing, productId, setValue]);
@@ -128,6 +136,11 @@ const Form = () => {
       ...formData,
       group: selectedGroup,
       active: checked,
+      purchasePrice,
+      profitMargin,
+      factoryIndex,
+      rebate,
+      salePrice,
     };
 
     const config: AxiosRequestConfig = {
@@ -152,12 +165,48 @@ const Form = () => {
 
   const handleSelectGroup = (group: ProductGroup | null) => {
     setSelectedGroup(group);
-
   };
 
   const handleSelectProductType = (itemType: string) => {
     setSelectedProductType(itemType);
   };
+
+  const handlePurchasePriceChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPurchasePrice(event.target.value);
+    console.log(purchasePrice);
+  };
+
+  const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRebate(event.target.value);
+    console.log(rebate);
+  };
+
+  const handleProfitMarginChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setProfitMargin(event.target.value);
+    console.log(profitMargin);
+  };
+
+  const handleFactoryIndexChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setFactoryIndex(event.target.value);
+    console.log(factoryIndex);
+  };
+
+  function calcPurchasePrice() {
+    const price = parseFloat(purchasePrice);
+    const desc = parseFloat(rebate);
+    const profit = parseFloat(profitMargin);
+    const factory = parseFloat(factoryIndex);
+    const sale =
+      price * (1 - desc / 100) * (1 - profit / 100) * (1 - factory / 100);
+    setSalePrice(sale.toFixed(2));
+    console.log(salePrice);
+  }
 
   return (
     <div>
@@ -166,11 +215,11 @@ const Form = () => {
           <h3>Dados do Produto</h3>
         </div>
         <div className="card-body">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} onSelect={calcPurchasePrice}>
             <div className="container">
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="description" className="form-label"  >
+                  <label htmlFor="description" className="form-label">
                     Descrição
                   </label>
                   <input
@@ -178,8 +227,9 @@ const Form = () => {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${errors.description ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.description ? 'Inválido' : ''
+                    }`}
                     name="description"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -212,8 +262,9 @@ const Form = () => {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${errors.description ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.description ? 'Inválido' : ''
+                    }`}
                     name="unit"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -247,8 +298,9 @@ const Form = () => {
                   <input
                     {...register('originalCode')}
                     type="text"
-                    className={`form-control  ${errors.originalCode ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.originalCode ? 'Inválido' : ''
+                    }`}
                     name="originalCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -264,8 +316,9 @@ const Form = () => {
                   <input
                     {...register('originalCode1')}
                     type="text"
-                    className={`form-control  ${errors.originalCode1 ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.originalCode1 ? 'Inválido' : ''
+                    }`}
                     name="originalCode1"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -281,8 +334,9 @@ const Form = () => {
                   <input
                     {...register('referenceCode')}
                     type="text"
-                    className={`form-control  ${errors.referenceCode ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.referenceCode ? 'Inválido' : ''
+                    }`}
                     name="referenceCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -298,8 +352,9 @@ const Form = () => {
                   <input
                     {...register('currentInventory')}
                     type="text"
-                    className={`form-control  ${errors.currentInventory ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.currentInventory ? 'Inválido' : ''
+                    }`}
                     name="currentInventory"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -317,8 +372,9 @@ const Form = () => {
                   <input
                     {...register('minimumStock')}
                     type="text"
-                    className={`form-control  ${errors.minimumStock ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.minimumStock ? 'Inválido' : ''
+                    }`}
                     name="minimumStock"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -328,14 +384,15 @@ const Form = () => {
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="quantityLastEntry" className="form-label" >
+                  <label htmlFor="quantityLastEntry" className="form-label">
                     Qtde. da Última Entrada
                   </label>
                   <input
                     {...register('quantityLastEntry')}
                     type="text"
-                    className={`form-control  ${errors.quantityLastEntry ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.quantityLastEntry ? 'Inválido' : ''
+                    }`}
                     name="quantityLastEntry"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -367,11 +424,13 @@ const Form = () => {
                   <input
                     {...register('purchasePrice')}
                     type="text"
-                    className={`form-control  ${errors.purchasePrice ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.purchasePrice ? 'Inválido' : ''
+                    }`}
                     name="purchasePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    onChange={handlePurchasePriceChange}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.purchasePrice?.message}
@@ -386,28 +445,34 @@ const Form = () => {
                   <input
                     {...register('profitMargin')}
                     type="text"
-                    className={`form-control  ${errors.profitMargin ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.profitMargin ? 'Inválido' : ''
+                    }`}
                     name="profitMargin"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    onChange={handleProfitMarginChange}
                   />
+                  {/* 
+                  <InputRef nomeDoInput={profitMargin} /> */}
                   <div className="invalid-feedback d-block">
                     {errors.profitMargin?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="factoryIndex" className="form-label">
-                    Índ. de Fábricação
+                    Índice de Fábrica
                   </label>
                   <input
                     {...register('factoryIndex')}
                     type="text"
-                    className={`form-control  ${errors.factoryIndex ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.factoryIndex ? 'Inválido' : ''
+                    }`}
                     name="factoryIndex"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    onChange={handleFactoryIndexChange}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.factoryIndex?.message}
@@ -420,11 +485,14 @@ const Form = () => {
                   <input
                     {...register('rebate')}
                     type="text"
-                    className={`form-control  ${errors.rebate ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.rebate ? 'Inválido' : ''
+                    }`}
                     name="rebate"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    onChange={handleRebateChange}
+                    onBlur={calcPurchasePrice}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.rebate?.message}
@@ -437,65 +505,52 @@ const Form = () => {
                   <input
                     {...register('salePrice')}
                     type="text"
-                    className={`form-control  ${errors.salePrice ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.salePrice ? 'Inválido' : ''
+                    }`}
                     name="salePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    onBlur={calcPurchasePrice}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.salePrice?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-3">
-                  <label htmlFor="salePrice" className="form-label">
-                    R$ Lista
-                  </label>
-                  <input
-                    {...register('salePrice')}
-                    type="text"
-                    className={`form-control  ${errors.salePrice ? 'Inválido' : ''
-                      }`}
-                    name="salePrice"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.salePrice?.message}
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-              <div className="mb-3 col-12 col-md-3">
+                <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="priceValue" className="form-label">
-                  priceValue
+                    Valor Líquido
                   </label>
                   <input
                     {...register('priceValue')}
                     type="text"
-                    className={`form-control  ${errors.priceValue ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.priceValue ? 'Inválido' : ''
+                    }`}
                     name="priceValue"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    disabled
                   />
                   <div className="invalid-feedback d-block">
                     {errors.priceValue?.message}
                   </div>
                 </div>
+              </div>
+              <div className="row">
                 <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="productLocation" className="form-label" >
-                  Local de Estoque
+                  <label htmlFor="productLocation" className="form-label">
+                    Local de Estoque
                   </label>
                   <input
                     {...register('productLocation')}
                     type="text"
-                    className={`form-control  ${errors.productLocation ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.productLocation ? 'Inválido' : ''
+                    }`}
                     name="productLocation"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    
                   />
                   <div className="invalid-feedback d-block">
                     {errors.productLocation?.message}
@@ -503,14 +558,15 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-4 col-md-3">
                   <label htmlFor="lastSupplierName" className="form-label">
-                  Último fornecedor
+                    Último fornecedor
                   </label>
                   <input
                     id="lastSupplierName"
                     {...register('lastSupplier.name')}
                     type="text"
-                    className={`form-control  ${errors.lastSupplier ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${
+                      errors.lastSupplier ? 'Inválido' : ''
+                    }`}
                     disabled
                     name="lastSupplier.name"
                     data-bs-toggle="tooltip"
@@ -520,15 +576,14 @@ const Form = () => {
                     {errors.lastSupplier?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-3">
+                <div className="mb-3 col-4 col-md-6">
                   <label htmlFor="obs" className="form-label">
-                  Observação
+                    Observação
                   </label>
                   <input
                     {...register('obs')}
                     type="text"
-                    className={`form-control  ${errors.obs ? 'Inválido' : ''
-                      }`}
+                    className={`form-control  ${errors.obs ? 'Inválido' : ''}`}
                     name="obs"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
