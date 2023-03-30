@@ -15,11 +15,6 @@ type UrlParams = {
 };
 
 const Form = () => {
-  const [profitMargin, setProfitMargin] = useState('');
-  const [rebate, setRebate] = useState('');
-  const [purchasePrice, setPurchasePrice] = useState('');
-  const [factoryIndex, setFactoryIndex] = useState('');
-  const [salePrice, setSalePrice] = useState('');
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -35,6 +30,7 @@ const Form = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm<Product>();
 
   useEffect(() => {
@@ -68,7 +64,6 @@ const Form = () => {
           obs: '',
         };
         setValue('description', product.description ? product.description : '');
-
         setValue('group', product.group ? product.group : defaultGroup);
         setSelectedGroup(product.group);
 
@@ -136,11 +131,6 @@ const Form = () => {
       ...formData,
       group: selectedGroup,
       active: checked,
-      purchasePrice,
-      profitMargin,
-      factoryIndex,
-      rebate,
-      salePrice,
     };
 
     const config: AxiosRequestConfig = {
@@ -174,38 +164,38 @@ const Form = () => {
   const handlePurchasePriceChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setPurchasePrice(event.target.value);
-    console.log(purchasePrice);
+    setValue(`purchasePrice`, +event.target.value);
+    console.log(`purchasePrice = ${event.target.value}`);
   };
 
   const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRebate(event.target.value);
-    console.log(rebate);
+    setValue(`rebate`, +event.target.value);
+    console.log(`rebase = ${event.target.value}`);
   };
 
   const handleProfitMarginChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setProfitMargin(event.target.value);
-    console.log(profitMargin);
+    setValue(`profitMargin`, +event.target.value);
+    console.log(`profitMargin = ${event.target.value}`);
   };
 
   const handleFactoryIndexChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFactoryIndex(event.target.value);
-    console.log(factoryIndex);
+    setValue(`factoryIndex`, +event.target.value);
+    console.log(`factoryIndex = ${event.target.value}`);
   };
 
   function calcPurchasePrice() {
-    const price = parseFloat(purchasePrice);
-    const desc = parseFloat(rebate);
-    const profit = parseFloat(profitMargin);
-    const factory = parseFloat(factoryIndex);
+    const purchasePrice = getValues('purchasePrice');
+    const desc = getValues('rebate');
+    const profit = getValues('profitMargin');
+    const factory = getValues('factoryIndex');
     const sale =
-      price * (1 - desc / 100) * (1 - profit / 100) * (1 - factory / 100);
-    setSalePrice(sale.toFixed(2));
-    console.log(salePrice);
+      purchasePrice * (1 - desc / 100) * (1 - profit / 100) * (1 - factory / 100);
+    setValue(`salePrice`, +sale.toFixed(2));
+    console.log(`salePrice = ${sale}`);
   }
 
   return (
