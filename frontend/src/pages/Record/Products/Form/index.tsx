@@ -15,6 +15,9 @@ type UrlParams = {
 };
 
 const Form = () => {
+
+  
+
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -34,40 +37,44 @@ const Form = () => {
   } = useForm<Product>();
 
   useEffect(() => {
+    const defaultSupplier = {
+      id: 1,
+      name: 'Fornecedor Padrão',
+      active: 0,
+      emailAddress: '',
+      cpfCnpj: '',
+      personType: 0,
+      stateRegistration: '',
+      zipCode: '',
+      address: '',
+      district: '',
+      city: '',
+      state: '',
+      phoneNumber: '',
+      cellNumber: '',
+      contactPerson: '',
+      obs: '',
+      registrationDate: '',
+      referenceCode: '',
+    };
+
+    const defaultGroup = {
+      id: 1,
+      groupName: 'Grupo Padrão',
+      obs: '',
+    };
+    setValue('lastSupplier', defaultSupplier);
+
     if (isEditing) {
       requestBackend({ url: `/products/${productId}` }).then((response) => {
         const product = response.data as Product;
-        const defaultSupplier = {
-          id: 1,
-          name: 'Fornecedor Padrão',
-          active: 0,
-          emailAddress: '',
-          cpfCnpj: '',
-          personType: 0,
-          stateRegistration: '',
-          zipCode: '',
-          address: '',
-          district: '',
-          city: '',
-          state: '',
-          phoneNumber: '',
-          cellNumber: '',
-          contactPerson: '',
-          obs: '',
-          registrationDate: '',
-          referenceCode: '',
-        };
-
-        const defaultGroup = {
-          id: 1,
-          groupName: 'Grupo Padrão',
-          obs: '',
-        };
         setValue('description', product.description ? product.description : '');
         setValue('group', product.group ? product.group : defaultGroup);
         setSelectedGroup(product.group);
 
         setValue('active', product.active);
+        setChecked(product.active ? true : false);
+
         setValue('unit', product.unit ? product.unit : '');
         setValue('obs', product.obs ? product.obs : '');
         setValue(
@@ -164,19 +171,25 @@ const Form = () => {
   const handlePurchasePriceChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setValue(`purchasePrice`, +event.target.value);
+    setValue(mask()`purchasePrice`, +event.target.value);
+    calcPurchasePrice();
     console.log(`purchasePrice = ${event.target.value}`);
   };
+  
 
-  const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRebateChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setValue(`rebate`, +event.target.value);
-    console.log(`rebase = ${event.target.value}`);
+    calcPurchasePrice();
+    console.log(`rebate = ${event.target.value}`);
   };
-
+  
   const handleProfitMarginChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setValue(`profitMargin`, +event.target.value);
+    calcPurchasePrice();
     console.log(`profitMargin = ${event.target.value}`);
   };
 
@@ -184,16 +197,27 @@ const Form = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setValue(`factoryIndex`, +event.target.value);
+    calcPurchasePrice();
     console.log(`factoryIndex = ${event.target.value}`);
   };
 
+  /* 
+											WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
+											WPr_Vlr = produto.PRO_PRECO_COMPRA;
+											WPr_vend = (WPr_Vlr * (1 + ( WPr_perc_ganho / 100)));
+											WPr_Abat = produto.PRO_PERCENTUAL_ABATE;
+											mDesc = WPr_vend * (WPr_Abat / 100);
+											WPR_liq = WPr_vend - mDesc; */
+
   function calcPurchasePrice() {
     const purchasePrice = getValues('purchasePrice');
-    const desc = getValues('rebate');
+
     const profit = getValues('profitMargin');
-    const factory = getValues('factoryIndex');
-    const sale =
-      purchasePrice * (1 - desc / 100) * (1 - profit / 100) * (1 - factory / 100);
+    const discount = getValues('rebate');
+    const sale = purchasePrice * (1 + profit / 100);
+    const mdesc = sale * (discount / 100);
+    const liq = sale - mdesc;
+    setValue(`priceValue`, +liq.toFixed(2));
     setValue(`salePrice`, +sale.toFixed(2));
     console.log(`salePrice = ${sale}`);
   }
@@ -205,7 +229,7 @@ const Form = () => {
           <h3>Dados do Produto</h3>
         </div>
         <div className="card-body">
-          <form onSubmit={handleSubmit(onSubmit)} onSelect={calcPurchasePrice}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="container">
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
@@ -407,19 +431,21 @@ const Form = () => {
                     </div>
                   )}
                 </div>
-                <div className="mb-3 col-4 col-md-3">
+                <div className="mb-3 col-4 col-md-3 form-group">
                   <label htmlFor="purchasePrice" className="form-label">
                     Preço de Compra
                   </label>
                   <input
                     {...register('purchasePrice')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control item  ${
                       errors.purchasePrice ? 'Inválido' : ''
                     }`}
+                    placeholder="Preço de compra"
                     name="purchasePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
+                    value={'purchasePrice'}
                     onChange={handlePurchasePriceChange}
                   />
                   <div className="invalid-feedback d-block">
@@ -443,8 +469,6 @@ const Form = () => {
                     data-bs-placement="top"
                     onChange={handleProfitMarginChange}
                   />
-                  {/* 
-                  <InputRef nomeDoInput={profitMargin} /> */}
                   <div className="invalid-feedback d-block">
                     {errors.profitMargin?.message}
                   </div>
@@ -482,7 +506,6 @@ const Form = () => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     onChange={handleRebateChange}
-                    onBlur={calcPurchasePrice}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.rebate?.message}
@@ -501,7 +524,7 @@ const Form = () => {
                     name="salePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    onBlur={calcPurchasePrice}
+                    disabled
                   />
                   <div className="invalid-feedback d-block">
                     {errors.salePrice?.message}

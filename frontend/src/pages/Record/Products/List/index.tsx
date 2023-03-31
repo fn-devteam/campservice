@@ -22,12 +22,7 @@ type ControlComponentsData = {
 };
 
 const List = () => {
-  /* 
-  function buscarNomeGrupo(productGroup: any) {
-    const { groupName } = productGroup;
-    return groupName;
-  }
- */
+
   const [page, setPage] = useState<SpringPage<Product>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -188,22 +183,26 @@ const List = () => {
               <tr>
                 <th>Descrição</th>
                 <th>Grupo</th>
-                <th>Ativo</th>
-                <th>Estoque</th>
-                <th>R$ Venda</th>
-                <th>Ações</th>
+                <th className='td-active'>Ativo</th>
+                <th className='header-number '>Estoque</th>
+                <th className='header-number '>R$ Venda</th>
+                <th className='header-number '>R$ Liquido</th>
+                <th className='header-actions'>Ações</th>
               </tr>
             </thead>
             <tbody>
               {page?.content.map((product) => (
                 <tr key={product.id}>
-                  <td>{product.description}</td>
+                  <td >{product.description}</td>
                   <td>{product.group.groupName} </td>
-                  <td>
+                  <td className='td-active'>
                     {product.active  ? <FaCheck color='green'/> : <FaTimes color='red' />}
                   </td>
-                  <td>{product.currentInventory}</td>
-                  <td>
+                  <td className='td-number'>{product.currentInventory}</td>
+                  <td className='td-number'>
+                    {product && <ProductPrice price={product.salePrice} />}
+                  </td>
+                  <td className='td-number'>
                     {product && <ProductPrice price={product.priceValue} />}
                   </td>
                   <td className="flex-row">
@@ -212,11 +211,11 @@ const List = () => {
                       arrow
                       placement="top"
                     >
-                      <button
+                      <button className='btn-actions'
                         type="button"
                         onClick={() => handleEdit(product.id)}
                       >
-                        <FaEdit />
+                        <FaEdit  />
                       </button>
                     </Tooltip>
                     <Tooltip
@@ -224,7 +223,7 @@ const List = () => {
                       arrow
                       placement="top"
                     >
-                      <button
+                      <button className='btn-actions'
                         type="button"
                         onClick={() => handleDelete(product.id)}
                       >
