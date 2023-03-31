@@ -1,23 +1,21 @@
 import { AxiosRequestConfig } from 'axios';
 import FindGroup from 'components/FindGroup';
 import FindProductType from 'components/FindProductType';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Product } from 'types/product';
 import { ProductGroup } from 'types/productGroup';
 import { requestBackend } from 'util/requests';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import './styles.css';
+import CurrencyInput from 'react-currency-input-field';
 
 type UrlParams = {
   productId: string;
 };
 
 const Form = () => {
-
-  
-
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -171,20 +169,17 @@ const Form = () => {
   const handlePurchasePriceChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setValue(mask()`purchasePrice`, +event.target.value);
+    setValue(`purchasePrice`, +event.target.value);
     calcPurchasePrice();
     console.log(`purchasePrice = ${event.target.value}`);
   };
-  
 
-  const handleRebateChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(`rebate`, +event.target.value);
     calcPurchasePrice();
     console.log(`rebate = ${event.target.value}`);
   };
-  
+
   const handleProfitMarginChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -445,9 +440,16 @@ const Form = () => {
                     name="purchasePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    value={'purchasePrice'}
                     onChange={handlePurchasePriceChange}
                   />
+                  <CurrencyInput
+                    id="purchasePrice"
+                    name="purchasePrice"
+                    placeholder="Please enter a number"
+                    decimalsLimit={2}
+                    onValueChange={(value, name) => console.log(value, name)}
+                  />
+                  
                   <div className="invalid-feedback d-block">
                     {errors.purchasePrice?.message}
                   </div>
@@ -475,7 +477,7 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="factoryIndex" className="form-label">
-                    Índice de Fábrica
+                    Índice de Fábrica{' '}
                   </label>
                   <input
                     {...register('factoryIndex')}
