@@ -22,7 +22,6 @@ type ControlComponentsData = {
 };
 
 const List = () => {
-
   const [page, setPage] = useState<SpringPage<Product>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -183,54 +182,62 @@ const List = () => {
               <tr>
                 <th>Descrição</th>
                 <th>Grupo</th>
-                <th className='td-active'>Ativo</th>
-                <th className='header-number '>Estoque</th>
-                <th className='header-number '>R$ Venda</th>
-                <th className='header-number '>R$ Liquido</th>
-                <th className='header-actions'>Ações</th>
+                <th className="td-active">Ativo</th>
+                <th className="header-number ">Estoque</th>
+                <th className="header-number ">R$ Venda</th>
+                <th className="header-number ">R$ Liquido</th>
+                <th className="header-actions">Ações</th>
               </tr>
             </thead>
             <tbody>
               {page?.content.map((product) => (
                 <tr key={product.id}>
-                  <td >{product.description}</td>
+                  <td>{product.description}</td>
                   <td>{product.group.groupName} </td>
-                  <td className='td-active'>
-                    {product.active  ? <FaCheck color='green'/> : <FaTimes color='red' />}
+                  <td className="td-active">
+                    {product.active ? (
+                      <FaCheck color="green" />
+                    ) : (
+                      <FaTimes color="red" />
+                    )}
                   </td>
-                  <td className='td-number'>{product.currentInventory}</td>
-                  <td className='td-number'>
+                  <td className="td-number">{product.currentInventory}</td>
+                  <td className="td-number">
                     {product && <ProductPrice price={product.salePrice} />}
                   </td>
-                  <td className='td-number'>
+                  <td className="td-number">
                     {product && <ProductPrice price={product.priceValue} />}
                   </td>
-                  <td className="flex-row">
-                    <Tooltip
-                      title="Clique aqui para editar o produto"
-                      arrow
-                      placement="top"
-                    >
-                      <button className='btn-actions'
-                        type="button"
-                        onClick={() => handleEdit(product.id)}
+                  <div className="btn-actions-container ">
+                    <td className="flex-row btn-actions">
+                      <Tooltip
+                        title="Clique aqui para editar o produto"
+                        arrow
+                        placement="top"
                       >
-                        <FaEdit  />
-                      </button>
-                    </Tooltip>
-                    <Tooltip
-                      title="Clique aqui para excluir o produto"
-                      arrow
-                      placement="top"
-                    >
-                      <button className='btn-actions'
-                        type="button"
-                        onClick={() => handleDelete(product.id)}
+                        <button
+                          
+                          type="button"
+                          onClick={() => handleEdit(product.id)}
+                        >
+                          <FaEdit />
+                        </button>
+                      </Tooltip>
+                      <Tooltip
+                        title="Clique aqui para excluir o produto"
+                        arrow
+                        placement="top"
                       >
-                        <FaTrash />
-                      </button>
-                    </Tooltip>
-                  </td>
+                        <button
+                          className='btn-trash'
+                          type="button"
+                          onClick={() => handleDelete(product.id)}
+                        >
+                          <FaTrash />
+                        </button>
+                      </Tooltip>
+                    </td>
+                  </div>
                 </tr>
               ))}
             </tbody>

@@ -137,6 +137,7 @@ const Form = () => {
       ...formData,
       group: selectedGroup,
       active: checked,
+      purchasePrice: String(formData.purchasePrice).replace(',', '.'),
     };
 
     const config: AxiosRequestConfig = {
@@ -167,34 +168,7 @@ const Form = () => {
     setSelectedProductType(itemType);
   };
 
-  const handlePurchasePriceChange = (priceValue : string | undefined) => {
-    setValue(`purchasePrice`,+(priceValue || 0));
-    calcPurchasePrice();
-    console.log(`purchasePrice = ${priceValue}`);
-  };
-
-  const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(`rebate`, +event.target.value);
-    calcPurchasePrice();
-    console.log(`rebate = ${event.target.value}`);
-  };
-
-  const handleProfitMarginChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValue(`profitMargin`, +event.target.value);
-    calcPurchasePrice();
-    console.log(`profitMargin = ${event.target.value}`);
-  };
-
-  const handleFactoryIndexChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValue(`factoryIndex`, +event.target.value);
-    calcPurchasePrice();
-    console.log(`factoryIndex = ${event.target.value}`);
-  };
-
+ 
   /* 
 											WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
 											WPr_Vlr = produto.PRO_PRECO_COMPRA;
@@ -220,7 +194,11 @@ const Form = () => {
     <div>
       <div className="card my-3 mx-5">
         <div className="card-header">
-          <h3>Dados do Produto</h3>
+          {isEditing ? (
+            <h3>Dados do Produto - Editar</h3>
+          ) : (
+            <h3>Dados do Produto - Incluir</h3>
+          )}{' '}
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -357,10 +335,10 @@ const Form = () => {
                   <label htmlFor="currentInventory" className="form-label">
                     Estoque
                   </label>
-                  <input
+                  <input 
                     {...register('currentInventory')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control base-input-value  ${
                       errors.currentInventory ? 'Inválido' : ''
                     }`}
                     name="currentInventory"
@@ -380,7 +358,7 @@ const Form = () => {
                   <input
                     {...register('minimumStock')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control base-input-value  ${
                       errors.minimumStock ? 'Inválido' : ''
                     }`}
                     name="minimumStock"
@@ -398,7 +376,7 @@ const Form = () => {
                   <input
                     {...register('quantityLastEntry')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control base-input-value ${
                       errors.quantityLastEntry ? 'Inválido' : ''
                     }`}
                     name="quantityLastEntry"
@@ -427,22 +405,24 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-4 col-md-3 form-group">
                   <label htmlFor="purchasePrice" className="form-label">
-                    Preço de Compra
+                    Preço de Compra R$
                   </label>
-                  <Controller 
+                  <Controller
                     name="purchasePrice"
                     rules={{ required: 'Campo obrigatório' }}
                     control={control}
                     render={({ field }) => (
                       <CurrencyInput
                         placeholder="Preço de compra"
-                        className={`form-control item  ${
+                        className={`form-control base-input-value  ${
                           errors.purchasePrice ? 'Inválido' : ''
                         }`}
                         disableGroupSeparators={true}
-                        decimalsLimit={2}
                         value={field.value}
-                        onValueChange={(value) => handlePurchasePriceChange(value ) }
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          calcPurchasePrice();
+                        }}
                       />
                     )}
                   />
@@ -452,71 +432,98 @@ const Form = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="mb-3 col-4 col-md-4 col-lg-1">
+                <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="profitMargin" className="form-label">
-                    Margem
+                    Margem %
                   </label>
-                  <input
-                    {...register('profitMargin')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.profitMargin ? 'Inválido' : ''
-                    }`}
+                  <Controller
                     name="profitMargin"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    onChange={handleProfitMarginChange}
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <CurrencyInput
+                        placeholder="Margem"
+                        className={`form-control base-input-value  ${
+                          errors.purchasePrice ? 'Inválido' : ''
+                        }`}
+                        disableGroupSeparators={true}
+                        value={field.value}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          calcPurchasePrice();
+                        }}
+                      />
+                    )}
                   />
+                  
                   <div className="invalid-feedback d-block">
                     {errors.profitMargin?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="factoryIndex" className="form-label">
-                    Índice de Fábrica{' '}
+                    Índice de Fábrica %
                   </label>
-                  <input
-                    {...register('factoryIndex')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.factoryIndex ? 'Inválido' : ''
-                    }`}
+                   <Controller
                     name="factoryIndex"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    onChange={handleFactoryIndexChange}
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <CurrencyInput
+                        placeholder="ìndice de Fábrica"
+                        className={`form-control base-input-value  ${
+                          errors.purchasePrice ? 'Inválido' : ''
+                        }`}
+                        disableGroupSeparators={true}
+                        value={field.value}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          calcPurchasePrice();
+                        }}
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.factoryIndex?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-3">
+                <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="rebate" className="form-label">
-                    Desconto
+                  % de Desconto
                   </label>
-                  <input
-                    {...register('rebate')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.rebate ? 'Inválido' : ''
-                    }`}
+                  
+                  <Controller
                     name="rebate"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    onChange={handleRebateChange}
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <CurrencyInput
+                        placeholder="% de Desconto"
+                        className={`form-control base-input-value  ${
+                          errors.purchasePrice ? 'Inválido' : ''
+                        }`}
+                        disableGroupSeparators={true}
+                        value={field.value}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          calcPurchasePrice();
+                        }}
+                      />
+                    )}
                   />
+                  
                   <div className="invalid-feedback d-block">
                     {errors.rebate?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-3">
                   <label htmlFor="salePrice" className="form-label">
-                    Preço de Venda
+                    Preço de Venda R$
                   </label>
                   <input
                     {...register('salePrice')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control base-input-value ${
                       errors.salePrice ? 'Inválido' : ''
                     }`}
                     name="salePrice"
@@ -530,12 +537,12 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="priceValue" className="form-label">
-                    Valor Líquido
+                    Preço Líquido
                   </label>
                   <input
                     {...register('priceValue')}
                     type="text"
-                    className={`form-control  ${
+                    className={`form-control base-input-value ${
                       errors.priceValue ? 'Inválido' : ''
                     }`}
                     name="priceValue"

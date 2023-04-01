@@ -17,6 +17,7 @@
 }
 
 .td-number {
+  
   text-align: right;
 }
 
@@ -28,8 +29,21 @@
  text-align: right;
 }
 
-btn-actions {
+.btn-actions {
   text-align: right;
 
+}
+
+.btn-trash {
+  margin-right: 5px;
+  padding-right: 0px;
+}
+
+.btn-actions-container {
+  
+  align-items: flex-end;
+  margin: 0px;
+  padding: 0px;
+  text-align: end;
 }
 

@@ -28,3 +28,16 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
+.base-input-value { 
+    border-radius: 10px;
+    font-size: 1em;
+    letter-spacing: -0.015em;
+    color: #263238;
+    text-align: end;
+    
+   
+  }
+   
+  .base-input-value ::placeholder {
+    color: #9E9E9E;
+  }
