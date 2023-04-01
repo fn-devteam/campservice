@@ -7,9 +7,9 @@ import { Product } from 'types/product';
 import { ProductGroup } from 'types/productGroup';
 import { requestBackend } from 'util/requests';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import './styles.css';
+import { Controller, useForm } from 'react-hook-form';
 import CurrencyInput from 'react-currency-input-field';
+import './styles.css';
 
 type UrlParams = {
   productId: string;
@@ -32,6 +32,7 @@ const Form = () => {
     formState: { errors },
     setValue,
     getValues,
+    control,
   } = useForm<Product>();
 
   useEffect(() => {
@@ -166,12 +167,10 @@ const Form = () => {
     setSelectedProductType(itemType);
   };
 
-  const handlePurchasePriceChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setValue(`purchasePrice`, +event.target.value);
+  const handlePurchasePriceChange = (priceValue : string | undefined) => {
+    setValue(`purchasePrice`,+(priceValue || 0));
     calcPurchasePrice();
-    console.log(`purchasePrice = ${event.target.value}`);
+    console.log(`purchasePrice = ${priceValue}`);
   };
 
   const handleRebateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -430,26 +429,23 @@ const Form = () => {
                   <label htmlFor="purchasePrice" className="form-label">
                     Preço de Compra
                   </label>
-                  <input
-                    {...register('purchasePrice')}
-                    type="text"
-                    className={`form-control item  ${
-                      errors.purchasePrice ? 'Inválido' : ''
-                    }`}
-                    placeholder="Preço de compra"
+                  <Controller 
                     name="purchasePrice"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    onChange={handlePurchasePriceChange}
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <CurrencyInput
+                        placeholder="Preço de compra"
+                        className={`form-control item  ${
+                          errors.purchasePrice ? 'Inválido' : ''
+                        }`}
+                        disableGroupSeparators={true}
+                        decimalsLimit={2}
+                        value={field.value}
+                        onValueChange={(value) => handlePurchasePriceChange(value ) }
+                      />
+                    )}
                   />
-                  <CurrencyInput
-                    id="purchasePrice"
-                    name="purchasePrice"
-                    placeholder="Please enter a number"
-                    decimalsLimit={2}
-                    onValueChange={(value, name) => console.log(value, name)}
-                  />
-                  
                   <div className="invalid-feedback d-block">
                     {errors.purchasePrice?.message}
                   </div>
