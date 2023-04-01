@@ -4,6 +4,7 @@ import Products from './Products';
 import ProductGroups from './ProductsGroups';
 import './styles.css';
 import Users from './Users';
+import Suppliers from './Suppliers';
 
 const Record = () => {
     return (
@@ -18,7 +19,7 @@ const Record = () => {
                       <h1>Customer CRUD</h1>
                       </Route>              
                     <Route path="/record/suppliers" >
-                      <h1>Supplier CRUD</h1>
+                      <Suppliers />
                     </Route>              
                     <Route path="/record/products" >
                       <Products />

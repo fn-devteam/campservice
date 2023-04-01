@@ -42,7 +42,7 @@ const Form = () => {
       active: 0,
       emailAddress: '',
       cpfCnpj: '',
-      personType: 0,
+      personType: '',
       stateRegistration: '',
       zipCode: '',
       address: '',
@@ -198,7 +198,7 @@ const Form = () => {
             <h3>Dados do Produto - Editar</h3>
           ) : (
             <h3>Dados do Produto - Incluir</h3>
-          )}{' '}
+          )}
         </div>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>

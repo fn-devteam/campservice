@@ -4,7 +4,7 @@ export type Supplier = {
   active: number;
   emailAddress: string;
   cpfCnpj: string;
-  personType: number;
+  personType: string;
   stateRegistration: string;
   zipCode: string;
   address: string;
