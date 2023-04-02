@@ -14,7 +14,7 @@ ${className}`}
 interface InputMaskProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
     mask: string[]; // Ajuste na tipagem da propriedade mask
     onChange: (value: string) => void;
-    value: string;
+    value?: string;
     classname? : string;
      
   }
@@ -27,7 +27,7 @@ const InputMask = ({ mask, onChange, value, ...props }: InputMaskProps) => {cons
   };
   
 
-  const handleValue = masker(value, mask);
+  const handleValue = masker(value || '', mask);
 
   return <Input {...props} onChange={handleChange} value={handleValue} />;
 };

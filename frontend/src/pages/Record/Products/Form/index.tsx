@@ -21,7 +21,6 @@ const Form = () => {
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
-  const [valueMasked, setValueMasked] = useState("")
 
   const history = useHistory();
 
@@ -36,8 +35,8 @@ const Form = () => {
     setValue,
     getValues,
     control,
-    
-    
+
+
   } = useForm<Product>();
 
   useState()
@@ -73,7 +72,7 @@ const Form = () => {
     };
     setValue('lastSupplier', defaultSupplier);
 
-    
+
 
     if (isEditing) {
       requestBackend({ url: `/products/${productId}` }).then((response) => {
@@ -85,7 +84,7 @@ const Form = () => {
         setValue('active', product.active);
         setChecked(product.active ? true : false);
 
-        setValue('unit', product.unit ? upperCase(valueMasked) : '');
+        setValue('unit', product.unit ? upperCase(product.unit) : '');
         setValue('obs', product.obs ? product.obs : '');
         setValue(
           'purchasePrice',
@@ -141,7 +140,7 @@ const Form = () => {
         );
       });
     }
-  }, [isEditing, productId, setValue, valueMasked]);
+  }, [isEditing, productId, setValue]);
 
   const onSubmit = (formData: Product) => {
     const data = {
@@ -180,12 +179,12 @@ const Form = () => {
   };
 
   /* 
-											WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
-											WPr_Vlr = produto.PRO_PRECO_COMPRA;
-											WPr_vend = (WPr_Vlr * (1 + ( WPr_perc_ganho / 100)));
-											WPr_Abat = produto.PRO_PERCENTUAL_ABATE;
-											mDesc = WPr_vend * (WPr_Abat / 100);
-											WPR_liq = WPr_vend - mDesc; */
+                      WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
+                      WPr_Vlr = produto.PRO_PRECO_COMPRA;
+                      WPr_vend = (WPr_Vlr * (1 + ( WPr_perc_ganho / 100)));
+                      WPr_Abat = produto.PRO_PERCENTUAL_ABATE;
+                      mDesc = WPr_vend * (WPr_Abat / 100);
+                      WPR_liq = WPr_vend - mDesc; */
 
   function calcPurchasePrice() {
     const purchasePrice = getValues('purchasePrice');
@@ -223,9 +222,8 @@ const Form = () => {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.description ? 'Inválido' : ''
+                      }`}
                     name="description"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -253,24 +251,27 @@ const Form = () => {
                   <label htmlFor="unit" className="form-label">
                     Unidade
                   </label>
-                  <InputMask
-                    {...register('unit', {
-                      required: 'Campo obrigatório',
-                      
-                    })}
-                  
+                  <Controller
+                    name="unit"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) =>
+                      <InputMask
+                        {...register('unit', {
+                          required: 'Campo obrigatório',
 
-                    type="text"
-                    className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
-                    }`}
-                    name="valueMasked"
-                    mask={["AA"]}
-                    onChange={setValueMasked}
-                    value={valueMasked}
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                  /> 
+                        })}
+                        type="text"
+                        className={`form-control  ${errors.description ? 'Inválido' : ''}`}
+                        name="valueMasked"
+                        mask={["AA"]}
+                        onChange={(value) => setValue('unit', value)}
+                        value={field.value}
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                      />
+                    }
+                  />
                   <div className="invalid-feedback d-block">
                     {errors.description?.message}
                   </div>
@@ -300,9 +301,8 @@ const Form = () => {
                   <input
                     {...register('originalCode')}
                     type="text"
-                    className={`form-control  ${
-                      errors.originalCode ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.originalCode ? 'Inválido' : ''
+                      }`}
                     name="originalCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -318,9 +318,8 @@ const Form = () => {
                   <input
                     {...register('originalCode1')}
                     type="text"
-                    className={`form-control  ${
-                      errors.originalCode1 ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.originalCode1 ? 'Inválido' : ''
+                      }`}
                     name="originalCode1"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -336,9 +335,8 @@ const Form = () => {
                   <input
                     {...register('referenceCode')}
                     type="text"
-                    className={`form-control  ${
-                      errors.referenceCode ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.referenceCode ? 'Inválido' : ''
+                      }`}
                     name="referenceCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -354,9 +352,8 @@ const Form = () => {
                   <input
                     {...register('currentInventory')}
                     type="text"
-                    className={`form-control base-input-value  ${
-                      errors.currentInventory ? 'Inválido' : ''
-                    }`}
+                    className={`form-control base-input-value  ${errors.currentInventory ? 'Inválido' : ''
+                      }`}
                     name="currentInventory"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -374,9 +371,8 @@ const Form = () => {
                   <input
                     {...register('minimumStock')}
                     type="text"
-                    className={`form-control base-input-value  ${
-                      errors.minimumStock ? 'Inválido' : ''
-                    }`}
+                    className={`form-control base-input-value  ${errors.minimumStock ? 'Inválido' : ''
+                      }`}
                     name="minimumStock"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -392,9 +388,8 @@ const Form = () => {
                   <input
                     {...register('quantityLastEntry')}
                     type="text"
-                    className={`form-control base-input-value ${
-                      errors.quantityLastEntry ? 'Inválido' : ''
-                    }`}
+                    className={`form-control base-input-value ${errors.quantityLastEntry ? 'Inválido' : ''
+                      }`}
                     name="quantityLastEntry"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -430,9 +425,8 @@ const Form = () => {
                     render={({ field }) => (
                       <CurrencyInput
                         placeholder="Preço de compra"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
+                        className={`form-control base-input-value  ${errors.purchasePrice ? 'Inválido' : ''
+                          }`}
                         disableGroupSeparators={true}
                         value={field.value}
                         onValueChange={(value) => {
@@ -459,9 +453,8 @@ const Form = () => {
                     render={({ field }) => (
                       <CurrencyInput
                         placeholder="Margem"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
+                        className={`form-control base-input-value  ${errors.purchasePrice ? 'Inválido' : ''
+                          }`}
                         disableGroupSeparators={true}
                         value={field.value}
                         onValueChange={(value) => {
@@ -487,9 +480,8 @@ const Form = () => {
                     render={({ field }) => (
                       <CurrencyInput
                         placeholder="ìndice de Fábrica"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
+                        className={`form-control base-input-value  ${errors.purchasePrice ? 'Inválido' : ''
+                          }`}
                         disableGroupSeparators={true}
                         value={field.value}
                         onValueChange={(value) => {
@@ -515,9 +507,8 @@ const Form = () => {
                     render={({ field }) => (
                       <CurrencyInput
                         placeholder="% de Desconto"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
+                        className={`form-control base-input-value  ${errors.purchasePrice ? 'Inválido' : ''
+                          }`}
                         disableGroupSeparators={true}
                         value={field.value}
                         onValueChange={(value) => {
@@ -539,9 +530,8 @@ const Form = () => {
                   <input
                     {...register('salePrice')}
                     type="text"
-                    className={`form-control base-input-value ${
-                      errors.salePrice ? 'Inválido' : ''
-                    }`}
+                    className={`form-control base-input-value ${errors.salePrice ? 'Inválido' : ''
+                      }`}
                     name="salePrice"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -558,9 +548,8 @@ const Form = () => {
                   <input
                     {...register('priceValue')}
                     type="text"
-                    className={`form-control base-input-value ${
-                      errors.priceValue ? 'Inválido' : ''
-                    }`}
+                    className={`form-control base-input-value ${errors.priceValue ? 'Inválido' : ''
+                      }`}
                     name="priceValue"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -579,9 +568,8 @@ const Form = () => {
                   <input
                     {...register('productLocation')}
                     type="text"
-                    className={`form-control  ${
-                      errors.productLocation ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.productLocation ? 'Inválido' : ''
+                      }`}
                     name="productLocation"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -598,9 +586,8 @@ const Form = () => {
                     id="lastSupplierName"
                     {...register('lastSupplier.name')}
                     type="text"
-                    className={`form-control  ${
-                      errors.lastSupplier ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.lastSupplier ? 'Inválido' : ''
+                      }`}
                     disabled
                     name="lastSupplier.name"
                     data-bs-toggle="tooltip"
