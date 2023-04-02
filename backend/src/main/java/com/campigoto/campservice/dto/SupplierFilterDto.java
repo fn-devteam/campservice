@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class ProductFilterDto implements Serializable {
+public class SupplierFilterDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

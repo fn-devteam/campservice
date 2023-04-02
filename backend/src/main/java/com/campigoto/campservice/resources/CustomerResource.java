@@ -2,6 +2,7 @@ package com.campigoto.campservice.resources;
 
 import com.campigoto.campservice.dto.CustomerDto;
 import com.campigoto.campservice.entities.Customer;
+import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,10 @@ public class CustomerResource {
     public ResponseEntity<CustomerDto> findByEmailAddress(@PathVariable String email) {
         CustomerDto dto = service.findByEmailAddress(email);
         return ResponseEntity.ok().body(dto);
+    }
+    @GetMapping("/personType")
+    public PersonType[] getEnums() {
+        return PersonType.values();
     }
 
     @GetMapping

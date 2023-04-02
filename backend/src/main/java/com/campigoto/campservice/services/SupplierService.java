@@ -1,6 +1,7 @@
 package com.campigoto.campservice.services;
 
 import com.campigoto.campservice.dto.SupplierDto;
+import com.campigoto.campservice.dto.SupplierFilterDto;
 import com.campigoto.campservice.entities.Customer;
 import com.campigoto.campservice.entities.Supplier;
 import com.campigoto.campservice.mappers.SupplierMapper;
@@ -13,7 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -78,10 +79,10 @@ public class SupplierService {
 
     }
 
-
     @Transactional(readOnly = true)
-    public Page<SupplierDto> findAllPaged(PageRequest pageRequest) {
-        Page<Supplier> suppliers = repo.findAll(pageRequest);
-        return suppliers.map(supplierMapper::toDTO);
+    public Page<SupplierDto> findAllPaged(SupplierFilterDto filter, Pageable pageable) {
+        Page<Supplier> list = repo.findByTerm(filter, pageable);
+        return list.map(supplierMapper::toDTO);
     }
+
 }

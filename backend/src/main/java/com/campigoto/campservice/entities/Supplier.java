@@ -2,13 +2,14 @@ package com.campigoto.campservice.entities;
 
 import com.campigoto.campservice.entities.enums.PersonType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Setter
@@ -24,6 +25,7 @@ public class Supplier implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String fantasyName;
     private boolean active;
     @Enumerated(EnumType.STRING)
     private PersonType personType;
