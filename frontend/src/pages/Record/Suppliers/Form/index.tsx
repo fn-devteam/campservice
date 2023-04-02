@@ -1,203 +1,118 @@
 import { AxiosRequestConfig } from 'axios';
-import FindGroup from 'components/FindGroup';
-import FindProductType from 'components/FindProductType';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { Product } from 'types/product';
-import { ProductGroup } from 'types/productGroup';
 import { requestBackend } from 'util/requests';
 import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import CurrencyInput from 'react-currency-input-field';
 import './styles.css';
+import { Supplier } from 'types/supplier';
+import FindSupplierPersonType from 'components/FindSupplierPersonType';
+import { useForm } from 'react-hook-form';
 
 type UrlParams = {
-  productId: string;
+  supplierId: string;
 };
 
 const Form = () => {
-  const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
-  const [selectedProductType, setSelectedProductType] = useState<string>();
+  const [selectedSupplierPersonType, setSelectedSupplierPersonType] =
+    useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
 
   const history = useHistory();
 
-  const { productId } = useParams<UrlParams>();
+  const { supplierId } = useParams<UrlParams>();
 
-  const isEditing = productId !== 'create';
+  const isEditing = supplierId !== 'create';
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
-    getValues,
-    control,
-  } = useForm<Product>();
+  } = useForm<Supplier>();
 
   useEffect(() => {
-    const defaultSupplier = {
-      id: 1,
-      name: 'Fornecedor Padrão',
-      active: 0,
-      emailAddress: '',
-      cpfCnpj: '',
-      personType: '',
-      stateRegistration: '',
-      zipCode: '',
-      address: '',
-      district: '',
-      city: '',
-      state: '',
-      phoneNumber: '',
-      cellNumber: '',
-      contactPerson: '',
-      obs: '',
-      registrationDate: '',
-      referenceCode: '',
-    };
-
-    const defaultGroup = {
-      id: 1,
-      groupName: 'Grupo Padrão',
-      obs: '',
-    };
-    setValue('lastSupplier', defaultSupplier);
-
     if (isEditing) {
-      requestBackend({ url: `/products/${productId}` }).then((response) => {
-        const product = response.data as Product;
-        setValue('description', product.description ? product.description : '');
-        setValue('group', product.group ? product.group : defaultGroup);
-        setSelectedGroup(product.group);
-
-        setValue('active', product.active);
-        setChecked(product.active ? true : false);
-
-        setValue('unit', product.unit ? product.unit : '');
-        setValue('obs', product.obs ? product.obs : '');
+      requestBackend({ url: `/suppliers/${supplierId}` }).then((response) => {
+        const supplier = response.data as Supplier;
+        setValue('name', supplier.name ? supplier.name : '');
         setValue(
-          'purchasePrice',
-          product.purchasePrice ? product.purchasePrice : 0
+          'fantasyName',
+          supplier.fantasyName ? supplier.fantasyName : ''
         );
+        setValue('active', supplier.active);
+        setChecked(supplier.active ? true : false);
         setValue(
-          'currentInventory',
-          product.currentInventory ? product.currentInventory : 0
+          'emailAddress',
+          supplier.emailAddress ? supplier.emailAddress : ''
         );
+        setValue('cpfCnpj', supplier.cpfCnpj ? supplier.cpfCnpj : '');
+        setValue('personType', supplier.personType ? supplier.personType : '');
+        setSelectedSupplierPersonType(supplier.personType);
         setValue(
-          'minimumStock',
-          product.minimumStock ? product.minimumStock : 0
+          'stateRegistration',
+          supplier.stateRegistration ? supplier.stateRegistration : ''
         );
-        setValue('salePrice', product.salePrice ? product.salePrice : 0);
-        setValue('priceValue', product.priceValue ? product.priceValue : 0);
+        setValue('zipCode', supplier.zipCode ? supplier.zipCode : '');
+        setValue('address', supplier.address ? supplier.address : '');
+        setValue('district', supplier.district ? supplier.district : '');
+        setValue('city', supplier.city ? supplier.city : '');
+        setValue('state', supplier.state ? supplier.state : '');
         setValue(
-          'profitMargin',
-          product.profitMargin ? product.profitMargin : 0
+          'phoneNumber',
+          supplier.phoneNumber ? supplier.phoneNumber : ''
         );
+        setValue('cellNumber', supplier.cellNumber ? supplier.cellNumber : '');
         setValue(
-          'factoryIndex',
-          product.factoryIndex ? product.factoryIndex : 0
+          'contactPerson',
+          supplier.contactPerson ? supplier.contactPerson : ''
         );
-        setValue('listPrice', product.listPrice ? product.listPrice : 0);
-        setValue('rebate', product.rebate ? product.rebate : 0);
+        setValue('obs', supplier.obs ? supplier.obs : '');
         setValue(
-          'originalCode',
-          product.originalCode ? product.originalCode : ''
-        );
-        setValue(
-          'originalCode1',
-          product.originalCode1 ? product.originalCode1 : ''
-        );
-        setValue(
-          'quantityLastEntry',
-          product.quantityLastEntry ? product.quantityLastEntry : 0
-        );
-        setValue(
-          'productLocation',
-          product.productLocation ? product.productLocation : ''
-        );
-        setValue(
-          'lastSupplier',
-          product.lastSupplier ? product.lastSupplier : defaultSupplier
-        );
-
-        setValue('itemType', product.itemType ? product.itemType : '');
-        setSelectedProductType(product.itemType);
-
-        setValue(
-          'referenceCode',
-          product.referenceCode ? product.referenceCode : ''
+          'registrationDate',
+          supplier.registrationDate ? supplier.registrationDate : ''
         );
       });
     }
-  }, [isEditing, productId, setValue]);
+  }, [isEditing, supplierId, setValue]);
 
-  const onSubmit = (formData: Product) => {
+  const onSubmit = (formData: Supplier) => {
     const data = {
       ...formData,
-      group: selectedGroup,
       active: checked,
-      purchasePrice: String(formData.purchasePrice).replace(',', '.'),
     };
 
     const config: AxiosRequestConfig = {
       method: isEditing ? 'PUT' : 'POST',
-      url: isEditing ? `/products/${productId}` : '/products',
+      url: isEditing ? `/suppliers/${supplierId}` : '/suppliers',
       data,
     };
 
     requestBackend(config)
       .then(() => {
-        toast.info('Produto cadastrado com sucesso');
+        toast.info('Fornecedor cadastrado com sucesso');
       })
       .catch(() => {
-        toast.error('Erro ao cadastrar produto');
+        toast.error('Erro ao cadastrar fornecedor');
       });
-    history.push('/record/products');
+    history.push('/record/suppliers');
   };
 
   const handleCancel = () => {
-    history.push('/record/products');
+    history.push('/record/suppliers');
   };
 
-  const handleSelectGroup = (group: ProductGroup | null) => {
-    setSelectedGroup(group);
+  const handleSelectSupplierPersonType = (itemType: string) => {
+    setSelectedSupplierPersonType(itemType);
   };
-
-  const handleSelectProductType = (itemType: string) => {
-    setSelectedProductType(itemType);
-  };
-
- 
-  /* 
-											WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
-											WPr_Vlr = produto.PRO_PRECO_COMPRA;
-											WPr_vend = (WPr_Vlr * (1 + ( WPr_perc_ganho / 100)));
-											WPr_Abat = produto.PRO_PERCENTUAL_ABATE;
-											mDesc = WPr_vend * (WPr_Abat / 100);
-											WPR_liq = WPr_vend - mDesc; */
-
-  function calcPurchasePrice() {
-    const purchasePrice = getValues('purchasePrice');
-
-    const profit = getValues('profitMargin');
-    const discount = getValues('rebate');
-    const sale = purchasePrice * (1 + profit / 100);
-    const mdesc = sale * (discount / 100);
-    const liq = sale - mdesc;
-    setValue(`priceValue`, +liq.toFixed(2));
-    setValue(`salePrice`, +sale.toFixed(2));
-    console.log(`salePrice = ${sale}`);
-  }
 
   return (
     <div>
       <div className="card my-3 mx-5">
         <div className="card-header">
           {isEditing ? (
-            <h3>Dados do Produto - Editar</h3>
+            <h3>Dados do Fornecedor - Editar</h3>
           ) : (
-            <h3>Dados do Produto - Incluir</h3>
+            <h3>Dados do Fornecedor - Incluir</h3>
           )}{' '}
         </div>
         <div className="card-body">
@@ -206,57 +121,60 @@ const Form = () => {
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
                   <label htmlFor="description" className="form-label">
-                    Descrição
+                    Razão Social
                   </label>
                   <input
-                    {...register('description', {
+                    {...register('name', {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
-                    className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
-                    }`}
-                    name="description"
+                    className={`form-control  ${errors.name ? 'Inválido' : ''}`}
+                    name="name"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.description?.message}
+                    {errors.name?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-6 col-lg-4">
                   <label htmlFor="group" className="form-label">
-                    Grupo
-                  </label>
-                  <FindGroup
-                    onSelectGroup={handleSelectGroup}
-                    selectedGroup={selectedGroup}
-                    className="form-control"
-                  />
-                  {errors.group && (
-                    <div className="invalid-feedback d-block">
-                      {errors.group.message}
-                    </div>
-                  )}
-                </div>
-                <div className="mb-3 col-lg-2 ">
-                  <label htmlFor="unit" className="form-label">
-                    Unidade
+                    Nome Fantasia
                   </label>
                   <input
-                    {...register('unit', {
+                    {...register('fantasyName', {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
                     className={`form-control  ${
-                      errors.description ? 'Inválido' : ''
+                      errors.fantasyName ? 'Inválido' : ''
                     }`}
                     name="unit"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.description?.message}
+                    {errors.fantasyName?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-lg-2 ">
+                  <label htmlFor="unit" className="form-label">
+                    Cadastramento
+                  </label>
+                  <input
+                    {...register('registrationDate', {
+                      required: 'Campo obrigatório',
+                    })}
+                    type="text"
+                    className={`form-control  ${
+                      errors.registrationDate ? 'Inválido' : ''
+                    }`}
+                    name="unit"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.registrationDate?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-lg-2 mt-3">
@@ -277,323 +195,200 @@ const Form = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="originalCode" className="form-label">
-                    Código original
-                  </label>
-                  <input
-                    {...register('originalCode')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.originalCode ? 'Inválido' : ''
-                    }`}
-                    name="originalCode"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.originalCode?.message}
-                  </div>
-                </div>
+                
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
                   <label htmlFor="originalCode1" className="form-label">
-                    Código original1
+                    CPF / CNPJ
                   </label>
                   <input
-                    {...register('originalCode1')}
+                    {...register('cpfCnpj')}
                     type="text"
                     className={`form-control  ${
-                      errors.originalCode1 ? 'Inválido' : ''
+                      errors.cpfCnpj ? 'Inválido' : ''
                     }`}
-                    name="originalCode1"
+                    name="cpfCnpj"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.originalCode1?.message}
+                    {errors.cpfCnpj?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-2">
-                  <label htmlFor="referenceCode" className="form-label">
-                    Referência
+                <div className="mb-3 col-12 col-md-4 col-lg-4">
+                  <label htmlFor="originalCode" className="form-label">
+                    Pessoa
                   </label>
-                  <input
-                    {...register('referenceCode')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.referenceCode ? 'Inválido' : ''
-                    }`}
-                    name="referenceCode"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                  <FindSupplierPersonType
+                    onSelectSupplierPersonType={handleSelectSupplierPersonType}
+                    selectedSupplierPersonType={selectedSupplierPersonType}
+                    className="form-control"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.referenceCode?.message}
+                    {errors.personType?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
-                  <label htmlFor="currentInventory" className="form-label">
-                    Estoque
+                  <label htmlFor="zipCode" className="form-label">
+                    CEP
                   </label>
-                  <input 
-                    {...register('currentInventory')}
+                  <input
+                    {...register('zipCode')}
                     type="text"
                     className={`form-control base-input-value  ${
-                      errors.currentInventory ? 'Inválido' : ''
+                      errors.zipCode ? 'Inválido' : ''
                     }`}
-                    name="currentInventory"
+                    name="zipCode"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.currentInventory?.message}
+                    {errors.zipCode?.message}
                   </div>
                 </div>
               </div>
               <div className="row">
                 <div className="mb-3 col-12 col-md-3">
                   <label htmlFor="minimumStock" className="form-label">
-                    Estoque Mínimo
+                    Endereço
                   </label>
                   <input
-                    {...register('minimumStock')}
+                    {...register('address')}
                     type="text"
                     className={`form-control base-input-value  ${
-                      errors.minimumStock ? 'Inválido' : ''
+                      errors.address ? 'Inválido' : ''
                     }`}
-                    name="minimumStock"
+                    name="address"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.minimumStock?.message}
+                    {errors.address?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="quantityLastEntry" className="form-label">
-                    Qtde. da Última Entrada
+                  <label htmlFor="district" className="form-label">
+                    Bairro
                   </label>
                   <input
-                    {...register('quantityLastEntry')}
+                    {...register('district')}
                     type="text"
                     className={`form-control base-input-value ${
-                      errors.quantityLastEntry ? 'Inválido' : ''
+                      errors.district ? 'Inválido' : ''
                     }`}
-                    name="quantityLastEntry"
+                    name="district"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                     disabled
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.quantityLastEntry?.message}
+                    {errors.district?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-6 col-lg-3">
                   <label htmlFor="itemType" className="form-label">
-                    Tipo
+                    Cidade
                   </label>
-                  <FindProductType
-                    onSelectProductType={handleSelectProductType}
-                    selectedProductType={selectedProductType}
-                    className="form-control"
+                  <input
+                    {...register('city')}
+                    type="text"
+                    className={`form-control  ${errors.city ? 'Inválido' : ''}`}
+                    name="city"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
                   />
-                  {errors.itemType && (
-                    <div className="invalid-feedback d-block">
-                      {errors.itemType.message}
-                    </div>
-                  )}
+                  <div className="invalid-feedback d-block">
+                    {errors.city?.message}
+                  </div>
+                </div>
+                <div className="mb-3 col-12 col-md-4 col-lg-2">
+                  <label htmlFor="referenceCode" className="form-label">
+                    Estado
+                  </label>
+                  <input
+                    {...register('stateRegistration')}
+                    type="text"
+                    className={`form-control  ${
+                      errors.stateRegistration ? 'Inválido' : ''
+                    }`}
+                    name="stateRegistration"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.stateRegistration?.message}
+                  </div>
                 </div>
                 <div className="mb-3 col-4 col-md-3 form-group">
-                  <label htmlFor="purchasePrice" className="form-label">
-                    Preço de Compra R$
-                  </label>
-                  <Controller
-                    name="purchasePrice"
-                    rules={{ required: 'Campo obrigatório' }}
-                    control={control}
-                    render={({ field }) => (
-                      <CurrencyInput
-                        placeholder="Preço de compra"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
-                        disableGroupSeparators={true}
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          calcPurchasePrice();
-                        }}
-                      />
-                    )}
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.purchasePrice?.message}
+                  <div className="mb-3 col-12 col-md-4 col-lg-2">
+                    <label htmlFor="referenceCode" className="form-label">
+                      E-mail
+                    </label>
+                    <input
+                      {...register('emailAddress')}
+                      type="text"
+                      className={`form-control  ${
+                        errors.emailAddress ? 'Inválido' : ''
+                      }`}
+                      name="emailAddress"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                    />
+                    <div className="invalid-feedback d-block">
+                      {errors.emailAddress?.message}
+                    </div>
                   </div>
                 </div>
               </div>
               <div className="row">
-                <div className="mb-3 col-4 col-md-4 col-lg-2">
-                  <label htmlFor="profitMargin" className="form-label">
-                    Margem %
-                  </label>
-                  <Controller
-                    name="profitMargin"
-                    rules={{ required: 'Campo obrigatório' }}
-                    control={control}
-                    render={({ field }) => (
-                      <CurrencyInput
-                        placeholder="Margem"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
-                        disableGroupSeparators={true}
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          calcPurchasePrice();
-                        }}
-                      />
-                    )}
-                  />
-                  
-                  <div className="invalid-feedback d-block">
-                    {errors.profitMargin?.message}
-                  </div>
-                </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-2">
-                  <label htmlFor="factoryIndex" className="form-label">
-                    Índice de Fábrica %
-                  </label>
-                   <Controller
-                    name="factoryIndex"
-                    rules={{ required: 'Campo obrigatório' }}
-                    control={control}
-                    render={({ field }) => (
-                      <CurrencyInput
-                        placeholder="ìndice de Fábrica"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
-                        disableGroupSeparators={true}
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          calcPurchasePrice();
-                        }}
-                      />
-                    )}
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.factoryIndex?.message}
-                  </div>
-                </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-2">
-                  <label htmlFor="rebate" className="form-label">
-                  % de Desconto
-                  </label>
-                  
-                  <Controller
-                    name="rebate"
-                    rules={{ required: 'Campo obrigatório' }}
-                    control={control}
-                    render={({ field }) => (
-                      <CurrencyInput
-                        placeholder="% de Desconto"
-                        className={`form-control base-input-value  ${
-                          errors.purchasePrice ? 'Inválido' : ''
-                        }`}
-                        disableGroupSeparators={true}
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          calcPurchasePrice();
-                        }}
-                      />
-                    )}
-                  />
-                  
-                  <div className="invalid-feedback d-block">
-                    {errors.rebate?.message}
-                  </div>
-                </div>
-                <div className="mb-3 col-4 col-md-4 col-lg-3">
-                  <label htmlFor="salePrice" className="form-label">
-                    Preço de Venda R$
+                <div className="mb-3 col-4 col-md-6">
+                  <label htmlFor="phoneNumber" className="form-label">
+                    Telefone Fixo
                   </label>
                   <input
-                    {...register('salePrice')}
+                    {...register('phoneNumber')}
                     type="text"
-                    className={`form-control base-input-value ${
-                      errors.salePrice ? 'Inválido' : ''
-                    }`}
-                    name="salePrice"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    disabled
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.salePrice?.message}
-                  </div>
-                </div>
-                <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="priceValue" className="form-label">
-                    Preço Líquido
-                  </label>
-                  <input
-                    {...register('priceValue')}
-                    type="text"
-                    className={`form-control base-input-value ${
-                      errors.priceValue ? 'Inválido' : ''
-                    }`}
-                    name="priceValue"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    disabled
-                  />
-                  <div className="invalid-feedback d-block">
-                    {errors.priceValue?.message}
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="productLocation" className="form-label">
-                    Local de Estoque
-                  </label>
-                  <input
-                    {...register('productLocation')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.productLocation ? 'Inválido' : ''
-                    }`}
-                    name="productLocation"
+                    className={`form-control  ${errors.phoneNumber ? 'Inválido' : ''}`}
+                    name="phoneNumber"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.productLocation?.message}
+                    {errors.phoneNumber?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-4 col-md-3">
-                  <label htmlFor="lastSupplierName" className="form-label">
-                    Último fornecedor
+                <div className="mb-3 col-4 col-md-6">
+                  <label htmlFor="cellNumber" className="form-label">
+                    Celular
                   </label>
                   <input
-                    id="lastSupplierName"
-                    {...register('lastSupplier.name')}
+                    {...register('cellNumber')}
                     type="text"
-                    className={`form-control  ${
-                      errors.lastSupplier ? 'Inválido' : ''
-                    }`}
-                    disabled
-                    name="lastSupplier.name"
+                    className={`form-control  ${errors.cellNumber ? 'Inválido' : ''}`}
+                    name="cellNumber"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.lastSupplier?.message}
+                    {errors.cellNumber?.message}
                   </div>
                 </div>
+                <div className="mb-3 col-4 col-md-6">
+                  <label htmlFor="contactPerson" className="form-label">
+                    Pessoa para contato
+                  </label>
+                  <input
+                    {...register('contactPerson')}
+                    type="text"
+                    className={`form-control  ${errors.contactPerson ? 'Inválido' : ''}`}
+                    name="contactPerson"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                  />
+                  <div className="invalid-feedback d-block">
+                    {errors.contactPerson?.message}
+                  </div>
+                </div>
+
                 <div className="mb-3 col-4 col-md-6">
                   <label htmlFor="obs" className="form-label">
                     Observação

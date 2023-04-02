@@ -38,7 +38,7 @@ const List = () => {
   const history = useHistory();
 
   function handleEdit(supplierId: number) {
-    history.push(`/record/supplier/${supplierId}`);
+    history.push(`/record/suppliers/${supplierId}`);
   }
 
   const handleDelete = (supplierId: number) => {

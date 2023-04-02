@@ -1,6 +1,7 @@
 export type Supplier = {
   id: number;
   name: string;
+  fantasyName: string;
   active: number;
   emailAddress: string;
   cpfCnpj: string;

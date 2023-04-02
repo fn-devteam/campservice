@@ -10,6 +10,8 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import CurrencyInput from 'react-currency-input-field';
 import './styles.css';
+import InputMask from 'components/InputMask';
+import { upperCase } from 'lodash';
 
 type UrlParams = {
   productId: string;
@@ -19,6 +21,7 @@ const Form = () => {
   const [selectedGroup, setSelectedGroup] = useState<ProductGroup | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
+  const [valueMasked, setValueMasked] = useState("")
 
   const history = useHistory();
 
@@ -33,12 +36,17 @@ const Form = () => {
     setValue,
     getValues,
     control,
+    
+    
   } = useForm<Product>();
+
+  useState()
 
   useEffect(() => {
     const defaultSupplier = {
       id: 1,
       name: 'Fornecedor Padrão',
+      fantasyName: '',
       active: 0,
       emailAddress: '',
       cpfCnpj: '',
@@ -57,12 +65,15 @@ const Form = () => {
       referenceCode: '',
     };
 
+
     const defaultGroup = {
       id: 1,
       groupName: 'Grupo Padrão',
       obs: '',
     };
     setValue('lastSupplier', defaultSupplier);
+
+    
 
     if (isEditing) {
       requestBackend({ url: `/products/${productId}` }).then((response) => {
@@ -74,7 +85,7 @@ const Form = () => {
         setValue('active', product.active);
         setChecked(product.active ? true : false);
 
-        setValue('unit', product.unit ? product.unit : '');
+        setValue('unit', product.unit ? upperCase(valueMasked) : '');
         setValue('obs', product.obs ? product.obs : '');
         setValue(
           'purchasePrice',
@@ -130,7 +141,7 @@ const Form = () => {
         );
       });
     }
-  }, [isEditing, productId, setValue]);
+  }, [isEditing, productId, setValue, valueMasked]);
 
   const onSubmit = (formData: Product) => {
     const data = {
@@ -168,7 +179,6 @@ const Form = () => {
     setSelectedProductType(itemType);
   };
 
- 
   /* 
 											WPr_perc_ganho = produto.PRO_PERCENTUAL_GANHO;
 											WPr_Vlr = produto.PRO_PRECO_COMPRA;
@@ -243,18 +253,24 @@ const Form = () => {
                   <label htmlFor="unit" className="form-label">
                     Unidade
                   </label>
-                  <input
+                  <InputMask
                     {...register('unit', {
                       required: 'Campo obrigatório',
+                      
                     })}
+                  
+
                     type="text"
                     className={`form-control  ${
                       errors.description ? 'Inválido' : ''
                     }`}
-                    name="unit"
+                    name="valueMasked"
+                    mask={["AA"]}
+                    onChange={setValueMasked}
+                    value={valueMasked}
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                  />
+                  /> 
                   <div className="invalid-feedback d-block">
                     {errors.description?.message}
                   </div>
@@ -335,7 +351,7 @@ const Form = () => {
                   <label htmlFor="currentInventory" className="form-label">
                     Estoque
                   </label>
-                  <input 
+                  <input
                     {...register('currentInventory')}
                     type="text"
                     className={`form-control base-input-value  ${
@@ -455,7 +471,7 @@ const Form = () => {
                       />
                     )}
                   />
-                  
+
                   <div className="invalid-feedback d-block">
                     {errors.profitMargin?.message}
                   </div>
@@ -464,7 +480,7 @@ const Form = () => {
                   <label htmlFor="factoryIndex" className="form-label">
                     Índice de Fábrica %
                   </label>
-                   <Controller
+                  <Controller
                     name="factoryIndex"
                     rules={{ required: 'Campo obrigatório' }}
                     control={control}
@@ -489,9 +505,9 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="rebate" className="form-label">
-                  % de Desconto
+                    % de Desconto
                   </label>
-                  
+
                   <Controller
                     name="rebate"
                     rules={{ required: 'Campo obrigatório' }}
@@ -511,7 +527,7 @@ const Form = () => {
                       />
                     )}
                   />
-                  
+
                   <div className="invalid-feedback d-block">
                     {errors.rebate?.message}
                   </div>

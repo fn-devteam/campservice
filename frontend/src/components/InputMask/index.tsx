@@ -4,10 +4,9 @@ import styled from "@emotion/styled";
 
 
 const Input = styled.input`
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  padding: 12px;
-  font-size: 1.1rem;
+  
+${({ className }) => className && `
+${className}`}
 `;
 
 
@@ -16,12 +15,14 @@ interface InputMaskProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'on
     mask: string[]; // Ajuste na tipagem da propriedade mask
     onChange: (value: string) => void;
     value: string;
+    classname? : string;
+     
   }
   
 
 const InputMask = ({ mask, onChange, value, ...props }: InputMaskProps) => {const handleChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const originalValue = unMask(ev.target.value);
-    const maskedValue = masker(originalValue, mask);
+    const maskedValue = masker(originalValue, mask).toUpperCase();
     onChange(maskedValue);
   };
   
