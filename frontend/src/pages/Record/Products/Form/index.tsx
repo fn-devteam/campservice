@@ -49,7 +49,7 @@ const Form = () => {
       active: 0,
       emailAddress: '',
       cpfCnpj: '',
-      personType: '',
+      personType: '1',
       stateRegistration: '',
       zipCode: '',
       address: '',
@@ -189,13 +189,13 @@ const Form = () => {
   function calcPurchasePrice() {
     const purchasePrice = getValues('purchasePrice');
 
-    const profit = getValues('profitMargin');
-    const discount = getValues('rebate');
+    const profit = getValues('profitMargin' || 0);
+    const discount = getValues('rebate'|| 0);
     const sale = purchasePrice * (1 + profit / 100);
     const mdesc = sale * (discount / 100);
     const liq = sale - mdesc;
-    setValue(`priceValue`, +liq.toFixed(2));
-    setValue(`salePrice`, +sale.toFixed(2));
+    setValue(`priceValue`, +liq.toFixed(2) || 0);
+    setValue(`salePrice`, +sale.toFixed(2)|| 0);
   }
 
   return (
@@ -361,7 +361,8 @@ const Form = () => {
                         type="text"
                         className={`form-control base-input-value ${errors.currentInventory ? 'Inválido' : ''}`}
                         name="valueMasked"
-                        mask={["999.99,99"]}
+                        mask={["999.999"]}
+                        
                         onChange={(value) => setValue('currentInventory', +value || 0)}
                         value={field.value ? field.value.toString() : ''}
                         data-bs-toggle="tooltip"
@@ -392,7 +393,7 @@ const Form = () => {
                         type="text"
                         className={`form-control base-input-value ${errors.currentInventory ? 'Inválido' : ''}`}
                         name="valueMasked"
-                        mask={["999,99"]}
+                        mask={["999.99"]}
                         onChange={(value) => setValue('minimumStock', +value || 0)}
                         value={field.value ? field.value.toString() : ''}
                         data-bs-toggle="tooltip"

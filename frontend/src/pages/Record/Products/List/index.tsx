@@ -44,12 +44,13 @@ const List = () => {
 
     const config: AxiosRequestConfig = {
       method: 'DELETE',
-      url: `/product/${productId}`,
+      url: `/products/${productId}`
     };
 
     requestBackend(config).then((response) => {
       setPage(response.data);
     });
+    history.go(0);
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -201,7 +202,9 @@ const List = () => {
                       <FaTimes color="red" />
                     )}
                   </td>
-                  <td className="td-number">{product.currentInventory}</td>
+                  <td className="td-number">
+                    {product && <ProductPrice price={product.currentInventory} />}
+                    </td>
                   <td className="td-number">
                     {product && <ProductPrice price={product.salePrice} />}
                   </td>
