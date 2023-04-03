@@ -196,7 +196,6 @@ const Form = () => {
     const liq = sale - mdesc;
     setValue(`priceValue`, +liq.toFixed(2));
     setValue(`salePrice`, +sale.toFixed(2));
-    console.log(`salePrice = ${sale}`);
   }
 
   return (
@@ -347,16 +346,28 @@ const Form = () => {
                 </div>
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="currentInventory" className="form-label">
-                    Estoque
+                    Estoque Atual
                   </label>
-                  <input
-                    {...register('currentInventory')}
-                    type="text"
-                    className={`form-control base-input-value  ${errors.currentInventory ? 'Inválido' : ''
-                      }`}
+                  <Controller
                     name="currentInventory"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) =>
+                      <InputMask
+                        {...register('currentInventory', {
+                          required: 'Campo obrigatório',
+
+                        })}
+                        type="text"
+                        className={`form-control base-input-value ${errors.currentInventory ? 'Inválido' : ''}`}
+                        name="valueMasked"
+                        mask={["999.99,99"]}
+                        onChange={(value) => setValue('currentInventory', +value || 0)}
+                        value={field.value ? field.value.toString() : ''}
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                      />
+                    }
                   />
                   <div className="invalid-feedback d-block">
                     {errors.currentInventory?.message}
@@ -368,14 +379,26 @@ const Form = () => {
                   <label htmlFor="minimumStock" className="form-label">
                     Estoque Mínimo
                   </label>
-                  <input
-                    {...register('minimumStock')}
-                    type="text"
-                    className={`form-control base-input-value  ${errors.minimumStock ? 'Inválido' : ''
-                      }`}
+                  <Controller
                     name="minimumStock"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) =>
+                      <InputMask
+                        {...register('minimumStock', {
+                          required: 'Campo obrigatório',
+
+                        })}
+                        type="text"
+                        className={`form-control base-input-value ${errors.currentInventory ? 'Inválido' : ''}`}
+                        name="valueMasked"
+                        mask={["999,99"]}
+                        onChange={(value) => setValue('minimumStock', +value || 0)}
+                        value={field.value ? field.value.toString() : ''}
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                      />
+                    }
                   />
                   <div className="invalid-feedback d-block">
                     {errors.minimumStock?.message}

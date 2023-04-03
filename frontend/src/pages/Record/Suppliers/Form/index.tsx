@@ -254,7 +254,7 @@ const Form = () => {
                   <input
                     {...register('address')}
                     type="text"
-                    className={`form-control base-input-value  ${
+                    className={`form-control   ${
                       errors.address ? 'Inválido' : ''
                     }`}
                     name="address"
