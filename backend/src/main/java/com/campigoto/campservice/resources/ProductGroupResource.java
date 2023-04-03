@@ -1,13 +1,13 @@
 package com.campigoto.campservice.resources;
 
 
+import com.campigoto.campservice.dto.GroupFilterDto;
 import com.campigoto.campservice.dto.ProductGroupDto;
 import com.campigoto.campservice.services.ProductGroupService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -29,14 +29,10 @@ public class ProductGroupResource {
 
     @GetMapping
     public ResponseEntity<Page<ProductGroupDto>> findAll(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+            GroupFilterDto filter,
+            Pageable pageable
     ) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-
-        Page<ProductGroupDto> list = service.findAllPaged(pageRequest);
+        Page<ProductGroupDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
     }
 

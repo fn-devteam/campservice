@@ -2,12 +2,13 @@ package com.campigoto.campservice.resources;
 
 
 import com.campigoto.campservice.dto.ProductDto;
+import com.campigoto.campservice.dto.ProductFilterDto;
+import com.campigoto.campservice.entities.enums.ItemType;
 import com.campigoto.campservice.services.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,6 +22,7 @@ public class ProductResource {
 
     private final ProductService service;
 
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDto> findById(@PathVariable Long id) {
         ProductDto dto = service.findById(id);
@@ -29,15 +31,16 @@ public class ProductResource {
 
     @GetMapping
     public ResponseEntity<Page<ProductDto>> findAll(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(value = "orderBy", defaultValue = "description") String orderBy
+            ProductFilterDto filter,
+            Pageable pageable
     ) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-
-        Page<ProductDto> list = service.findAllPaged(pageRequest);
+        Page<ProductDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/itemType")
+    public ItemType[] getEnums() {
+        return ItemType.values();
     }
 
     @PostMapping

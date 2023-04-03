@@ -1,8 +1,10 @@
 import { Route, Switch } from 'react-router-dom';
 import Navbar from './Navbar';
+import Products from './Products';
 import ProductGroups from './ProductsGroups';
 import './styles.css';
 import Users from './Users';
+import Suppliers from './Suppliers';
 
 const Record = () => {
     return (
@@ -17,10 +19,10 @@ const Record = () => {
                       <h1>Customer CRUD</h1>
                       </Route>              
                     <Route path="/record/suppliers" >
-                      <h1>Supplier CRUD</h1>
+                      <Suppliers />
                     </Route>              
                     <Route path="/record/products" >
-                      <h1>Product CRUD</h1>
+                      <Products />
                     </Route>              
                     <Route path="/record/productsGroups" >
                       <ProductGroups />

@@ -13,9 +13,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     @Query("""
-             select u from User u 
-             where 
-             (COALESCE(:#{#filter.searchTerm}) IS NULL) OR 
+             select u from User u
+             where
+             (COALESCE(:#{#filter.searchTerm}) IS NULL) OR
              (:#{#filter.property} = 'firstName' AND LOWER(u.firstName) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
              OR (:#{#filter.property} = 'lastName' AND LOWER(u.lastName) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
              OR (:#{#filter.property} = 'email' AND LOWER(u.email) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))

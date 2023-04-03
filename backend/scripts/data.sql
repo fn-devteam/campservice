@@ -44,7 +44,7 @@ INSERT INTO Campservice.vehicle (license_plate,brand,model,color,`year`,current_
 	 ('MCQ-1079','gm','corsa ','prata',2005,0,0,0,0,0),
 	 ('AME-0417','Ford','Verona 1.8',' Vinho',1993,0,0,0,0,0);
 
-INSERT INTO Campservice.product_group (name,obs) VALUES
+INSERT INTO Campservice.product_group (group_name,obs) VALUES
    	 ('AUTO',' '),
    	 ('2',' '),
    	 ('3',' '),
@@ -69,7 +69,7 @@ INSERT INTO Campservice.product_group (name,obs) VALUES
 	 ('ADRIANO GERMANO','ADRIANO GERMANO',1,'FISICA',NULL,NULL,'1059',NULL,'00474296840','00474296840','','',NULL,'R.SÃO BENTO DO SUL','MOTO CUBLE',NULL,NULL,'CLIENTE');
 
 
- INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
+ INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,reference_code) VALUES
  	 (1,0,'CABO ACELERADOR BRAS CARB DUPLA','PC','JOINCAR',0.56,0.0,10.0,2.6,1.0,160.0,100.0,1.0,20.0,NULL,'MT-139',10.0,'FILA 10, PRATELEIRA A, VAO 1',9,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR BRAS CARB SIMPLES','PC','',0.54,0.0,3.0,4.25,1.7,150.0,100.0,1.7,20.0,NULL,'16401',20.0,'FILA 10, PRATELEIRA A, VAO 1',10,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR CORCEL 69/74','PC','',1.0,0.0,3.0,9.38,5.0,87.5,50.0,10.0,20.0,'','FC-328',0.0,'',5,'PRODUTO',''),
@@ -81,7 +81,7 @@ INSERT INTO Campservice.product_group (name,obs) VALUES
  	 (1,1,'CABO ACELERADOR CHEV 87/','PC','',1.0,0.0,3.0,28.0,14.0,100.0,100.0,14.0,20.0,'52.277.953','15058',0.0,'FILA 10, PRATELEIRA A, VAO 1',3,'PRODUTO',''),
  	 (1,1,'CABO ACELERADOR FIAT 147/OGGI/SPAZIO','PC','',2.04,0.0,4.0,7.75,3.1,150.0,100.0,3.1,20.0,'4.359.989','14007',10.0,'FILA 10, PRATELEIRA A, VAO 1',2,'PRODUTO','');
 
- INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
+ INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,reference_code) VALUES
  	 (1,0,'KIT ESTAB INT POLO','','',8.0,0.0,0.0,16.5,16.5,100.0,100.0,0.0,0.0,'','',0.0,'',1,'PRODUTO',''),
  	 (1,0,'MAO OBRA','','',600.0,0.0,0.0,600.5,600.5,0.0,100.0,0.0,0.0,'','',0.0,'',2,'PRODUTO',''),
  	 (1,0,'COXIM HIDRAULICO LD MOTOR CLIO 1.6 16V','','',135.0,0.0,0.0,229.5,229.5,70.0,100.0,0.0,0.0,'','',0.0,'',3,'PRODUTO',''),
@@ -93,7 +93,7 @@ INSERT INTO Campservice.product_group (name,obs) VALUES
  	 (1,0,'MOLA TRAS FOX','','',50.0,0.0,0.0,82.5,82.5,65.0,100.0,0.0,0.0,'','',0.0,'',9,'PRODUTO',''),
  	 (1,0,'TRASEIRO','','',0.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,'','',0.0,'',10,'PRODUTO','');
 
- INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,`references`) VALUES
+ INSERT INTO Campservice.product (`group_id`,active,description,unit,obs,purchase_price,current_inventory,minimum_stock,sale_price,price_value,profit_margin,factory_index,list_price,rebate,original_code,original_code1,quantity_last_entry,product_location,last_supplier_id,item_type,reference_code) VALUES
  	 (1,0,'MOLA DIANT NEW CIVIC','','',25.0,0.0,0.0,41.5,41.5,65.0,100.0,0.0,0.0,'','',0.0,'',10,'PRODUTO',''),
  	 (1,0,'COIFA LC L200 ','','',32.0,0.0,0.0,59.5,59.5,85.0,100.0,0.0,0.0,'','',0.0,'',9,'PRODUTO',''),
  	 (1,0,'KIT EMB C ROL L200','','',500.0,0.0,0.0,500.5,500.5,0.0,100.0,0.0,0.0,'','',0.0,'',8,'PRODUTO',''),

@@ -27,14 +27,13 @@ const List = () => {
       activePage: 0,
       filterData: {
         searchTerm: '',
-        property: 'name',
+        property: 'groupName',
       },
     });
 
   const history = useHistory();
 
   function handleEdit(productGroupId: number) {
-    console.log(productGroupId, "<== handleedit");
     history.push(`/record/productsGroups/${productGroupId}`);
   }
 
@@ -49,9 +48,7 @@ const List = () => {
     };
 
     requestBackend(config).then((response) => {
-      history.go(0);
       setPage(response.data);
-      history.go(0);
     });
   };
 
@@ -75,7 +72,7 @@ const List = () => {
   };
 
   const handleFilterClear = () => {
-    controlComponentsData.filterData.property = 'name';
+    controlComponentsData.filterData.property = 'groupName';
     controlComponentsData.filterData.searchTerm = '';
     updateComponentData(controlComponentsData);
   };
@@ -154,7 +151,7 @@ const List = () => {
                   value={controlComponentsData.filterData.property}
                   id="property-input"
                 >
-                  <option value="name">Descrição</option>
+                  <option value="groupName">Descrição</option>
                 </select>
               </Tooltip>
             </div>
@@ -189,7 +186,7 @@ const List = () => {
               {page?.content.map((productGroup) => (
                 <tr key={productGroup.id}>
                   <td>
-                    {productGroup.name} 
+                    {productGroup.groupName} 
                   </td>
                   <td>{productGroup.obs}</td>
                   <td className="flex-row">

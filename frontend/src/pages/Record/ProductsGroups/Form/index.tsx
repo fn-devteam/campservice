@@ -15,10 +15,8 @@ const Form = () => {
   const history = useHistory();
 
   const { productGroupId } = useParams<UrlParams>();
-  console.log(productGroupId, "<== Form antes")
   const isEditing = productGroupId !== 'create';
 
-  console.log(productGroupId, "<== Form")
   const {
     register,
     handleSubmit,
@@ -28,11 +26,13 @@ const Form = () => {
 
   useEffect(() => {
     if (isEditing) {
-      requestBackend({ url: `/product_groups/${productGroupId}` }).then((response) => {
-        const productGroup = response.data as ProductGroup;
-        setValue('name', productGroup.name);
-        setValue('obs', productGroup.obs);
-      });
+      requestBackend({ url: `/product_groups/${productGroupId}` }).then(
+        (response) => {
+          const productGroup = response.data as ProductGroup;
+          setValue('groupName', productGroup.groupName);
+          setValue('obs', productGroup.obs);
+        }
+      );
     }
   }, [isEditing, productGroupId, setValue]);
 
@@ -62,7 +62,7 @@ const Form = () => {
   };
 
   return (
-    <div >
+    <div>
       <div className="card my-3 mx-5">
         <div className="card-header">
           <h3>Dados do Grupo</h3>
@@ -71,31 +71,33 @@ const Form = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="row">
               <div className="mb-3 col-12 col-md-6 col-lg4">
-                <label htmlFor="name" className='form-label'>Descrição</label>
+                <label htmlFor="groupName" className="form-label">
+                  Descrição
+                </label>
                 <input
-                  {...register('name', {
+                  {...register('groupName', {
                     required: 'Campo obrigatório',
                   })}
                   type="text"
-                  className={`form-control  ${errors.name ? 'Inválido' : ''
-                    }`}
-                  name="name"
+                  className={`form-control  ${errors.groupName ? 'Inválido' : ''}`}
+                  name="groupName"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                 />
                 <div className="invalid-feedback d-block">
-                  {errors.name?.message}
+                  {errors.groupName?.message}
                 </div>
               </div>
               <div className="mb-3 col-12 col-md-6 col-lg4">
-                <label htmlFor="obs" className='form-label'>Observação</label>
+                <label htmlFor="obs" className="form-label">
+                  Observação
+                </label>
                 <input
                   {...register('obs', {
                     required: 'Campo obrigatório',
                   })}
                   type="text"
-                  className={`form-control  ${errors.obs ? 'Inválido' : ''
-                    }`}
+                  className={`form-control  ${errors.obs ? 'Inválido' : ''}`}
                   name="obs"
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
@@ -103,15 +105,10 @@ const Form = () => {
               </div>
             </div>
             <div className="d-grid gap-2 col-6 d-md-flex ">
-              <button
-                className="btn btn-outline-danger"
-                onClick={handleCancel}
-              >
+              <button className="btn btn-outline-danger" onClick={handleCancel}>
                 Cancelar
               </button>
-              <button className="btn btn-primary">
-                Salvar
-              </button>
+              <button className="btn btn-primary">Salvar</button>
             </div>
           </form>
         </div>

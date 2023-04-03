@@ -7,10 +7,10 @@ const Products = () => {
 
     return (
         <Switch>
-            <Route path="/admin/products" exact>
+            <Route path="/record/products" exact>
                 <List />
             </Route>
-            <Route path="/admin/products/:productId">
+            <Route path="/record/products/:productId">
                 <Form />
             </Route>
         </Switch>

@@ -50,7 +50,6 @@ public class UserService {
         return list.map(userMapper::toDto);
     }
 
-
     @Transactional
     public UserDto update(Long id, UserUpdateDto dto) {
 

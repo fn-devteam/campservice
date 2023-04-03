@@ -2,12 +2,13 @@ package com.campigoto.campservice.resources;
 
 
 import com.campigoto.campservice.dto.SupplierDto;
+import com.campigoto.campservice.dto.SupplierFilterDto;
+import com.campigoto.campservice.entities.enums.PersonType;
 import com.campigoto.campservice.services.SupplierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -32,18 +33,18 @@ public class SupplierResource {
         SupplierDto dto = service.findByEmailAddress(email);
         return ResponseEntity.ok().body(dto);
     }
-
     @GetMapping
     public ResponseEntity<Page<SupplierDto>> findAll(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy
+            SupplierFilterDto filter,
+            Pageable pageable
     ) {
-        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-
-        Page<SupplierDto> list = service.findAllPaged(pageRequest);
+        Page<SupplierDto> list = service.findAllPaged(filter, pageable);
         return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping("/personType")
+    public PersonType[] getEnums() {
+        return PersonType.values();
     }
 
     @PostMapping

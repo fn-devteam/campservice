@@ -1,16 +1,15 @@
 package com.campigoto.campservice.dto;
 
-import com.campigoto.campservice.services.validation.SupplierInsert;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.io.Serial;
 import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@SupplierInsert
 public class ProductDto implements Serializable {
 
     @Serial
@@ -60,5 +59,5 @@ public class ProductDto implements Serializable {
 
     private String itemType;
 
-    private String references;
+    private String referenceCode;
 }

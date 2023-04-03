@@ -1,5 +1,6 @@
 package com.campigoto.campservice.services;
 
+import com.campigoto.campservice.dto.GroupFilterDto;
 import com.campigoto.campservice.dto.ProductGroupDto;
 import com.campigoto.campservice.entities.ProductGroup;
 import com.campigoto.campservice.mappers.ProductGroupMapper;
@@ -12,7 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,8 +64,9 @@ public class ProductGroupService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductGroupDto> findAllPaged(PageRequest pageRequest) {
-        Page<ProductGroup> productGroups = repo.findAll(pageRequest);
+    public Page<ProductGroupDto> findAllPaged(GroupFilterDto filter, Pageable pageable) {
+        Page<ProductGroup> productGroups = repo.findByTerm(filter, pageable);
         return productGroups.map(productGroupMapper::toDTO);
     }
+
 }
