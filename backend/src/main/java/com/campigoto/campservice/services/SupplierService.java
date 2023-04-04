@@ -1,5 +1,6 @@
 package com.campigoto.campservice.services;
 
+import com.campigoto.campservice.dto.BuscaCEPDto;
 import com.campigoto.campservice.dto.SupplierDto;
 import com.campigoto.campservice.dto.SupplierFilterDto;
 import com.campigoto.campservice.entities.Customer;
@@ -17,6 +18,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -83,6 +87,21 @@ public class SupplierService {
     public Page<SupplierDto> findAllPaged(SupplierFilterDto filter, Pageable pageable) {
         Page<Supplier> list = repo.findByTerm(filter, pageable);
         return list.map(supplierMapper::toDTO);
+    }
+
+
+    public List<SupplierDto> findByCep(String cep) {
+
+        return repo.findByZipCode(cep).stream().map(supplierMapper::toDTO).collect(Collectors.toList());
+    }
+    private void getAddressIfNotInformed(SupplierDto dto) throws Exception {
+        if ((dto.getZipCode() != null && dto.getZipCode().isBlank()) && (dto.getAddress() == null || dto.getAddress().isEmpty())) {
+            BuscaCEPDto address = ViaCepService.findAddressByCep(dto.getZipCode());
+            dto.setAddress(address.getAddress());
+            dto.setCity(address.getCity());
+            dto.setState(address.getStateRegistration());
+            dto.setDistrict(address.getDistrict());
+        }
     }
 
 }

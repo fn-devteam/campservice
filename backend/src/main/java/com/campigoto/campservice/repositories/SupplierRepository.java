@@ -10,11 +10,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
     @Transactional(readOnly = true)
     Supplier findByEmailAddress(String email);
 
+    List<Supplier> findByZipCode(String cep);
 
     @Query("""
              select s from Supplier s

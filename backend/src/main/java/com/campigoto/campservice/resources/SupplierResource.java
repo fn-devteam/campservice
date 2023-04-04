@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -66,4 +67,9 @@ public class SupplierResource {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/cep/{cep}")
+    public ResponseEntity<List<SupplierDto>> findByCep(@PathVariable("cep") String cep) {
+        return ResponseEntity.ok(service.findByCep(cep));
+    }
+
 }
