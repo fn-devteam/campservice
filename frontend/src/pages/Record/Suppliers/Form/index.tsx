@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react';
 import './styles.css';
 import { Supplier } from 'types/supplier';
 import FindSupplierPersonType from 'components/FindSupplierPersonType';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
+import InputMaskCustom from 'components/InputMaskCustom';
 
 type UrlParams = {
   supplierId: string;
@@ -22,12 +23,13 @@ const Form = () => {
   const { supplierId } = useParams<UrlParams>();
 
   const isEditing = supplierId !== 'create';
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
+    control,
   } = useForm<Supplier>();
 
   useEffect(() => {
@@ -67,13 +69,40 @@ const Form = () => {
           supplier.contactPerson ? supplier.contactPerson : ''
         );
         setValue('obs', supplier.obs ? supplier.obs : '');
+        const registrationDate = supplier.registrationDate || '';
         setValue(
           'registrationDate',
-          supplier.registrationDate ? supplier.registrationDate : ''
+          getValues('registrationDate') || registrationDate
         );
       });
     }
-  }, [isEditing, supplierId, setValue]);
+  }, [
+    isEditing,
+    supplierId,
+    setValue,
+    getValues,
+    setSelectedSupplierPersonType,
+    setChecked,
+  ]);
+
+  const [currentDate, setCurrentDate] = useState('');
+  const [registrationDate, setRegistrationDate] = useState<string>('');
+
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear().toString().slice(-2);
+
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    const currentDate = `${day}${month}${year}`;
+    setRegistrationDate(currentDate);
+  }, []);
+
+  useEffect(() => {
+    if (!registrationDate) {
+      setValue('registrationDate', currentDate);
+    }
+  }, [currentDate, registrationDate, setValue]);
 
   const onSubmit = (formData: Supplier) => {
     const data = {
@@ -120,7 +149,7 @@ const Form = () => {
             <div className="container">
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="description" className="form-label">
+                  <label htmlFor="name" className="form-label">
                     Razão Social
                   </label>
                   <input
@@ -138,13 +167,11 @@ const Form = () => {
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-6 col-lg-4">
-                  <label htmlFor="group" className="form-label">
+                  <label htmlFor="fantasyName" className="form-label">
                     Nome Fantasia
                   </label>
                   <input
-                    {...register('fantasyName', {
-                      required: 'Campo obrigatório',
-                    })}
+                    {...register('fantasyName')}
                     type="text"
                     className={`form-control  ${
                       errors.fantasyName ? 'Inválido' : ''
@@ -158,25 +185,38 @@ const Form = () => {
                   </div>
                 </div>
                 <div className="mb-3 col-lg-2 ">
-                  <label htmlFor="unit" className="form-label">
+                  <label htmlFor="registrationDate" className="form-label">
                     Cadastramento
                   </label>
-                  <input
-                    {...register('registrationDate', {
-                      required: 'Campo obrigatório',
-                    })}
-                    type="text"
-                    className={`form-control  ${
-                      errors.registrationDate ? 'Inválido' : ''
-                    }`}
-                    name="unit"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                  <Controller
+                    name="registrationDate"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <InputMaskCustom
+                        {...register('registrationDate', {
+                          required: 'Campo obrigatório',
+                        })}
+                        mask={['99/99/99']}
+                        type="text"
+                        className={`form-control base-input-value ${
+                          errors.registrationDate ? 'Inválido' : ''
+                        }`}
+                        name="registrationDate"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        value={field.value || registrationDate}
+                        onChange={(value) =>
+                          setValue('registrationDate', value)
+                        }
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.registrationDate?.message}
                   </div>
                 </div>
+
                 <div className="mb-3 col-lg-2 mt-3">
                   <div className="form-check form-switch pt-4">
                     <input
@@ -195,20 +235,32 @@ const Form = () => {
                 </div>
               </div>
               <div className="row">
-                
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="originalCode1" className="form-label">
+                  <label htmlFor="cpfCnpj" className="form-label">
                     CPF / CNPJ
                   </label>
-                  <input
-                    {...register('cpfCnpj')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.cpfCnpj ? 'Inválido' : ''
-                    }`}
+                  <Controller
                     name="cpfCnpj"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <InputMaskCustom
+                        {...register('cpfCnpj', {
+                          required: 'Campo obrigatório',
+                        })}
+                        // mask={field.value.length <= 11 ? ['999.999.999-99'] : ['99.999.999/9999-99']}
+                        mask={['999.999.999-99', '99.999.999/9999-99']}
+                        type="text"
+                        className={`form-control  ${
+                          errors.cpfCnpj ? 'Inválido' : ''
+                        }`}
+                        name="cpfCnpj"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        value={field.value}
+                        onChange={(value) => setValue('cpfCnpj', value)}
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.cpfCnpj?.message}
@@ -231,15 +283,27 @@ const Form = () => {
                   <label htmlFor="zipCode" className="form-label">
                     CEP
                   </label>
-                  <input
-                    {...register('zipCode')}
-                    type="text"
-                    className={`form-control base-input-value  ${
-                      errors.zipCode ? 'Inválido' : ''
-                    }`}
+                  <Controller
                     name="zipCode"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <InputMaskCustom
+                        {...register('zipCode', {
+                          required: 'Campo obrigatório',
+                        })}
+                        mask={['99.999-999']}
+                        type="text"
+                        className={`form-control  ${
+                          errors.zipCode ? 'Inválido' : ''
+                        }`}
+                        name="zipCode"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        value={field.value}
+                        onChange={(value) => setValue('zipCode', value)}
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.zipCode?.message}
@@ -300,31 +364,48 @@ const Form = () => {
                     {errors.city?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-2">
-                  <label htmlFor="referenceCode" className="form-label">
+                <div className="mb-3 col-12 col-md-4 col-lg-1">
+                  <label htmlFor="stateRegistration" className="form-label">
                     Estado
                   </label>
-                  <input
-                    {...register('stateRegistration')}
-                    type="text"
-                    className={`form-control  ${
-                      errors.stateRegistration ? 'Inválido' : ''
-                    }`}
+                  <Controller
                     name="stateRegistration"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <InputMaskCustom
+                        {...register('stateRegistration', {
+                          required: 'Campo obrigatório',
+                        })}
+                        mask={['AA']}
+                        type="text"
+                        className={`form-control  ${
+                          errors.stateRegistration ? 'Inválido' : ''
+                        }`}
+                        name="zipCode"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        value={field.value}
+                        onChange={(value) => setValue('zipCode', value)}
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
                     {errors.stateRegistration?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-3 form-group">
-                  <div className="mb-3 col-12 col-md-4 col-lg-2">
+                  <div className="mb-3 col-12 col-md-4 col-lg-12">
                     <label htmlFor="referenceCode" className="form-label">
                       E-mail
                     </label>
                     <input
-                      {...register('emailAddress')}
+                      {...register('emailAddress', {
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Email inválido',
+                        },
+                      })}
                       type="text"
                       className={`form-control  ${
                         errors.emailAddress ? 'Inválido' : ''
@@ -347,7 +428,9 @@ const Form = () => {
                   <input
                     {...register('phoneNumber')}
                     type="text"
-                    className={`form-control  ${errors.phoneNumber ? 'Inválido' : ''}`}
+                    className={`form-control  ${
+                      errors.phoneNumber ? 'Inválido' : ''
+                    }`}
                     name="phoneNumber"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -363,7 +446,9 @@ const Form = () => {
                   <input
                     {...register('cellNumber')}
                     type="text"
-                    className={`form-control  ${errors.cellNumber ? 'Inválido' : ''}`}
+                    className={`form-control  ${
+                      errors.cellNumber ? 'Inválido' : ''
+                    }`}
                     name="cellNumber"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -379,7 +464,9 @@ const Form = () => {
                   <input
                     {...register('contactPerson')}
                     type="text"
-                    className={`form-control  ${errors.contactPerson ? 'Inválido' : ''}`}
+                    className={`form-control  ${
+                      errors.contactPerson ? 'Inválido' : ''
+                    }`}
                     name="contactPerson"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"

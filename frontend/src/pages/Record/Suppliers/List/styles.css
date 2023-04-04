@@ -30,21 +30,20 @@
   }
   
   .btn-actions {
+    align-items: end;
     text-align: right;
   
   }
   
   .btn-trash {
-    margin-right: 5px;
-    padding-right: 0px;
+    margin: 0px;
+    padding: 0px;
   }
   
   .btn-actions-container {
-    
-    align-items: flex-end;
+    padding-right: 0px;
     margin: 0px;
     padding: 0px;
-    text-align: end;
   }
   
   

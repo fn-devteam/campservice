@@ -23,9 +23,6 @@ type ControlComponentsData = {
 };
 
 const List = () => {
-
-    
-
   const [page, setPage] = useState<SpringPage<Supplier>>();
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
@@ -187,9 +184,9 @@ const List = () => {
                 <th>Nome</th>
                 <th>CPF/CNPJ</th>
                 <th className="td-active">Ativo</th>
-                <th >Número Celular</th>
-                <th >Email</th>
-                <th >Pessoa de Contato </th>
+                <th>Número Celular</th>
+                <th>Email</th>
+                <th>Pessoa de Contato </th>
                 <th className="header-actions">Ações</th>
               </tr>
             </thead>
@@ -197,7 +194,9 @@ const List = () => {
               {page?.content.map((supplier) => (
                 <tr key={supplier.id}>
                   <td>{supplier.name}</td>
-                  <td>  <CpfCnpjMask value={supplier.cpfCnpj} /></td>
+                  <td>
+                    <CpfCnpjMask value={supplier.cpfCnpj} />
+                  </td>
                   <td className="td-active">
                     {supplier.active ? (
                       <FaCheck color="green" />
@@ -205,18 +204,19 @@ const List = () => {
                       <FaTimes color="red" />
                     )}
                   </td>
-                  <td ><FoneMask value={supplier.cellNumber}/></td>
-                  <td > {supplier.emailAddress} </td>
-                  <td >{supplier.contactPerson}</td>
+                  <td>
+                    <FoneMask value={supplier.cellNumber} />
+                  </td>
+                  <td> {supplier.emailAddress} </td>
+                  <td>{supplier.contactPerson}</td>
                   <div className="btn-actions-container ">
-                    <td className="flex-row btn-actions">
+                    <td className=" btn-actions">
                       <Tooltip
                         title="Clique aqui para editar o fornecedor"
                         arrow
                         placement="top"
                       >
                         <button
-                          
                           type="button"
                           onClick={() => handleEdit(supplier.id)}
                         >
@@ -229,7 +229,7 @@ const List = () => {
                         placement="top"
                       >
                         <button
-                          className='btn-trash'
+                          className="btn-trash"
                           type="button"
                           onClick={() => handleDelete(supplier.id)}
                         >

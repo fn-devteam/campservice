@@ -361,7 +361,7 @@ const Form = () => {
                         type="text"
                         className={`form-control base-input-value ${errors.currentInventory ? 'Inválido' : ''}`}
                         name="valueMasked"
-                        mask={["999.999"]}
+                        mask={["999.99"]}
                         
                         onChange={(value) => setValue('currentInventory', +value || 0)}
                         value={field.value ? field.value.toString() : ''}
