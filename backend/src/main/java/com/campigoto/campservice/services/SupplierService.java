@@ -1,6 +1,6 @@
 package com.campigoto.campservice.services;
 
-import com.campigoto.campservice.dto.BuscaCEPDto;
+import com.campigoto.campservice.dto.FindCEPDto;
 import com.campigoto.campservice.dto.SupplierDto;
 import com.campigoto.campservice.dto.SupplierFilterDto;
 import com.campigoto.campservice.entities.Customer;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 public class SupplierService {
 
+    private final ViaCepService viaCepService;
     private final SupplierRepository repo;
     private final SupplierMapper supplierMapper;
 
@@ -37,8 +38,9 @@ public class SupplierService {
     }
 
     @Transactional
-    public SupplierDto insert(SupplierDto dto) {
+    public SupplierDto insert(SupplierDto dto) throws Exception {
 
+        getAddressIfNotInformed(dto);
         Supplier entity = supplierMapper.fromDTO(dto);
         repo.save(entity);
         return supplierMapper.toDTO(entity);
@@ -96,11 +98,11 @@ public class SupplierService {
     }
     private void getAddressIfNotInformed(SupplierDto dto) throws Exception {
         if ((dto.getZipCode() != null && dto.getZipCode().isBlank()) && (dto.getAddress() == null || dto.getAddress().isEmpty())) {
-            BuscaCEPDto address = ViaCepService.findAddressByCep(dto.getZipCode());
-            dto.setAddress(address.getAddress());
-            dto.setCity(address.getCity());
-            dto.setState(address.getStateRegistration());
-            dto.setDistrict(address.getDistrict());
+            FindCEPDto address = viaCepService.findAddressByCep(dto.getZipCode());
+            dto.setAddress(address.getLogradouro());
+            dto.setCity(address.getLocalidade());
+            dto.setState(address.getUf());
+            dto.setDistrict(address.getBairro());
         }
     }
 

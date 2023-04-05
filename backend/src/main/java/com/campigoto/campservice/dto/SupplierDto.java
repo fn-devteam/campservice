@@ -28,9 +28,9 @@ public class SupplierDto implements Serializable {
 
     private boolean active;
 
-    @NotEmpty(message = "Preenchimento obrigatório")
     @Email(message = "Email inválido")
     private String emailAddress;
+
     private String cpfCnpj;
 
     private PersonType personType;

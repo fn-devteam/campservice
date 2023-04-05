@@ -49,7 +49,7 @@ public class SupplierResource {
     }
 
     @PostMapping
-    public ResponseEntity<SupplierDto> insert(@RequestBody @Valid SupplierDto dto) {
+    public ResponseEntity<SupplierDto> insert(@RequestBody @Valid SupplierDto dto) throws Exception {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
