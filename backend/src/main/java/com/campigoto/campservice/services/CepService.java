@@ -1,8 +1,9 @@
 package com.campigoto.campservice.services;
 
-import com.campigoto.campservice.dto.FindCEPDto;
+import com.campigoto.campservice.dto.CEPDto;
 import com.campigoto.campservice.resources.exceptions.CepNotFoundException;
 import com.campigoto.campservice.services.exceptions.ResourceNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,14 +12,14 @@ import org.springframework.web.client.RestTemplate;
 public class CepService {
 
     private final String CEP_API = "https://viacep.com.br/ws/";
-
-    public FindCEPDto buscar(String cep) {
+    @Transactional
+    public CEPDto buscar(String cep) {
 
         try {
             RestTemplate restTemplate = new RestTemplate();
             String url = CEP_API + cep + "/json";
 
-            ResponseEntity<FindCEPDto> response = restTemplate.getForEntity(url, FindCEPDto.class);
+            ResponseEntity<CEPDto> response = restTemplate.getForEntity(url, CEPDto.class);
             if (response.getStatusCode().is2xxSuccessful()) {
                 if (response.getBody() != null && !response.getBody().isErro()) {
                     return response.getBody();

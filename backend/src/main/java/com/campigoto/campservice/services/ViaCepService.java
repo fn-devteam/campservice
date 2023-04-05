@@ -1,6 +1,6 @@
 package com.campigoto.campservice.services;
 
-import com.campigoto.campservice.dto.FindCEPDto;
+import com.campigoto.campservice.dto.CEPDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +16,14 @@ public class ViaCepService {
     private final HttpService httpService;
     private final CepCacheService cepCacheService;
 
-    public FindCEPDto findAddressByCep(String cep) throws Exception {
+    public CEPDto findAddressByCep(String cep) throws Exception {
 
-        FindCEPDto address = cepCacheService.getCep(cep);
+        CEPDto address = cepCacheService.getCep(cep);
         if (address != null) {
             return address;
         }
 
-        ResponseEntity<FindCEPDto> response = httpService.get(viaCepUrl, FindCEPDto.class, cep);
+        ResponseEntity<CEPDto> response = httpService.get(viaCepUrl, CEPDto.class, cep);
 
         if (!response.getStatusCode().is2xxSuccessful()) {
             throw new Exception("Falha na api de CEP");

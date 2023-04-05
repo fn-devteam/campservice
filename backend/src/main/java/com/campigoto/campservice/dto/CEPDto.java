@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-public class FindCEPDto implements Serializable {
+public class CEPDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

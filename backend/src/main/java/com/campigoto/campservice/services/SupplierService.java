@@ -1,6 +1,6 @@
 package com.campigoto.campservice.services;
 
-import com.campigoto.campservice.dto.FindCEPDto;
+import com.campigoto.campservice.dto.CEPDto;
 import com.campigoto.campservice.dto.SupplierDto;
 import com.campigoto.campservice.dto.SupplierFilterDto;
 import com.campigoto.campservice.entities.Customer;
@@ -99,7 +99,7 @@ public class SupplierService {
 
     private void getAddressIfNotInformed(SupplierDto dto) throws Exception {
         if ((dto.getZipCode() != null && dto.getZipCode().isBlank()) && (dto.getAddress() == null || dto.getAddress().isEmpty())) {
-            FindCEPDto address = viaCepService.findAddressByCep(dto.getZipCode());
+            CEPDto address = viaCepService.findAddressByCep(dto.getZipCode());
             dto.setAddress(address.getLogradouro());
             dto.setCity(address.getLocalidade());
             dto.setState(address.getUf());
