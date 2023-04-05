@@ -92,10 +92,11 @@ public class SupplierService {
     }
 
 
-    public List<SupplierDto> findByCep(String cep) {
+    public List<SupplierDto> findByZipCode(String cep) {
 
         return repo.findByZipCode(cep).stream().map(supplierMapper::toDTO).collect(Collectors.toList());
     }
+
     private void getAddressIfNotInformed(SupplierDto dto) throws Exception {
         if ((dto.getZipCode() != null && dto.getZipCode().isBlank()) && (dto.getAddress() == null || dto.getAddress().isEmpty())) {
             FindCEPDto address = viaCepService.findAddressByCep(dto.getZipCode());

@@ -68,8 +68,8 @@ public class SupplierResource {
         return ResponseEntity.noContent().build();
     }
     @GetMapping("/cep/{cep}")
-    public ResponseEntity<List<SupplierDto>> findByCep(@PathVariable("cep") String cep) {
-        return ResponseEntity.ok(service.findByCep(cep));
+    public ResponseEntity<List<SupplierDto>> findByZipCode(@PathVariable("cep") String cep) {
+        return ResponseEntity.ok(service.findByZipCode(cep));
     }
 
 }

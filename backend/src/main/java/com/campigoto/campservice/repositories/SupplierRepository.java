@@ -21,8 +21,8 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 
     @Query("""
              select s from Supplier s
-             where 
-             (COALESCE(:#{#filter.searchTerm}) IS NULL) OR 
+             where
+             (COALESCE(:#{#filter.searchTerm}) IS NULL) OR
              (:#{#filter.property} = 'name' AND LOWER(s.name) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
              OR (:#{#filter.property} = 'fantasyName' AND LOWER(s.fantasyName) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
              OR (:#{#filter.property} = 'cpfCnpj' AND LOWER(s.cpfCnpj) LIKE CONCAT('%', LOWER(:#{#filter.searchTerm}), '%'))
