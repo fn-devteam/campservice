@@ -2,6 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { requestBackend } from 'util/requests';
+
 import { useEffect, useState } from 'react';
 import './styles.css';
 import { Supplier } from 'types/supplier';
@@ -9,11 +10,63 @@ import FindSupplierPersonType from 'components/FindSupplierPersonType';
 import { Controller, useForm } from 'react-hook-form';
 import InputMaskCustom from 'components/InputMaskCustom';
 
+import './styles.css';
+
 type UrlParams = {
   supplierId: string;
 };
 
+type findedCep = {
+  address: string;
+  city: string;
+  state: string;
+  district: string;
+  error: boolean;
+};
+
 const Form = () => {
+  const [enderecos, setEnderecos] = useState<findedCep>();
+  const [zipCode, setZipCode] = useState('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    getValues,
+    control,
+  } = useForm<Supplier>();
+
+  const [selectedCep, setSelectedCep] = useState<string>();
+
+  const handleZipCodeChange = async (codeZip: string) => {
+    if (codeZip.length === 8) {
+      setSelectedCep(codeZip);
+    }
+  };
+  useEffect(() => {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: `/cep/${selectedCep}`,
+    };
+
+    requestBackend(config)
+      .then((response) => {
+        const enderecos = response.data as findedCep;
+        setValue('address', enderecos.address);
+        setValue('district', enderecos.district);
+        setValue('city', enderecos.city);
+        setValue('state', enderecos.state);
+       // setEnderecos(response.data);
+      
+       console.log(enderecos);
+      
+        toast.info('Endereço encontrado');
+      })
+      .catch(() => {
+        toast.error('Endereço não encontrado');
+      });
+  }, [selectedCep,setValue, enderecos]);
+  
   const [selectedSupplierPersonType, setSelectedSupplierPersonType] =
     useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -23,14 +76,6 @@ const Form = () => {
   const { supplierId } = useParams<UrlParams>();
 
   const isEditing = supplierId !== 'create';
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    getValues,
-    control,
-  } = useForm<Supplier>();
 
   useEffect(() => {
     if (isEditing) {
@@ -301,7 +346,12 @@ const Form = () => {
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
-                        onChange={(value) => setValue('zipCode', value)}
+                        onChange={(event) => {
+                          const newValue = event;
+                          console.log(newValue);
+                          setZipCode(newValue);
+                          handleZipCodeChange(newValue.replace(/[.-]/g, ''));
+                        }}
                       />
                     )}
                   />
@@ -349,7 +399,7 @@ const Form = () => {
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-6 col-lg-3">
-                  <label htmlFor="itemType" className="form-label">
+                  <label htmlFor="city" className="form-label">
                     Cidade
                   </label>
                   <input
@@ -382,11 +432,13 @@ const Form = () => {
                         className={`form-control  ${
                           errors.stateRegistration ? 'Inválido' : ''
                         }`}
-                        name="zipCode"
+                        name="stateRegistration"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
-                        onChange={(value) => setValue('zipCode', value)}
+                        onChange={(value) =>
+                          setValue('stateRegistration', value)
+                        }
                       />
                     )}
                   />
