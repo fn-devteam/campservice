@@ -26,8 +26,8 @@ const Form = () => {
 
   useEffect(() => {
     if (isEditing) {
-      requestBackend({ url: `/product_groups/${productGroupId}` }).then(
-        (response) => {
+      requestBackend({ url: `/product_groups/${productGroupId}` })
+      .then((response) => {
           const productGroup = response.data as ProductGroup;
           setValue('groupName', productGroup.groupName);
           setValue('obs', productGroup.obs);

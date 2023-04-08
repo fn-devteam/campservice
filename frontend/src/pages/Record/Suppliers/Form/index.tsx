@@ -9,6 +9,7 @@ import { Supplier } from 'types/supplier';
 import FindSupplierPersonType from 'components/FindSupplierPersonType';
 import { Controller, useForm } from 'react-hook-form';
 import InputMaskCustom from 'components/InputMaskCustom';
+import FindByZipCode from 'components/FindByZipCode';
 
 import './styles.css';
 
@@ -16,16 +17,21 @@ type UrlParams = {
   supplierId: string;
 };
 
-type findedCep = {
-  address: string;
-  city: string;
-  state: string;
-  district: string;
-  error: boolean;
-};
 
+interface CepData {
+  logradouro: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
+  cep: string;
+}
 const Form = () => {
-  const [enderecos, setEnderecos] = useState<findedCep>();
+
+  const [addressCep, setAddressCep] = useState('');
+  const[districtCep, setDistrictCep] = useState('');
+  const[cityCep, setCityCep] = useState('');
+  const[stateCep, setStateCep] = useState('');
+
   const [zipCode, setZipCode] = useState('');
   const {
     register,
@@ -43,30 +49,48 @@ const Form = () => {
       setSelectedCep(codeZip);
     }
   };
-  useEffect(() => {
-    const config: AxiosRequestConfig = {
-      method: 'GET',
-      url: `/cep/${selectedCep}`,
-    };
 
-    requestBackend(config)
-      .then((response) => {
-        const enderecos = response.data as findedCep;
-        setValue('address', enderecos.address);
-        setValue('district', enderecos.district);
-        setValue('city', enderecos.city);
-        setValue('state', enderecos.state);
-       // setEnderecos(response.data);
-      
-       console.log(enderecos);
-      
-        toast.info('Endereço encontrado');
-      })
-      .catch(() => {
-        toast.error('Endereço não encontrado');
-      });
-  }, [selectedCep,setValue, enderecos]);
+
+   const handleZipCodeUpdate = (dataCep: CepData) => {
+    setAddressCep(dataCep.logradouro);
+    setDistrictCep(dataCep.bairro);
+    setCityCep(dataCep.localidade);
+    setStateCep(dataCep.uf);
+    setZipCode(dataCep.cep);
+    
+    setValue('address', dataCep.logradouro);
+    setValue('district', dataCep.bairro);
+    setValue('city', dataCep.localidade);
+    setValue('state', dataCep.uf);
+
+
+console.log('Dados:', dataCep);
+//const [addressData, setAddressData] = useState({ address: '', district: '', city: '', state: '', zipCode: '' });
+
+
+console.log('Endereço:', dataCep.logradouro, "TEM QUE DAR CERTO...");
+
+console.log('Cidade:', dataCep.localidade, " ...");
+
+/* 
+
+console.log('Endereço:', addressCep);
+console.log('Bairro:', districtCep);
+console.log('Cidade:', cityCep);
+console.log('Estado:', stateCep); */
+  };
   
+ /*  useEffect(() => {
+    console.log("CEP que veio ==>", cityCep)
+    console.log("endereço que veio ==>", )
+  }, [cityCep]);
+
+  
+  useEffect(() => {
+  console.log("CEP que veio ==>", cityCep)
+  console.log("endereço que veio ==>", )
+}, [cityCep]); */
+ 
   const [selectedSupplierPersonType, setSelectedSupplierPersonType] =
     useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
@@ -293,7 +317,6 @@ const Form = () => {
                         {...register('cpfCnpj', {
                           required: 'Campo obrigatório',
                         })}
-                        // mask={field.value.length <= 11 ? ['999.999.999-99'] : ['99.999.999/9999-99']}
                         mask={['999.999.999-99', '99.999.999/9999-99']}
                         type="text"
                         className={`form-control  ${
@@ -324,6 +347,7 @@ const Form = () => {
                     {errors.personType?.message}
                   </div>
                 </div>
+                
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
                   <label htmlFor="zipCode" className="form-label">
                     CEP
@@ -348,21 +372,27 @@ const Form = () => {
                         value={field.value}
                         onChange={(event) => {
                           const newValue = event;
-                          console.log(newValue);
-                          setZipCode(newValue);
-                          handleZipCodeChange(newValue.replace(/[.-]/g, ''));
+                          if (newValue.length === 10){
+                             setZipCode(newValue.replace(/[.-]/g, ''));
+                             handleZipCodeChange(newValue);
+                          }
+                          
                         }}
+                        
                       />
                     )}
-                  />
+                  /> 
+                  <FindByZipCode zipCode={zipCode.replace(/[.-]/g, '')} onUpdate={handleZipCodeUpdate} />
+                  
                   <div className="invalid-feedback d-block">
                     {errors.zipCode?.message}
                   </div>
                 </div>
               </div>
+              
               <div className="row">
                 <div className="mb-3 col-12 col-md-3">
-                  <label htmlFor="minimumStock" className="form-label">
+                  <label htmlFor="address" className="form-label">
                     Endereço
                   </label>
                   <input
@@ -415,16 +445,16 @@ const Form = () => {
                   </div>
                 </div>
                 <div className="mb-3 col-12 col-md-4 col-lg-1">
-                  <label htmlFor="stateRegistration" className="form-label">
+                  <label htmlFor="state" className="form-label">
                     Estado
                   </label>
                   <Controller
-                    name="stateRegistration"
+                    name="state"
                     rules={{ required: 'Campo obrigatório' }}
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('stateRegistration', {
+                        {...register('state', {
                           required: 'Campo obrigatório',
                         })}
                         mask={['AA']}
@@ -432,12 +462,12 @@ const Form = () => {
                         className={`form-control  ${
                           errors.stateRegistration ? 'Inválido' : ''
                         }`}
-                        name="stateRegistration"
+                        name="state"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) =>
-                          setValue('stateRegistration', value)
+                          setValue('state', value)
                         }
                       />
                     )}
