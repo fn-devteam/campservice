@@ -3,20 +3,19 @@ import { useHistory, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { requestBackend } from 'util/requests';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './styles.css';
 import { Supplier } from 'types/supplier';
-import FindSupplierPersonType from 'components/FindSupplierPersonType';
 import { Controller, useForm } from 'react-hook-form';
 import InputMaskCustom from 'components/InputMaskCustom';
 import FindByZipCode from 'components/FindByZipCode';
 
 import './styles.css';
+import { data } from 'jquery';
 
 type UrlParams = {
   supplierId: string;
 };
-
 
 interface CepData {
   logradouro: string;
@@ -26,13 +25,42 @@ interface CepData {
   cep: string;
 }
 const Form = () => {
-
+  const [isMounted, setIsMounted] = useState(false);
   const [addressCep, setAddressCep] = useState('');
-  const[districtCep, setDistrictCep] = useState('');
-  const[cityCep, setCityCep] = useState('');
-  const[stateCep, setStateCep] = useState('');
+  const [districtCep, setDistrictCep] = useState('');
+  const [cityCep, setCityCep] = useState('');
+  const [stateCep, setStateCep] = useState('');
+  const [cpfCnpj, setCpfCnpj] = useState('');
 
   const [zipCode, setZipCode] = useState('');
+  const [personType, setPersonType] = useState('');
+/* 
+  useEffect(() => {
+    const newLocal = true;
+    setIsMounted(newLocal);
+    if (cpfCnpj) {
+      handleCpfCnpjChange(cpfCnpj);
+    }
+  }, [cpfCnpj]);
+ */
+  const handleCpfCnpjChange = (value: string) => {
+    setCpfCnpj(value);
+    if (value.length <= 11) {
+      setPersonType('FISICA');
+    } else {
+      setPersonType('JURIDICA');
+    }
+  };
+ // const [selectedCep, setSelectedCep] = useState<string>();
+
+  const handleZipCodeChange = (codeZip: string) => {
+    setZipCode(codeZip.replace(/[.-]/g, ''));
+    if (codeZip.length === 8) {
+      console.log('tentando....');
+      setZipCode(codeZip);
+    }
+  };
+
   const {
     register,
     handleSubmit,
@@ -40,59 +68,41 @@ const Form = () => {
     setValue,
     getValues,
     control,
+    
   } = useForm<Supplier>();
-
-  const [selectedCep, setSelectedCep] = useState<string>();
-
-  const handleZipCodeChange = async (codeZip: string) => {
-    if (codeZip.length === 8) {
-      setSelectedCep(codeZip);
-    }
-  };
-
-
-   const handleZipCodeUpdate = (dataCep: CepData) => {
+/* 
+  const handleZipCodeUpdate = (dataCep: CepData) => {
     setAddressCep(dataCep.logradouro);
     setDistrictCep(dataCep.bairro);
     setCityCep(dataCep.localidade);
     setStateCep(dataCep.uf);
     setZipCode(dataCep.cep);
-    
+    console.log("Valor de zipCode : ", zipCode)
+
     setValue('address', dataCep.logradouro);
     setValue('district', dataCep.bairro);
     setValue('city', dataCep.localidade);
     setValue('state', dataCep.uf);
-
-
-console.log('Dados:', dataCep);
-//const [addressData, setAddressData] = useState({ address: '', district: '', city: '', state: '', zipCode: '' });
-
-
-console.log('Endereço:', dataCep.logradouro, "TEM QUE DAR CERTO...");
-
-console.log('Cidade:', dataCep.localidade, " ...");
-
-/* 
-
-console.log('Endereço:', addressCep);
-console.log('Bairro:', districtCep);
-console.log('Cidade:', cityCep);
-console.log('Estado:', stateCep); */
-  };
+    setValue('zipCode', dataCep.cep)
+  }; */
+  const handleZipCodeUpdate = useCallback((dataCep: CepData) => {
+    setAddressCep(dataCep.logradouro);
+    setDistrictCep(dataCep.bairro);
+    setCityCep(dataCep.localidade);
+    setStateCep(dataCep.uf);
+    setZipCode(dataCep.cep);
+    console.log("Valor de zipCode : ", zipCode)
   
- /*  useEffect(() => {
-    console.log("CEP que veio ==>", cityCep)
-    console.log("endereço que veio ==>", )
-  }, [cityCep]);
-
+    setValue('address', dataCep.logradouro);
+    setValue('district', dataCep.bairro);
+    setValue('city', dataCep.localidade);
+    setValue('state', dataCep.uf);
+    setValue('zipCode', dataCep.cep)
+  }, [zipCode, setAddressCep, setDistrictCep, setCityCep, setStateCep, setZipCode, setValue]);
   
-  useEffect(() => {
-  console.log("CEP que veio ==>", cityCep)
-  console.log("endereço que veio ==>", )
-}, [cityCep]); */
- 
-  const [selectedSupplierPersonType, setSelectedSupplierPersonType] =
-    useState<string>();
+
+  //const [selectedSupplierPersonType, setSelectedSupplierPersonType] =
+  //  useState<string>();
   const [checked, setChecked] = useState<boolean>(true);
 
   const history = useHistory();
@@ -103,7 +113,7 @@ console.log('Estado:', stateCep); */
 
   useEffect(() => {
     if (isEditing) {
-      requestBackend({ url: `/suppliers/${supplierId}` }).then((response) => {
+        requestBackend({ url: `/suppliers/${supplierId}` }).then((response) => {
         const supplier = response.data as Supplier;
         setValue('name', supplier.name ? supplier.name : '');
         setValue(
@@ -116,15 +126,38 @@ console.log('Estado:', stateCep); */
           'emailAddress',
           supplier.emailAddress ? supplier.emailAddress : ''
         );
-        setValue('cpfCnpj', supplier.cpfCnpj ? supplier.cpfCnpj : '');
-        setValue('personType', supplier.personType ? supplier.personType : '');
-        setSelectedSupplierPersonType(supplier.personType);
+
+        const cpfCnpj = supplier.cpfCnpj ? supplier.cpfCnpj : '';
+        setValue('cpfCnpj', cpfCnpj);
+        const cpfCnpjLength = cpfCnpj.length;
+
+        const personType = cpfCnpjLength <= 11 ? 'FISICA' : 'JURIDICA';
+        setValue('personType', personType);
+        console.log(
+          'Verificando pessoa...',
+          personType,
+          cpfCnpjLength,
+          cpfCnpj
+        );
+
         setValue(
           'stateRegistration',
           supplier.stateRegistration ? supplier.stateRegistration : ''
         );
-        setValue('zipCode', supplier.zipCode ? supplier.zipCode : '');
+
+        const zipCode = supplier.zipCode ? supplier.zipCode : '';
+        setValue('zipCode', supplier.zipCode ? supplier.zipCode.replace(/[.-]/g, ''): '');
+        console.log('Verificando CEP...', zipCode);
+
+        const address = supplier.address ? supplier.address : '';
         setValue('address', supplier.address ? supplier.address : '');
+        console.log('Verificando Endereço...', address);
+
+        <FindByZipCode
+        zipCode={zipCode.replace(/[.-]/g, '')}
+        onUpdate={handleZipCodeUpdate}
+        />
+
         setValue('district', supplier.district ? supplier.district : '');
         setValue('city', supplier.city ? supplier.city : '');
         setValue('state', supplier.state ? supplier.state : '');
@@ -145,14 +178,7 @@ console.log('Estado:', stateCep); */
         );
       });
     }
-  }, [
-    isEditing,
-    supplierId,
-    setValue,
-    getValues,
-    setSelectedSupplierPersonType,
-    setChecked,
-  ]);
+  }, [isEditing, supplierId, setValue, getValues, setChecked, zipCode, handleZipCodeUpdate]);
 
   const [currentDate, setCurrentDate] = useState('');
   const [registrationDate, setRegistrationDate] = useState<string>('');
@@ -198,10 +224,10 @@ console.log('Estado:', stateCep); */
   const handleCancel = () => {
     history.push('/record/suppliers');
   };
-
+  /* 
   const handleSelectSupplierPersonType = (itemType: string) => {
     setSelectedSupplierPersonType(itemType);
-  };
+  }; */
 
   return (
     <div>
@@ -305,9 +331,16 @@ console.log('Estado:', stateCep); */
               </div>
               <div className="row">
                 <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="cpfCnpj" className="form-label">
-                    CPF / CNPJ
-                  </label>
+                  <div className="d-flex justify-content-between">
+                    <label htmlFor="cpfCnpj" className="form-label">
+                      CPF / CNPJ
+                    </label>
+                    <div className="text-danger">
+                      {cpfCnpj.length <= 14
+                        ? 'Pessoa Física'
+                        : 'Pessoa Jurídica'}
+                    </div>
+                  </div>
                   <Controller
                     name="cpfCnpj"
                     rules={{ required: 'Campo obrigatório' }}
@@ -326,7 +359,11 @@ console.log('Estado:', stateCep); */
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
-                        onChange={(value) => setValue('cpfCnpj', value)}
+                        onChange={(value) => {
+                          setValue('cpfCnpj', value);
+                          handleCpfCnpjChange(value);
+                          field.onChange(value);
+                        }}
                       />
                     )}
                   />
@@ -334,29 +371,52 @@ console.log('Estado:', stateCep); */
                     {errors.cpfCnpj?.message}
                   </div>
                 </div>
-                <div className="mb-3 col-12 col-md-4 col-lg-4">
-                  <label htmlFor="originalCode" className="form-label">
-                    Pessoa
+
+                <div className="mb-3 col-12 col-md-4 col-lg-3">
+                  <label htmlFor="stateRegistration" className="form-label">
+                    Inscrição Estadual
                   </label>
-                  <FindSupplierPersonType
-                    onSelectSupplierPersonType={handleSelectSupplierPersonType}
-                    selectedSupplierPersonType={selectedSupplierPersonType}
-                    className="form-control"
+                  <Controller
+                    name="stateRegistration"
+                    rules={{ required: 'Campo obrigatório' }}
+                    control={control}
+                    render={({ field }) => (
+                      <InputMaskCustom
+                        {...register('stateRegistration')}
+                        mask={['999999999999']}
+                        type="text"
+                        className={`form-control  ${
+                          errors.state ? 'Inválido' : ''
+                        }`}
+                        name="stateRegistration"
+                        data-bs-toggle="tooltip"
+                        data-bs-placement="top"
+                        value={field.value}
+                        onChange={(value) =>
+                          setValue('stateRegistration', value)
+                        }
+                      />
+                    )}
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.personType?.message}
+                    {errors.stateRegistration?.message}
                   </div>
-                </div>
-                
+                </div> 
                 <div className="mb-3 col-4 col-md-4 col-lg-2">
+                
                   <label htmlFor="zipCode" className="form-label">
                     CEP
                   </label>
+                  <FindByZipCode
+                    zipCode={zipCode.replace(/[.-]/g, '')}
+                    onUpdate={handleZipCodeUpdate}
+                  />
                   <Controller
                     name="zipCode"
                     rules={{ required: 'Campo obrigatório' }}
                     control={control}
                     render={({ field }) => (
+                    console.log("Valor de zipCode : ", zipCode),
                       <InputMaskCustom
                         {...register('zipCode', {
                           required: 'Campo obrigatório',
@@ -364,34 +424,41 @@ console.log('Estado:', stateCep); */
                         mask={['99.999-999']}
                         type="text"
                         className={`form-control  ${
-                          errors.zipCode ? 'Inválido' : ''
+                          errors.zipCode ? 'CEP Inválido' : ''
                         }`}
+                        defaultValue={zipCode}
                         name="zipCode"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
-                        onChange={(event) => {
-                          const newValue = event;
-                          if (newValue.length === 10){
-                             setZipCode(newValue.replace(/[.-]/g, ''));
-                             handleZipCodeChange(newValue);
-                          }
-                          
+                        onChange={(value) => {
+                          setValue('zipCode', value);
+                          handleZipCodeChange(value);
+                          field.onChange(value);
                         }}
-                        
+                          
+                          /* {
+                          const newValue = event;
+                          if (newValue.length === 10) {
+                            setZipCode(newValue.replace(/[.-]/g, ''));
+                            handleZipCodeChange(newValue);
+                          }
+                        }} */
                       />
                     )}
-                  /> 
-                  <FindByZipCode zipCode={zipCode.replace(/[.-]/g, '')} onUpdate={handleZipCodeUpdate} />
-                  
+                  />
+                  {/* <FindByZipCode
+                    zipCode={zipCode.replace(/[.-]/g, '')}
+                    onUpdate={handleZipCodeUpdate}
+                  /> */}
                   <div className="invalid-feedback d-block">
                     {errors.zipCode?.message}
                   </div>
                 </div>
               </div>
-              
+
               <div className="row">
-                <div className="mb-3 col-12 col-md-3">
+                <div className="mb-3 col-12 col-md-4">
                   <label htmlFor="address" className="form-label">
                     Endereço
                   </label>
@@ -416,13 +483,12 @@ console.log('Estado:', stateCep); */
                   <input
                     {...register('district')}
                     type="text"
-                    className={`form-control base-input-value ${
+                    className={`form-control  ${
                       errors.district ? 'Inválido' : ''
                     }`}
                     name="district"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
-                    disabled
                   />
                   <div className="invalid-feedback d-block">
                     {errors.district?.message}
@@ -460,20 +526,18 @@ console.log('Estado:', stateCep); */
                         mask={['AA']}
                         type="text"
                         className={`form-control  ${
-                          errors.stateRegistration ? 'Inválido' : ''
+                          errors.state ? 'Inválido' : ''
                         }`}
                         name="state"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
-                        onChange={(value) =>
-                          setValue('state', value)
-                        }
+                        onChange={(value) => setValue('state', value)}
                       />
                     )}
                   />
                   <div className="invalid-feedback d-block">
-                    {errors.stateRegistration?.message}
+                    {errors.state?.message}
                   </div>
                 </div>
                 <div className="mb-3 col-4 col-md-3 form-group">
