@@ -20,37 +20,40 @@ const FindByZipCode = ({ zipCode, onUpdate }: FindByZipCodeProps) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    if (zipCode.length < 8) return;
+    console.log('cep chegou para consulta....',zipCode, "<==");
+    
+    console.log('onUpdate....',onUpdate, "<==");
     const config: AxiosRequestConfig = {
       method: 'GET',
-      url: `/cep/${zipCode}`,
+      url: `/cep/${zipCode}`
     };
 
+    console.log('config....',config, "<==");
     requestBackend(config)
       .then((response) => {
         const data = response.data as CepData;
         onUpdate(data);
         setError(false);
         setLoading(true);
-
-        /*  toast.info('Endereço encontrado'); */
       })
       .catch(() => {
         setError(true);
         setLoading(false);
         /* toast.error('Endereço não encontrado'); */
       });
-  }, [zipCode, onUpdate,]);
+  }, [zipCode, onUpdate]);
 
   if (loading) {
-    return <p>Carregando...</p>;
+    return <p style={{ margin: '0px' }}></p>;
   }
 
   if (error) {
-    console.log(zipCode, 'esse é o cep !');
-    return <p>Informe um CEP válido.</p>;
+    return <p style={{ margin: '0px' }}></p>;
   }
 
-  return <p>Tudo certo ao carregar os dados do CEP.</p>;
+  //return <p style={{ marginLeft: '10px', marginRight: '20px', marginTop: '0px', marginBottom: '15px' }}></p>;
+  return <p style={{ margin: '0px' }}></p>;
 };
 
 export default FindByZipCode;

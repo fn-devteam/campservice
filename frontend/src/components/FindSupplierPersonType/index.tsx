@@ -16,6 +16,7 @@ interface FindSupplierPersonTypeProps {
     };
   
     useEffect(() => {
+      
       const config = {
         method: 'GET',
         url: '/suppliers/personType',

@@ -2,11 +2,11 @@
     font-weight: bold;
   }
   
-  .product-crud-form-card {
+  .supplier-crud-form-card {
     padding: 20px;
   }
   
-  .product-crud-form-title {
+  .supplier-crud-form-title {
     font-weight: bold;
     font-size: 22px;
     letter-spacing: -0.015em;
@@ -18,20 +18,20 @@
     margin-bottom: 30px;
   }
   
-  .product-crud-inputs-container {
+  .supplier-crud-inputs-container {
     margin-bottom: 30px;
   }
   
-  .product-crud-inputs-left-container {
+  .supplier-crud-inputs-left-container {
     margin-bottom: 30px;
   }
   
-  .product-crud-buttons-container {
+  .supplier-crud-buttons-container {
     display: flex;
     justify-content: space-between;
   }
   
-  .product-crud-button {
+  .supplier-crud-button {
     height: 50px;
     width: 110px;
     border-radius: 10px;
@@ -39,17 +39,17 @@
   }
   
   @media (min-width: 576px) {
-    .product-crud-buttons-container {
+    .supplier-crud-buttons-container {
       justify-content: flex-end;
     }
   
-    .product-crud-button {
+    .supplier-crud-button {
       margin-left: 30px;
       width: 270px;
     }
   }
   
-  .product-crud-select__control {
+  .supplier-crud-select__control {
     border-radius: 10px !important;
     font-size: 1em;
     letter-spacing: -0.015em;
@@ -57,16 +57,16 @@
     height: 50px;
   }
   
-  .product-crud-select__placeholder {
+  .supplier-crud-select__placeholder {
     color: #9E9E9E !important;
   }
   
-  .product-crud-select__indicator-separator {
+  .supplier-crud-select__indicator-separator {
     display: none;
   }
   
   @media (min-width: 992px) {
-    .product-crud-inputs-left-container {
+    .supplier-crud-inputs-left-container {
       margin-bottom: 0;
     }
   }
