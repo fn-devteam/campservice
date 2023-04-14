@@ -33,7 +33,7 @@ public class SupplierInsertValidator implements ConstraintValidator<SupplierInse
             list.add(new FieldMessage("cpfCnpj", "CNPJ inválido"));
         }
 
-        if (repo.findByEmailAddress(objDto.getEmailAddress()) != null) {
+        if (!objDto.getToEdit() && repo.findByEmailAddress(objDto.getEmailAddress()) != null) {
             list.add(new FieldMessage("emailAddress", "Email já existente"));
         }
 
