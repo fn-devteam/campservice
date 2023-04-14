@@ -105,6 +105,8 @@ const Form = () => {
   }, [
     setValue,
     getValues,
+    isEditing,
+    supplierId
   ]);
 
   const handleInputChange = (value: string) => {
@@ -241,7 +243,14 @@ const Form = () => {
                     <label htmlFor="cpfCnpj" className="form-label">
                       CPF / CNPJ
                     </label>
-                    <div className="text-danger">{getValues('personType') === 'FISICA' ? 'Física' : 'Jurídica'}</div>
+                    <Controller 
+                      name='personType'
+                      control={control}
+                      render={({field}) => (
+                        <div className="text-danger">{field.value === 'FISICA' ? 'Física' : 'Jurídica'}</div>
+                      )}
+                    />
+
                   </div>
                   <Controller
                     name="cpfCnpj"
