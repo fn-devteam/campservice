@@ -2,7 +2,7 @@ export type Supplier = {
   id: number;
   name: string;
   fantasyName: string;
-  active: number;
+  active: boolean;
   emailAddress: string;
   cpfCnpj: string;
   personType: string;

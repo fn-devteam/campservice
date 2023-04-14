@@ -9,8 +9,6 @@ import InputMaskCustom from 'components/InputMaskCustom';
 import FindByZipCode from 'components/FindByZipCode';
 import moment from 'moment';
 import './styles.css';
-
-import './styles.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type UrlParams = {
@@ -25,49 +23,23 @@ interface CepData {
   cep: string;
 }
 const Form = () => {
-  const [addressCep, setAddressCep] = useState('');
-  const [districtCep, setDistrictCep] = useState('');
-  const [cityCep, setCityCep] = useState('');
-  const [stateCep, setStateCep] = useState('');
-  const [cpfCnpj, setCpfCnpj] = useState('');
+  const [zipCodeComponent, setZipCodeComponent] = useState('');
+  const { supplierId } = useParams<UrlParams>();
+  const isEditing = supplierId !== 'create';
 
-  const [name, setName] = useState('');
-  const [registrationDate, setRegistrationDate] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [personType, setPersonType] = useState('');
-  const [obs, setObs] = useState('');
+  const history = useHistory();
 
   const handleCpfCnpjChange = (value: string) => {
-   // setCpfCnpj(value);
-    console.log('cpfCnpj.length =>', cpfCnpj.length);
-    if (value.length <= 14) {
-      setPersonType('FISICA');
-    } else {
-      setPersonType('JURIDICA');
-    }
-  };
-
-  const handleZipCodeChange = (codeZip: string) => {
-    console.log('cep recebido pelo handleZipCodeChange....', codeZip);
-    if (codeZip.length === 10) {
-      setValue('zipCode', zipCode);
-      //setZipCode(codeZip.replace(/[.-]/g, ''));
-      console.log('cep enviado para consulta....', zipCode, '<==');
-      <FindByZipCode
-        zipCode={zipCode.replace(/[.-]/g, '')}
-        onUpdate={handleZipCodeUpdate}
-      />;
-      setZipCode(codeZip);
-    }
-    return;
+    const personType = value.length <= 14 ? 'FISICA' : 'JURIDICA';
+    setValue('personType', personType);
   };
 
   const handlePhoneNumberChange = (phoneNumber: string) => {
-    setZipCode(phoneNumber);
+    setValue("phoneNumber", phoneNumber.replace(/\D+/g, ''));
   };
 
   const handleCellNumberChange = (cellNumber: string) => {
-    setZipCode(cellNumber);
+    setValue("cellNumber", cellNumber.replace(/\D+/g, ''));
   };
 
   const {
@@ -77,115 +49,81 @@ const Form = () => {
     setValue,
     getValues,
     control,
-  } = useForm<Supplier>();
+  } = useForm<Supplier>({
+    defaultValues: {
+      registrationDate: moment.utc(Date.now()).format('DD-MM-YYYY')
+    }
+  });
+
+  const handleZipCodeChange = (zipCode: string) => {
+    if (zipCode.length === 10) {
+      setZipCodeComponent(zipCode);
+      console.log('cep enviado para consulta....', zipCode, '<==');
+    }
+    return;
+  };
 
   const handleZipCodeUpdate = useCallback(
     (dataCep: CepData) => {
-      setAddressCep(dataCep.logradouro);
-      setDistrictCep(dataCep.bairro);
-      setCityCep(dataCep.localidade);
-      setStateCep(dataCep.uf);
-      setZipCode(dataCep.cep.replace(/[.-]/g, ''));
-
       setValue('address', dataCep.logradouro);
       setValue('district', dataCep.bairro);
       setValue('city', dataCep.localidade);
       setValue('state', dataCep.uf);
       setValue('zipCode', dataCep.cep.replace(/[.-]/g, ''));
     },
-    [setZipCode, setValue]
+    [setValue]
   );
-
-  const [checked, setChecked] = useState<boolean>(true);
-
-  const history = useHistory();
-
-  const { supplierId } = useParams<UrlParams>();
-
-  const isEditing = supplierId !== 'create';
 
   useEffect(() => {
     if (isEditing) {
 
-      const toEdit = isEditing;
-
       requestBackend({ url: `/suppliers/${supplierId}` }).then((response) => {
         const supplier = response.data as Supplier;
 
-        setValue('name', supplier.name ? supplier.name : '');
+        setValue('name', supplier.name);
+        setValue('fantasyName', supplier.fantasyName);
 
-        setValue('fantasyName', supplier.fantasyName ? supplier.fantasyName : '');
-
-        setValue('registrationDate',supplier.registrationDate
-            ? moment.utc(supplier.registrationDate).format('DD-MM-YYYY')
-            : moment.utc(Date.now()).format('DD-MM-YYYY')
-        );
+        const registrationDate = supplier.registrationDate || Date.now();
+        setValue('registrationDate', moment.utc(registrationDate).format('DD-MM-YYYY'));
 
         setValue('active', supplier.active);
         setValue('cpfCnpj', supplier.cpfCnpj);
-        setCpfCnpj(supplier.cpfCnpj);
-        setPersonType(supplier.personType);
-        setValue('stateRegistration',supplier.stateRegistration ? supplier.stateRegistration : '');
-
-        setValue('zipCode',supplier.zipCode ? supplier.zipCode.replace(/[.-]/g, '') : '');
-
-        setValue('address', supplier.address ? supplier.address : '');
-
-        setValue('district', supplier.district ? supplier.district : '');
-
-        setValue('city', supplier.city ? supplier.city : '');
-
-        setValue('state', supplier.state ? supplier.state : '');
-
-        setValue('emailAddress', supplier.emailAddress ? supplier.emailAddress : '');
-        setValue( 'phoneNumber', supplier.phoneNumber ? supplier.phoneNumber : '');
-
-        setValue('cellNumber', supplier.cellNumber ? supplier.cellNumber : '');
-
-        setValue('contactPerson',supplier.contactPerson ? supplier.contactPerson : '');
-
-        setValue('obs', supplier.obs ? supplier.obs : '');
+        setValue('personType', supplier.personType);
+        setValue('stateRegistration', supplier.stateRegistration);
+        setValue('zipCode', supplier.zipCode?.replace(/[.-]/g, ''));
+        setValue('address', supplier.address);
+        setValue('district', supplier.district);
+        setValue('city', supplier.city);
+        setValue('state', supplier.state);
+        setValue('emailAddress', supplier.emailAddress);
+        setValue('phoneNumber', supplier.phoneNumber);
+        setValue('cellNumber', supplier.cellNumber);
+        setValue('contactPerson', supplier.contactPerson);
+        setValue('obs', supplier.obs);
       });
     }
   }, [
-    isEditing,
-    supplierId,
     setValue,
     getValues,
-    setChecked,
   ]);
 
   const handleInputChange = (value: string) => {
-    setRegistrationDate(value);
+    setValue('registrationDate', value);
   };
 
   const onSubmit = (formData: Supplier) => {
-    const dateRecord = moment
-      .utc(registrationDate, 'DD/MM/YYYY')
-      .format('YYYY-MM-DD');
+    const dateRecord = moment.utc(formData.registrationDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
     const [year, month, day] = dateRecord.split('-');
-    const cpfCnpjRecord = cpfCnpj.replace(/[.\-/?]/g, '');
+    const cpfCnpjRecord = formData.cpfCnpj.replace(/[.\-/?]/g, '');
+    const zipCodeRecord = formData.zipCode.replace(/[.\-/?]/g, '');
 
-    console.log('Valor do cpfCnpj:', cpfCnpjRecord);
-    const zipCodeRecord = zipCode.replace(/[.\-/?]/g, '');
-    setValue('registrationDate', dateRecord);
-    setRegistrationDate(dateRecord);
-    setValue('cpfCnpj', cpfCnpjRecord);
-    setCpfCnpj(cpfCnpjRecord);
-    setValue('zipCode', zipCodeRecord);
-    setZipCode(zipCodeRecord);
-    console.log('registrarion Date para gravar :  ', registrationDate);
-    console.log('cpfCnpj para gravar :  ', cpfCnpj);
-    console.log('personType para gravar :  ', personType);
     const data = {
       ...formData,
-      active: checked,
       toEdit: isEditing,
       registrationDate: new Date(
         Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day))
       ),
       cpfCnpj: cpfCnpjRecord,
-      personType: personType,
       zipCode: zipCodeRecord,
     };
 
@@ -196,13 +134,8 @@ const Form = () => {
     };
 
     requestBackend(config)
-      .then(() => {
-        console.log('registrarionDate gravado :  ', registrationDate);
-        toast.info('Fornecedor cadastrado com sucesso');
-      })
-      .catch(() => {
-        toast.error('Erro ao cadastrar fornecedor');
-      });
+      .then(() => toast.info('Fornecedor cadastrado com sucesso'))
+      .catch(() => toast.error('Erro ao cadastrar fornecedor'));
     history.push('/record/suppliers');
   };
 
@@ -230,7 +163,7 @@ const Form = () => {
                     Razão Social
                   </label>
                   <input
-                    {...register('name', {
+                    {...register("name", {
                       required: 'Campo obrigatório',
                     })}
                     type="text"
@@ -250,10 +183,8 @@ const Form = () => {
                   <input
                     {...register('fantasyName')}
                     type="text"
-                    className={`form-control  ${
-                      errors.fantasyName ? 'Inválido' : ''
-                    }`}
-                    name="unit"
+                    className={`form-control  ${errors.fantasyName ? 'Inválido' : ''}`}
+                    name="fantasyName"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
                   />
@@ -271,14 +202,11 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('registrationDate', {
-                          required: 'Campo obrigatório',
-                        })}
+                        {...field}
                         mask={['99/99/9999']}
                         type="text"
-                        className={`form-control base-input-value ${
-                          errors.registrationDate ? 'Inválido' : ''
-                        }`}
+                        className={`form-control base-input-value ${errors.registrationDate ? 'Inválido' : ''
+                          }`}
                         name="registrationDate"
                         data-bs-toggle="tooltip"
                         value={field.value}
@@ -299,11 +227,10 @@ const Form = () => {
                       role="switch"
                       id="active"
                       {...register('active')}
-                      checked={checked}
-                      onChange={(event) => setChecked(event.target.checked)}
+                      onChange={(event) => setValue('active', event.target.checked)}
                     />
                     <label className="form-check-label" htmlFor="active">
-                      <span>{checked ? 'Ativo' : 'Inativo'}</span>
+                      <span>{getValues('active') ? 'Ativo' : 'Inativo'}</span>
                     </label>
                   </div>
                 </div>
@@ -314,7 +241,7 @@ const Form = () => {
                     <label htmlFor="cpfCnpj" className="form-label">
                       CPF / CNPJ
                     </label>
-                    <div className="text-danger">{personType === 'FISICA' ? 'Física' : 'Jurídica'}</div>
+                    <div className="text-danger">{getValues('personType') === 'FISICA' ? 'Física' : 'Jurídica'}</div>
                   </div>
                   <Controller
                     name="cpfCnpj"
@@ -322,14 +249,11 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('cpfCnpj', {
-                          required: 'Campo obrigatório',
-                        })}
+                        {...field}
                         mask={['999.999.999-99', '99.999.999/9999-99']}
                         type="text"
-                        className={`form-control  ${
-                          errors.cpfCnpj ? 'Inválido' : ''
-                        }`}
+                        className={`form-control  ${errors.cpfCnpj ? 'Inválido' : ''
+                          }`}
                         name="cpfCnpj"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
@@ -337,7 +261,6 @@ const Form = () => {
                         onChange={(value) => {
                           setValue('cpfCnpj', value);
                           handleCpfCnpjChange(value);
-                          field.onChange(value);
                         }}
                       />
                     )}
@@ -356,12 +279,11 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('stateRegistration')}
+                        {...field}
                         mask={['999999999999']}
                         type="text"
-                        className={`form-control  ${
-                          errors.state ? 'Inválido' : ''
-                        }`}
+                        className={`form-control  ${errors.state ? 'Inválido' : ''
+                          }`}
                         name="stateRegistration"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
@@ -381,7 +303,7 @@ const Form = () => {
                     CEP
                   </label>
                   <FindByZipCode
-                    zipCode={zipCode.replace(/[.-]/g, '')}
+                    zipCode={zipCodeComponent?.replace(/[.-]/g, '')}
                     onUpdate={handleZipCodeUpdate}
                   />
                   <Controller
@@ -390,24 +312,18 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('zipCode', {
-                          required: 'Campo obrigatório',
-                        })}
+                        {...field}
                         mask={['99.999-999']}
                         type="text"
-                        className={`form-control  ${
-                          errors.zipCode ? 'CEP Inválido' : ''
-                        }`}
-                        defaultValue={zipCode}
+                        className={`form-control  ${errors.zipCode ? 'CEP Inválido' : ''
+                          }`}
+                        defaultValue={field.value}
                         name="zipCode"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) => {
-                          if (value.length === 10) {
-                            field.onChange(value);
-                         //   setValue('zipCode', value);
-                            console.log(value, '<== cep de entrada');
+                          if (value?.length === 10) {
                             handleZipCodeChange(value);
                           }
                         }}
@@ -425,9 +341,8 @@ const Form = () => {
                   <input
                     {...register('address')}
                     type="text"
-                    className={`form-control   ${
-                      errors.address ? 'Inválido' : ''
-                    }`}
+                    className={`form-control   ${errors.address ? 'Inválido' : ''
+                      }`}
                     name="address"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -446,9 +361,8 @@ const Form = () => {
                   <input
                     {...register('district')}
                     type="text"
-                    className={`form-control  ${
-                      errors.district ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.district ? 'Inválido' : ''
+                      }`}
                     name="district"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -483,14 +397,11 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('state', {
-                          required: 'Campo obrigatório',
-                        })}
+                        {...field}
                         mask={['AA']}
                         type="text"
-                        className={`form-control  ${
-                          errors.state ? 'Inválido' : ''
-                        }`}
+                        className={`form-control  ${errors.state ? 'Inválido' : ''
+                          }`}
                         name="state"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
@@ -516,9 +427,8 @@ const Form = () => {
                       },
                     })}
                     type="text"
-                    className={`form-control  ${
-                      errors.emailAddress ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.emailAddress ? 'Inválido' : ''
+                      }`}
                     name="emailAddress"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"
@@ -538,20 +448,17 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('phoneNumber')}
+                        {...field}
                         mask={['(99) 9999 - 9999']}
                         type="text"
-                        className={`form-control  ${
-                          errors.phoneNumber ? 'Inválido' : ''
-                        }`}
+                        className={`form-control  ${errors.phoneNumber ? 'Inválido' : ''
+                          }`}
                         name="phoneNumber"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) => {
-                       //   setValue('phoneNumber', value);
                           handlePhoneNumberChange(value);
-                          field.onChange(value);
                         }}
                       />
                     )}
@@ -570,20 +477,17 @@ const Form = () => {
                     control={control}
                     render={({ field }) => (
                       <InputMaskCustom
-                        {...register('cellNumber')}
+                        {...field}
                         mask={['(99) 9999 - 9999', '(99) 9 9999 - 9999']}
                         type="text"
-                        className={`form-control  ${
-                          errors.cellNumber ? 'Inválido' : ''
-                        }`}
+                        className={`form-control  ${errors.cellNumber ? 'Inválido' : ''
+                          }`}
                         name="cellNumber"
                         data-bs-toggle="tooltip"
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) => {
-                        //  setValue('cellNumber', value);
                           handleCellNumberChange(value);
-                          field.onChange(value);
                         }}
                       />
                     )}
@@ -599,9 +503,8 @@ const Form = () => {
                   <input
                     {...register('contactPerson')}
                     type="text"
-                    className={`form-control  ${
-                      errors.contactPerson ? 'Inválido' : ''
-                    }`}
+                    className={`form-control  ${errors.contactPerson ? 'Inválido' : ''
+                      }`}
                     name="contactPerson"
                     data-bs-toggle="tooltip"
                     data-bs-placement="top"

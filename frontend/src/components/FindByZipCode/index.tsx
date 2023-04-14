@@ -20,7 +20,7 @@ const FindByZipCode = ({ zipCode, onUpdate }: FindByZipCodeProps) => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (zipCode.length < 8) return;
+    if (!zipCode || zipCode.length < 8) return;
     console.log('cep chegou para consulta....',zipCode, "<==");
     
     console.log('onUpdate....',onUpdate, "<==");

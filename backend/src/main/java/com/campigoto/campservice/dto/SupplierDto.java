@@ -46,6 +46,7 @@ public class SupplierDto implements Serializable {
     private String cellNumber;
     private String contactPerson;
     private String obs;
+    private String fantasyName;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant registrationDate;

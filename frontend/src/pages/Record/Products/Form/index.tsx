@@ -46,7 +46,7 @@ const Form = () => {
       id: 1,
       name: 'Fornecedor Padrão',
       fantasyName: '',
-      active: 0,
+      active: false,
       emailAddress: '',
       cpfCnpj: '',
       personType: '1',
