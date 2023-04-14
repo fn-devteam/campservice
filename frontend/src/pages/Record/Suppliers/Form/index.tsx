@@ -38,8 +38,9 @@ const Form = () => {
   const [obs, setObs] = useState('');
 
   const handleCpfCnpjChange = (value: string) => {
-    setCpfCnpj(value);
-    if (value.length <= 11) {
+   // setCpfCnpj(value);
+    console.log('cpfCnpj.length =>', cpfCnpj.length);
+    if (value.length <= 14) {
       setPersonType('FISICA');
     } else {
       setPersonType('JURIDICA');
@@ -49,7 +50,8 @@ const Form = () => {
   const handleZipCodeChange = (codeZip: string) => {
     console.log('cep recebido pelo handleZipCodeChange....', codeZip);
     if (codeZip.length === 10) {
-      setZipCode(codeZip.replace(/[.-]/g, ''));
+      setValue('zipCode', zipCode);
+      //setZipCode(codeZip.replace(/[.-]/g, ''));
       console.log('cep enviado para consulta....', zipCode, '<==');
       <FindByZipCode
         zipCode={zipCode.replace(/[.-]/g, '')}
@@ -83,13 +85,13 @@ const Form = () => {
       setDistrictCep(dataCep.bairro);
       setCityCep(dataCep.localidade);
       setStateCep(dataCep.uf);
-      setZipCode(dataCep.cep);
+      setZipCode(dataCep.cep.replace(/[.-]/g, ''));
 
       setValue('address', dataCep.logradouro);
       setValue('district', dataCep.bairro);
       setValue('city', dataCep.localidade);
       setValue('state', dataCep.uf);
-      setValue('zipCode', dataCep.cep);
+      setValue('zipCode', dataCep.cep.replace(/[.-]/g, ''));
     },
     [setZipCode, setValue]
   );
@@ -104,50 +106,28 @@ const Form = () => {
 
   useEffect(() => {
     if (isEditing) {
+
+      const toEdit = isEditing;
+
       requestBackend({ url: `/suppliers/${supplierId}` }).then((response) => {
         const supplier = response.data as Supplier;
 
         setValue('name', supplier.name ? supplier.name : '');
 
-        setValue(
-          'fantasyName',
-          supplier.fantasyName ? supplier.fantasyName : ''
-        );
+        setValue('fantasyName', supplier.fantasyName ? supplier.fantasyName : '');
 
-        // setValue('registrationDate', getValues('registrationDate'));
-        //   setRegistrationDate(moment(registrationDate).format('DD-MM-YYYY'));
-        setValue(
-          'registrationDate',
-          supplier.registrationDate
+        setValue('registrationDate',supplier.registrationDate
             ? moment.utc(supplier.registrationDate).format('DD-MM-YYYY')
             : moment.utc(Date.now()).format('DD-MM-YYYY')
         );
 
-        console.log(' registrationDate -> ', `${registrationDate}`);
-
         setValue('active', supplier.active);
+        setValue('cpfCnpj', supplier.cpfCnpj);
+        setCpfCnpj(supplier.cpfCnpj);
+        setPersonType(supplier.personType);
+        setValue('stateRegistration',supplier.stateRegistration ? supplier.stateRegistration : '');
 
-        const cpfCnpj = supplier.cpfCnpj ? supplier.cpfCnpj : '';
-        setValue('cpfCnpj', cpfCnpj);
-        setCpfCnpj(cpfCnpj);
-        const cpfCnpjLength = cpfCnpj.length;
-
-        const personType = cpfCnpjLength <= 11 ? 'FISICA' : 'JURIDICA';
-        setValue('personType', personType);
-        setPersonType(personType);
-
-        const stateRegistration = supplier.stateRegistration
-          ? supplier.stateRegistration
-          : '';
-        setValue(
-          'stateRegistration',
-          supplier.stateRegistration ? supplier.stateRegistration : ''
-        );
-
-        setValue(
-          'zipCode',
-          supplier.zipCode ? supplier.zipCode.replace(/[.-]/g, '') : ''
-        );
+        setValue('zipCode',supplier.zipCode ? supplier.zipCode.replace(/[.-]/g, '') : '');
 
         setValue('address', supplier.address ? supplier.address : '');
 
@@ -157,21 +137,12 @@ const Form = () => {
 
         setValue('state', supplier.state ? supplier.state : '');
 
-        setValue(
-          'emailAddress',
-          supplier.emailAddress ? supplier.emailAddress : ''
-        );
-        setValue(
-          'phoneNumber',
-          supplier.phoneNumber ? supplier.phoneNumber : ''
-        );
+        setValue('emailAddress', supplier.emailAddress ? supplier.emailAddress : '');
+        setValue( 'phoneNumber', supplier.phoneNumber ? supplier.phoneNumber : '');
 
         setValue('cellNumber', supplier.cellNumber ? supplier.cellNumber : '');
 
-        setValue(
-          'contactPerson',
-          supplier.contactPerson ? supplier.contactPerson : ''
-        );
+        setValue('contactPerson',supplier.contactPerson ? supplier.contactPerson : '');
 
         setValue('obs', supplier.obs ? supplier.obs : '');
       });
@@ -182,7 +153,6 @@ const Form = () => {
     setValue,
     getValues,
     setChecked,
-    registrationDate,
   ]);
 
   const handleInputChange = (value: string) => {
@@ -190,9 +160,33 @@ const Form = () => {
   };
 
   const onSubmit = (formData: Supplier) => {
+    const dateRecord = moment
+      .utc(registrationDate, 'DD/MM/YYYY')
+      .format('YYYY-MM-DD');
+    const [year, month, day] = dateRecord.split('-');
+    const cpfCnpjRecord = cpfCnpj.replace(/[.\-/?]/g, '');
+
+    console.log('Valor do cpfCnpj:', cpfCnpjRecord);
+    const zipCodeRecord = zipCode.replace(/[.\-/?]/g, '');
+    setValue('registrationDate', dateRecord);
+    setRegistrationDate(dateRecord);
+    setValue('cpfCnpj', cpfCnpjRecord);
+    setCpfCnpj(cpfCnpjRecord);
+    setValue('zipCode', zipCodeRecord);
+    setZipCode(zipCodeRecord);
+    console.log('registrarion Date para gravar :  ', registrationDate);
+    console.log('cpfCnpj para gravar :  ', cpfCnpj);
+    console.log('personType para gravar :  ', personType);
     const data = {
       ...formData,
       active: checked,
+      toEdit: isEditing,
+      registrationDate: new Date(
+        Date.UTC(parseInt(year), parseInt(month) - 1, parseInt(day))
+      ),
+      cpfCnpj: cpfCnpjRecord,
+      personType: personType,
+      zipCode: zipCodeRecord,
     };
 
     const config: AxiosRequestConfig = {
@@ -203,6 +197,7 @@ const Form = () => {
 
     requestBackend(config)
       .then(() => {
+        console.log('registrarionDate gravado :  ', registrationDate);
         toast.info('Fornecedor cadastrado com sucesso');
       })
       .catch(() => {
@@ -225,6 +220,7 @@ const Form = () => {
             <h3>Dados do Fornecedor - Incluir</h3>
           )}{' '}
         </div>
+
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="container">
@@ -318,9 +314,7 @@ const Form = () => {
                     <label htmlFor="cpfCnpj" className="form-label">
                       CPF / CNPJ
                     </label>
-                    <div className="text-danger">
-                      {cpfCnpj.length <= 11 ? ' Física' : ' Jurídica'}
-                    </div>
+                    <div className="text-danger">{personType === 'FISICA' ? 'Física' : 'Jurídica'}</div>
                   </div>
                   <Controller
                     name="cpfCnpj"
@@ -412,7 +406,7 @@ const Form = () => {
                         onChange={(value) => {
                           if (value.length === 10) {
                             field.onChange(value);
-                            setValue('zipCode', value);
+                         //   setValue('zipCode', value);
                             console.log(value, '<== cep de entrada');
                             handleZipCodeChange(value);
                           }
@@ -555,7 +549,7 @@ const Form = () => {
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) => {
-                          setValue('phoneNumber', value);
+                       //   setValue('phoneNumber', value);
                           handlePhoneNumberChange(value);
                           field.onChange(value);
                         }}
@@ -587,7 +581,7 @@ const Form = () => {
                         data-bs-placement="top"
                         value={field.value}
                         onChange={(value) => {
-                          setValue('cellNumber', value);
+                        //  setValue('cellNumber', value);
                           handleCellNumberChange(value);
                           field.onChange(value);
                         }}

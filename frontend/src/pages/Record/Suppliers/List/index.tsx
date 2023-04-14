@@ -35,6 +35,7 @@ const List = () => {
   const history = useHistory();
 
   function handleEdit(supplierId: number) {
+    const isToEdit = true;
     history.push(`/record/suppliers/${supplierId}`);
   }
 
